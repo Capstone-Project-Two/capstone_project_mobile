@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
 import 'package:capstone_project_mobile/pages/forum_page.dart';
 import 'package:capstone_project_mobile/pages/home_page.dart';
 import 'package:capstone_project_mobile/pages/profile_page.dart';
@@ -9,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class LayoutPage extends StatefulWidget {
-  LayoutPage({super.key});
+  const LayoutPage({super.key});
 
   @override
   State<LayoutPage> createState() => _LayoutPageState();
@@ -19,11 +17,11 @@ class _LayoutPageState extends State<LayoutPage> {
   int _selectedIndex = 0;
 
   List pages = [
-    HomePage(),
-    ForumPage(),
-    TherapistsPage(),
-    ResourcePage(),
-    ProfilePage(),
+    const HomePage(),
+    const ForumPage(),
+    const TherapistsPage(),
+    const ResourcePage(),
+    const ProfilePage(),
   ];
 
   void _navigateBottomBar(int index) {
@@ -48,7 +46,7 @@ class _LayoutPageState extends State<LayoutPage> {
 
 AppBar _buildAppBar(BuildContext context) {
   return AppBar(
-    title: Text('App bar'),
+    title: const Text('App bar'),
   );
 }
 
@@ -61,10 +59,10 @@ BottomNavigationBar _buildBottomNavigationBar({
     onTap: navigateBottomBar,
     currentIndex: selectedIndex,
     type: BottomNavigationBarType.fixed,
-    selectedLabelStyle: TextStyle(
+    selectedLabelStyle: const TextStyle(
       color: Colors.white,
     ),
-    items: [
+    items: const [
       BottomNavigationBarItem(
         icon: Icon(LucideIcons.home),
         label: 'Home',
