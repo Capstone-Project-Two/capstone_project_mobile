@@ -20,16 +20,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Capstone Project',
       routes: {
-        ROUTE_CONSTANTS.homePage.toString(): (context) => const HomePage(),
-        ROUTE_CONSTANTS.forumPage.toString(): (context) => const ForumPage(),
-        ROUTE_CONSTANTS.therapistsPage.toString(): (context) =>
-            const HomePage(),
-        ROUTE_CONSTANTS.homePage.toString(): (context) =>
-            const TherapistsPage(),
-        ROUTE_CONSTANTS.resourcePage.toString(): (context) =>
+        RouteConstant.homePage.toString(): (context) => const HomePage(),
+        RouteConstant.forumPage.toString(): (context) => const ForumPage(),
+        RouteConstant.therapistsPage.toString(): (context) => const HomePage(),
+        RouteConstant.homePage.toString(): (context) => const TherapistsPage(),
+        RouteConstant.resourcePage.toString(): (context) =>
             const ResourcePage(),
-        ROUTE_CONSTANTS.profilePage.toString(): (context) =>
-            const ProfilePage(),
+        RouteConstant.profilePage.toString(): (context) => const ProfilePage(),
       },
       theme: ThemeData(
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(

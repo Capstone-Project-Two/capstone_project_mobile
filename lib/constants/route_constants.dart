@@ -1,4 +1,4 @@
-enum ROUTE_CONSTANTS {
+enum RouteConstant {
   homePage,
   forumPage,
   therapistsPage,
