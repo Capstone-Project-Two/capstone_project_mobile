@@ -7,8 +7,10 @@ import 'package:capstone_project_mobile/pages/resource_page.dart';
 import 'package:capstone_project_mobile/pages/thgerapists_page.dart';
 import 'package:capstone_project_mobile/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
 
