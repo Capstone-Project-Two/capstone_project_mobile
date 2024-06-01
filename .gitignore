@@ -55,3 +55,6 @@ windows/flutter/generated_plugins.cmake
 linux/flutter/*
 macos/Flutter/*
 windows/flutter/*
+
+# Environment variables
+*.env

@@ -4,6 +4,7 @@ import 'package:capstone_project_mobile/pages/profile_page.dart';
 import 'package:capstone_project_mobile/pages/resource_page.dart';
 import 'package:capstone_project_mobile/pages/thgerapists_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class LayoutPage extends StatefulWidget {
@@ -34,7 +35,11 @@ class _LayoutPageState extends State<LayoutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      body: pages[_selectedIndex],
+      body: FutureBuilder(
+        future: rootBundle.loadString('.env'),
+        initialData: '',
+        builder: (context, snapshot) => pages[_selectedIndex],
+      ),
       bottomNavigationBar: _buildBottomNavigationBar(
         context: context,
         selectedIndex: _selectedIndex,

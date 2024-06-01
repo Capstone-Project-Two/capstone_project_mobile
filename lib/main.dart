@@ -6,8 +6,10 @@ import 'package:capstone_project_mobile/pages/profile_page.dart';
 import 'package:capstone_project_mobile/pages/resource_page.dart';
 import 'package:capstone_project_mobile/pages/thgerapists_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
 
@@ -22,8 +24,8 @@ class MyApp extends StatelessWidget {
       routes: {
         RouteConstant.homePage.toString(): (context) => const HomePage(),
         RouteConstant.forumPage.toString(): (context) => const ForumPage(),
-        RouteConstant.therapistsPage.toString(): (context) => const HomePage(),
-        RouteConstant.homePage.toString(): (context) => const TherapistsPage(),
+        RouteConstant.therapistsPage.toString(): (context) =>
+            const TherapistsPage(),
         RouteConstant.resourcePage.toString(): (context) =>
             const ResourcePage(),
         RouteConstant.profilePage.toString(): (context) => const ProfilePage(),
