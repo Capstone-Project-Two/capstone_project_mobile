@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class MyBottomNavigationBar extends StatelessWidget {
-  int selectedIndex;
-  Function(int) navigateBottomBar;
+  final int selectedIndex;
+  final Function(int) navigateBottomBar;
 
-  MyBottomNavigationBar({
+  const MyBottomNavigationBar({
     super.key,
     required this.selectedIndex,
     required this.navigateBottomBar,
