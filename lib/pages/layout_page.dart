@@ -1,12 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:capstone_project_mobile/layouts/my_bottom_navigation_bar.dart';
 import 'package:capstone_project_mobile/pages/forum_page.dart';
 import 'package:capstone_project_mobile/pages/home_page.dart';
 import 'package:capstone_project_mobile/pages/profile_page.dart';
 import 'package:capstone_project_mobile/pages/resource_page.dart';
-import 'package:capstone_project_mobile/pages/thgerapists_page.dart';
+import 'package:capstone_project_mobile/pages/therapists_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+@RoutePage(name: 'LayoutPage')
 class LayoutPage extends StatefulWidget {
   const LayoutPage({super.key});
 

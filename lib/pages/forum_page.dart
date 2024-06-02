@@ -1,6 +1,10 @@
 import 'package:capstone_project_mobile/services/get_service.dart';
 import 'package:flutter/material.dart';
 import '../model/patient.dart';
+import 'package:auto_route/auto_route.dart';
+
+
+@RoutePage(name: 'ForumPage')
 
 class ForumPage extends StatefulWidget {
   const ForumPage({super.key});
