@@ -1,22 +1,49 @@
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
 import 'package:capstone_project_mobile/components/inputs/my_text_field.dart';
-import 'package:capstone_project_mobile/model/dio/create_post.dart';
+import 'package:capstone_project_mobile/model/dto/create_post.dart';
+import 'package:capstone_project_mobile/model/error_response.dart';
 import 'package:capstone_project_mobile/services/post_service.dart';
 import 'package:flutter/material.dart';
 
-class CreatePostScreen extends StatelessWidget {
+class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    Future handleCreatePost(String body) async {
-      await createPost(
-              CreatePost(body: body, patient: "63686861790123456789abcd"))
-          .then((value) {})
-          .catchError((err) {});
-    }
+  State<CreatePostScreen> createState() => _CreatePostScreenState();
+}
 
-    TextEditingController bodyController = TextEditingController();
+class _CreatePostScreenState extends State<CreatePostScreen> {
+  bool loading = false;
+  ErrorResponse? errors;
+  TextEditingController bodyController = TextEditingController();
+
+  Future handleCreatePost(String body) async {
+    setState(() {
+      loading = true;
+    });
+    var res = await createPost(
+      CreatePost(body: body, patient: "63686861790123456789abcd"),
+    ).then(
+      (value) {
+        Navigator.of(context).pop();
+        return value;
+      },
+    ).catchError((err) {
+      print(err);
+      setState(() {
+        errors = ErrorResponse.fromJson(err);
+      });
+    }).whenComplete(
+      () => setState(() {
+        loading = false;
+      }),
+    );
+
+    return res;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     String imgPath = 'lib/assets/images/image 80.png';
     TextTheme textTheme = Theme.of(context).textTheme;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
@@ -59,27 +86,49 @@ class CreatePostScreen extends StatelessWidget {
             const SizedBox(
               width: 12,
             ),
+
             // Post Button
             ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(colorScheme.primary),
               ),
               onPressed: () async {
-                await handleCreatePost(bodyController.text);
+                loading ? null : await handleCreatePost(bodyController.text);
               },
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 child: Center(
-                  child: Text(
-                    'Post',
-                    style: textTheme.displayMedium!.copyWith(
-                      color: colorScheme.inversePrimary,
-                    ),
-                  ),
+                  child: loading
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : Text(
+                          'Post',
+                          style: textTheme.displayMedium!.copyWith(
+                            color: colorScheme.inversePrimary,
+                          ),
+                        ),
                 ),
               ),
             ),
+            Column(
+              children: [
+                Text(errors == null ? '' : errors!.statusCode.toString()),
+                Text(errors == null ? '' : errors!.messages[0].toString()),
+              ],
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount:
+                    errors == null ? 0 : errors!.validationMessage.length,
+                itemBuilder: (context, index) => Text(
+                  errors == null
+                      ? ''
+                      : errors!.validationMessage[index].toString(),
+                ),
+              ),
+            )
           ],
         ),
       ),
