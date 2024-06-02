@@ -4,6 +4,7 @@ import 'package:capstone_project_mobile/services/get_service.dart';
 import 'package:capstone_project_mobile/shared_screens/empty_screen.dart';
 import 'package:capstone_project_mobile/shared_screens/loading_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class ForumPage extends StatefulWidget {
   const ForumPage({super.key});
@@ -24,6 +25,7 @@ class _ForumPageState extends State<ForumPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: _elevatedButton(context),
       body: FutureBuilder(
         future: futurePosts,
         builder: (context, snapshot) {
@@ -51,4 +53,32 @@ class _ForumPageState extends State<ForumPage> {
       ),
     );
   }
+}
+
+ElevatedButton _elevatedButton(BuildContext context) {
+  ColorScheme colorScheme = Theme.of(context).colorScheme;
+  TextTheme textTheme = Theme.of(context).textTheme;
+
+  return ElevatedButton.icon(
+    style: const ButtonStyle(
+      backgroundColor: MaterialStatePropertyAll(
+        Colors.amber,
+      ),
+      padding: MaterialStatePropertyAll(
+        EdgeInsets.symmetric(vertical: 20, horizontal: 24),
+      ),
+      alignment: Alignment.center,
+    ),
+    onPressed: () {},
+    icon: Icon(
+      LucideIcons.plus,
+      color: colorScheme.inversePrimary,
+    ),
+    label: Text(
+      'Post',
+      style: textTheme.displayMedium!.copyWith(
+        color: colorScheme.inversePrimary,
+      ),
+    ),
+  );
 }
