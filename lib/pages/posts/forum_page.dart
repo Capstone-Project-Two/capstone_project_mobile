@@ -1,8 +1,9 @@
 import 'package:capstone_project_mobile/components/cards/post_card.dart';
 import 'package:capstone_project_mobile/model/post.dart';
+import 'package:capstone_project_mobile/pages/posts/create_post_screen.dart';
 import 'package:capstone_project_mobile/services/get_service.dart';
-import 'package:capstone_project_mobile/shared_screens/empty_screen.dart';
-import 'package:capstone_project_mobile/shared_screens/loading_screen.dart';
+import 'package:capstone_project_mobile/shared/empty_screen.dart';
+import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
@@ -69,7 +70,14 @@ ElevatedButton _elevatedButton(BuildContext context) {
       ),
       alignment: Alignment.center,
     ),
-    onPressed: () {},
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const CreatePostScreen(),
+        ),
+      );
+    },
     icon: Icon(
       LucideIcons.plus,
       color: colorScheme.inversePrimary,

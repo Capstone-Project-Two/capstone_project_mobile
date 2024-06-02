@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
 
+Color primaryColor = const Color(0xFF005EDC);
+Color secondaryColor = const Color(0xFF7908D2);
+Color backgroundColor = const Color(0xFFF2F8FF);
+Color tertiaryColor = const Color(0xFF3B3B3B);
+Color inversePrimaryColor = const Color(0xFFFFFFFF);
+
 ThemeData appTheme = ThemeData(
-  colorScheme: const ColorScheme.light(
-    primary: Color(0xFF005EDC),
-    secondary: Color(0xFF7908D2),
-    background: Color(0xFFF2F8FF),
-    tertiary: Color(0xFF3B3B3B),
-    inversePrimary: Color(0xFFFFFFFF),
+  appBarTheme: AppBarTheme(
+    backgroundColor: primaryColor,
+    titleTextStyle: TextStyle(
+      color: inversePrimaryColor,
+      fontSize: 24,
+    ),
+    iconTheme: IconThemeData(
+      color: inversePrimaryColor,
+    ),
+  ),
+  colorScheme: ColorScheme.light(
+    primary: primaryColor,
+    secondary: secondaryColor,
+    background: backgroundColor,
+    tertiary: tertiaryColor,
+    inversePrimary: inversePrimaryColor,
   ),
   textTheme: const TextTheme(
     displayLarge: TextStyle(
