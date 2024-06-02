@@ -23,34 +23,48 @@ class _ForumPageState extends State<ForumPage> {
     futurePosts = fetchPosts();
   }
 
+  Future handleRefresh() async {
+    setState(() {
+      futurePosts = fetchPosts();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: _elevatedButton(context),
-      body: FutureBuilder(
-        future: futurePosts,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var posts = snapshot.data!;
-            if (posts.isEmpty) {
+      body: RefreshIndicator(
+        onRefresh: handleRefresh,
+        child: FutureBuilder(
+          future: futurePosts,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              var posts = snapshot.data!;
+              if (posts.isEmpty) {
+                return const EmptyScreen();
+              }
+
+              return ListView.builder(
+                itemCount: posts.length,
+                itemBuilder: (context, index) {
+                  return PostCard(
+                    post: posts[index],
+                    isCurrentPost: false,
+                  );
+                },
+              );
+            }
+
+            if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            }
+            if (snapshot.error == null && snapshot.data == null) {
               return const EmptyScreen();
             }
 
-            return ListView.builder(
-              itemCount: posts.length,
-              itemBuilder: (context, index) {
-                return PostCard(
-                  post: posts[index],
-                  isCurrentPost: false,
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          }
-
-          return const LoadingScreen();
-        },
+            return const LoadingScreen();
+          },
+        ),
       ),
     );
   }

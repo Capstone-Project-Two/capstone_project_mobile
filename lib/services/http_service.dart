@@ -21,3 +21,16 @@ Future<HttpResponse> httpGet({required String path}) async {
 
   return HttpResponse(jsonData: jsonData, httpRes: res);
 }
+
+Future<HttpResponse> httpPost({required String path, dynamic body}) async {
+  var url = Uri.http(baseApiUrl, '/$path');
+  var res = await http.post(
+    url,
+    body: body,
+    headers: <String, String>{'Content-Type': 'application/json'},
+  );
+
+  var jsonData = jsonDecode(res.body);
+
+  return HttpResponse(jsonData: jsonData, httpRes: res);
+}
