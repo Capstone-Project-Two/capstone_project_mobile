@@ -1,6 +1,6 @@
 import 'package:capstone_project_mobile/components/cards/post_card.dart';
 import 'package:capstone_project_mobile/model/post.dart';
-import 'package:capstone_project_mobile/pages/posts/create_post_screen.dart';
+import 'package:capstone_project_mobile/pages/forum/create_post_screen.dart';
 import 'package:capstone_project_mobile/services/get_service.dart';
 import 'package:capstone_project_mobile/shared/empty_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';

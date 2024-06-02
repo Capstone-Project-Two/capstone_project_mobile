@@ -1,6 +1,6 @@
 import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/model/post.dart';
-import 'package:capstone_project_mobile/pages/posts/post_detail_screen.dart';
+import 'package:capstone_project_mobile/pages/forum/post_detail_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
