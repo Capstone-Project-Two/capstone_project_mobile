@@ -96,15 +96,15 @@ flutter:
   
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-  fonts:
-    - family: KomtomruyPro
-      fonts:
-        - asset: fonts/KomtomruyPro-Regular.ttf
-        - asset: fonts/KomtomruyPro-Bold.ttf
-          weight: 700
+  # fonts:
+    # - family: KomtomruyPro
+    #   fonts:
+    #     - asset: fonts/KomtomruyPro-Regular.ttf
+    #     - asset: fonts/KomtomruyPro-Bold.ttf
+    #       weight: 700
           
-    - family: TimesNewRomanCustom
-      fonts:
-        - asset: fonts/TimesNewRomanCustom-Regular.ttf
-        - asset: fonts/TimesNewRomanCustom-Bold.ttf
-          weight: 700
+    # - family: TimesNewRomanCustom
+    #   fonts:
+    #     - asset: fonts/TimesNewRomanCustom-Regular.ttf
+    #     - asset: fonts/TimesNewRomanCustom-Bold.ttf
+    #       weight: 700
