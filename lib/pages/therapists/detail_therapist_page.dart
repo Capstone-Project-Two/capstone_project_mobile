@@ -15,7 +15,7 @@ class DetailTherapistPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          Text("${therapist!.firstName}"),
+          Text(therapist!.firstName),
         ],
       ),
     );
