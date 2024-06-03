@@ -1,17 +1,14 @@
+import 'package:capstone_project_mobile/model/therapist.dart';
 import 'package:capstone_project_mobile/pages/therapists/detail_therapist_page.dart';
 import 'package:flutter/material.dart';
 
 class TherapistCard extends StatelessWidget {
   const TherapistCard({
     super.key,
-    this.firstName,
-    this.lastName,
-    this.specializations,
+    this.therapist,
   });
 
-  final String? firstName;
-  final String? lastName;
-  final List<dynamic>? specializations;
+  final Therapist? therapist;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +23,7 @@ class TherapistCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.push(context,
-            MaterialPageRoute(builder: (context) => DetailTherapistPage()));
+            MaterialPageRoute(builder: (context) => DetailTherapistPage(therapist: therapist)));
       },
       child: Container(
         margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
@@ -55,7 +52,7 @@ class TherapistCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Dr. $firstName $lastName",
+                  "Dr. ${therapist!.firstName} ${therapist!.lastName} ",
                   style: primaryTextStyle,
                 ),
                 const SizedBox(height: 4),
@@ -65,14 +62,23 @@ class TherapistCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 const Text(
-                  'Specializations: ',
+                  'Specialized in ',
                   style: secondaryTextStyle,
                 ),
-                for (var i = 0; i < specializations!.length; i++)
-                  Text(
-                    specializations![i],
-                    style: const TextStyle(fontWeight: FontWeight.w500),
-                  )
+                SizedBox(
+                  width: 250,
+                  child: Wrap(
+                      direction: Axis.horizontal,
+                      children: List.generate(therapist!.specializations.length,
+                          (index) {
+                        return Text(
+                          index == therapist!.specializations.length - 1
+                              ? '${therapist!.specializations[index]}'
+                              : '${therapist!.specializations[index]}, ',
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        );
+                      })),
+                )
               ],
             ),
           ],

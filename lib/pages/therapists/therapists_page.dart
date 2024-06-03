@@ -19,28 +19,36 @@ class _TherapistsPageState extends State<TherapistsPage> {
     futureTherapists = fetchTherapists();
   }
 
+  Future handleRefresh() async {
+    setState(() {
+      futureTherapists = fetchTherapists();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: FutureBuilder(
-          future: futureTherapists,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              var therapists = snapshot.data!;
-              return ListView.builder(
-                itemCount: therapists.length,
-                itemBuilder: (context, index) => TherapistCard(
-                    firstName: therapists[index].firstName,
-                    lastName: therapists[index].lastName,
-                    specializations: therapists[index].specializations),
-                padding: const EdgeInsets.only(bottom: 16),
-              );
-            } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            }
-            return const CircularProgressIndicator();
-          },
+      body: RefreshIndicator(
+        onRefresh: handleRefresh,
+        child: Center(
+          child: FutureBuilder(
+            future: futureTherapists,
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                var therapists = snapshot.data!;
+                return ListView.builder(
+                  itemCount: therapists.length,
+                  itemBuilder: (context, index) => TherapistCard(
+                    therapist: therapists[index],
+                  ),
+                  padding: const EdgeInsets.only(bottom: 16),
+                );
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              }
+              return const CircularProgressIndicator();
+            },
+          ),
         ),
       ),
     );
