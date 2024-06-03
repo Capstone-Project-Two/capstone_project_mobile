@@ -4,7 +4,7 @@ import 'package:capstone_project_mobile/pages/home_page.dart';
 import 'package:capstone_project_mobile/pages/layout_page.dart';
 import 'package:capstone_project_mobile/pages/profile_page.dart';
 import 'package:capstone_project_mobile/pages/resource_page.dart';
-import 'package:capstone_project_mobile/pages/thgerapists_page.dart';
+import 'package:capstone_project_mobile/pages/therapists/therapists_page.dart';
 import 'package:capstone_project_mobile/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
