@@ -6,11 +6,13 @@ import 'package:capstone_project_mobile/services/http_service.dart';
 
 Future createPost(CreatePost body) async {
   var HttpResponse(:httpRes, :jsonData) = await httpPost(
-      path: ApiRoute.posts.name,
-      body: jsonEncode({
-        'body': body.body,
-        'patient': body.patient,
-      }));
+    path: ApiRoute.posts.name,
+    body: jsonEncode({
+      'body': body.body,
+      'patient': body.patient,
+      'postPhotos': body.postPhotos,
+    }),
+  );
 
   if (httpRes.statusCode == 201) {
     return httpRes;

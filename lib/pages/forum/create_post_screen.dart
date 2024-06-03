@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
 import 'package:capstone_project_mobile/components/inputs/my_text_field.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
@@ -5,6 +8,8 @@ import 'package:capstone_project_mobile/model/dto/create_post.dart';
 import 'package:capstone_project_mobile/model/error_response.dart';
 import 'package:capstone_project_mobile/services/post_service.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({super.key});
@@ -17,13 +22,19 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   bool loading = false;
   ErrorResponse? errors;
   TextEditingController bodyController = TextEditingController();
+  XFile? postImages;
+  final ImagePicker picker = ImagePicker();
 
   Future handleCreatePost(String body) async {
     setState(() {
       loading = true;
     });
     var res = await createPost(
-      CreatePost(body: body, patient: "63686861790123456789abcd"),
+      CreatePost(
+        body: body,
+        patient: "63686861790123456789abcd",
+        postPhotos: postImages,
+      ),
     ).then(
       (value) {
         Navigator.of(context).pop();
@@ -79,10 +90,37 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             ),
             // Body field
             MyTextField(
-                controller: bodyController,
-                hintText: "Write what's on your mind"),
+              controller: bodyController,
+              hintText: "Write what's on your mind",
+            ),
+
+            const SizedBox(
+              height: 20,
+            ),
 
             // Image upload field
+            MyTextButton(
+              padding: const EdgeInsets.all(8),
+              text: "Upload Image",
+              iconData: LucideIcons.upload,
+              onTap: () async {
+                XFile? images =
+                    await picker.pickImage(source: ImageSource.gallery);
+                // if (images.isEmpty) return;
+
+                setState(() {
+                  postImages = images;
+                });
+              },
+            ),
+
+            postImages != null
+                ? Image.file(
+                    File(postImages!.path),
+                    width: 100,
+                  )
+                : const Text(''),
+
             const SizedBox(
               height: 20,
             ),
