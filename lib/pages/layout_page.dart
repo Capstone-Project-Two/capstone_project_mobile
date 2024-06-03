@@ -99,10 +99,10 @@ class _LayoutPageState extends State<LayoutPage> {
 PreferredSize _buildPreferredSize(BuildContext context, String title) {
   ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-  return PreferredSize(
-    preferredSize: Size.fromHeight(70.0), // Set the height of the AppBar
+  return PreferredSize (
+    preferredSize: const Size.fromHeight(70.0), // Set the height of the AppBar
     child: ClipRRect(
-      borderRadius: BorderRadius.vertical(
+      borderRadius: const BorderRadius.vertical(
         bottom: Radius.circular(20.0), // Adjust the radius as needed
       ),
       child: AppBar(
