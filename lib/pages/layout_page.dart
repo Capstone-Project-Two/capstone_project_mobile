@@ -1,3 +1,4 @@
+import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/layouts/my_bottom_navigation_bar.dart';
 import 'package:capstone_project_mobile/pages/forum/forum_page.dart';
 import 'package:capstone_project_mobile/pages/home/home_page.dart';
@@ -25,6 +26,14 @@ class _LayoutPageState extends State<LayoutPage> {
     const ProfilePage(),
   ];
 
+  List<String> titles = [
+    'Home',
+    'Forum',
+    'Therapists',
+    'Resources',
+    'Profile',
+  ];
+
   void _navigateBottomBar(int index) {
     setState(() {
       _selectedIndex = index;
@@ -34,7 +43,9 @@ class _LayoutPageState extends State<LayoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
+      appBar: MyAppBar(
+        title: titles[_selectedIndex],
+      ),
       body: FutureBuilder(
         future: rootBundle.loadString('.env'),
         initialData: '',
@@ -46,17 +57,4 @@ class _LayoutPageState extends State<LayoutPage> {
       ),
     );
   }
-}
-
-AppBar _buildAppBar(BuildContext context) {
-  ColorScheme colorScheme = Theme.of(context).colorScheme;
-  return AppBar(
-    backgroundColor: colorScheme.primary,
-    title: Text(
-      'App bar',
-      style: TextStyle(
-        color: colorScheme.inversePrimary,
-      ),
-    ),
-  );
 }

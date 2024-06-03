@@ -1,3 +1,4 @@
+import 'package:capstone_project_mobile/theme/base_app_colors.dart';
 import 'package:flutter/material.dart';
 
 Color primaryColor = const Color(0xFF005EDC);
@@ -18,11 +19,11 @@ ThemeData appTheme = ThemeData(
     ),
   ),
   colorScheme: ColorScheme.light(
-    primary: primaryColor,
-    secondary: secondaryColor,
-    background: backgroundColor,
-    tertiary: tertiaryColor,
-    inversePrimary: inversePrimaryColor,
+    primary: BaseAppColors.primaryColor,
+    secondary: BaseAppColors.secondaryColor,
+    background: BaseAppColors.backgroundColor,
+    tertiary: BaseAppColors.tertiaryColor,
+    inversePrimary: BaseAppColors.inversePrimaryColor,
   ),
   textTheme: const TextTheme(
     displayLarge: TextStyle(
