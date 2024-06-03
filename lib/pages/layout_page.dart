@@ -4,7 +4,7 @@ import 'package:capstone_project_mobile/pages/forum/forum_page.dart';
 import 'package:capstone_project_mobile/pages/home/home_page.dart';
 import 'package:capstone_project_mobile/pages/profile/profile_page.dart';
 import 'package:capstone_project_mobile/pages/resource/resource_page.dart';
-import 'package:capstone_project_mobile/pages/therapists/thgerapists_page.dart';
+import 'package:capstone_project_mobile/pages/therapists/therapists_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
