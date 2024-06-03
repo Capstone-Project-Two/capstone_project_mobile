@@ -2,6 +2,7 @@ import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
 import 'package:capstone_project_mobile/model/post.dart';
 import 'package:capstone_project_mobile/pages/forum/post_detail_screen.dart';
+import 'package:capstone_project_mobile/utils/image_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -15,6 +16,7 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ImageHelper imageReqHelper = ImageHelper(imagePath: 'postPhotos');
     TextTheme textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () {
@@ -107,6 +109,21 @@ class PostCard extends StatelessWidget {
                   const SizedBox(
                     height: 12,
                   ),
+
+                  Column(
+                    children: [
+                      for (int i = 0; i < post.postPhotos.length; i++)
+                        Image.network(
+                          imageReqHelper.getImage(
+                              filename: post.postPhotos[i].filename),
+                        )
+                    ],
+                  ),
+
+                  const SizedBox(
+                    height: 12,
+                  ),
+
                   // buttons
                   Row(
                     children: [

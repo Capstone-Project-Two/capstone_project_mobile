@@ -1,4 +1,5 @@
 import 'package:capstone_project_mobile/components/cards/post_card.dart';
+import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/model/post.dart';
 import 'package:capstone_project_mobile/services/get_service.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
@@ -23,12 +24,11 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text(
-            'Detailed Post',
-          ),
-        ),
-        body: FutureBuilder(
+      appBar: const MyAppBar(
+        title: 'Detailed Post',
+      ),
+      body: SingleChildScrollView(
+        child: FutureBuilder(
           future: futurePost,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -44,6 +44,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
             return const LoadingScreen();
           },
-        ));
+        ),
+      ),
+    );
   }
 }

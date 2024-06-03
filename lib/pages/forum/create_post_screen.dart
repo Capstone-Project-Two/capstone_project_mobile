@@ -1,5 +1,6 @@
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
 import 'package:capstone_project_mobile/components/inputs/my_text_field.dart';
+import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/model/dto/create_post.dart';
 import 'package:capstone_project_mobile/model/error_response.dart';
 import 'package:capstone_project_mobile/services/post_service.dart';
@@ -29,7 +30,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         return value;
       },
     ).catchError((err) {
-      print(err);
       setState(() {
         errors = ErrorResponse.fromJson(err);
       });
@@ -49,8 +49,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Create Post'),
+      appBar: const MyAppBar(
+        title: 'Create Post',
       ),
       body: Container(
         padding: const EdgeInsets.all(25),
@@ -75,7 +75,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             ),
 
             const SizedBox(
-              width: 12,
+              height: 20,
             ),
             // Body field
             MyTextField(
@@ -84,7 +84,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
             // Image upload field
             const SizedBox(
-              width: 12,
+              height: 20,
             ),
 
             // Post Button
@@ -112,11 +112,25 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 ),
               ),
             ),
+            const SizedBox(
+              height: 20,
+            ),
             Column(
               children: [
                 Text(errors == null ? '' : errors!.statusCode.toString()),
-                Text(errors == null ? '' : errors!.messages[0].toString()),
+                SizedBox(
+                  width: 120,
+                  child: Text(
+                    errors == null ? '' : errors!.messages[0].toString(),
+                    style: const TextStyle(
+                      overflow: TextOverflow.visible,
+                    ),
+                  ),
+                ),
               ],
+            ),
+            const SizedBox(
+              height: 20,
             ),
             Expanded(
               child: ListView.builder(
