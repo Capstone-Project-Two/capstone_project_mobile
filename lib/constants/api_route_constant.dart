@@ -1,0 +1,4 @@
+enum ApiRoute {
+  patients,
+  therapists
+}
