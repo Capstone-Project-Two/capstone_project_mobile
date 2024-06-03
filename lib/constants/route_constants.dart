@@ -4,4 +4,5 @@ enum RouteConstant {
   therapistsPage,
   resourcePage,
   profilePage,
+  postDetailPage,
 }
