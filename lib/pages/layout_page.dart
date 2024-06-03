@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/layouts/my_bottom_navigation_bar.dart';
 import 'package:capstone_project_mobile/pages/forum_page.dart';
 import 'package:capstone_project_mobile/pages/home_page.dart';
@@ -44,17 +45,7 @@ class _LayoutPageState extends State<LayoutPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: PreferredSize(
-      //   preferredSize: Size.fromHeight(200.0), // Set the height of the AppBar
-      //   child: ClipRRect(
-      //     borderRadius: BorderRadius.vertical(
-      //       bottom: Radius.circular(20.0), // Adjust the radius as needed
-      //     ),
-      //     child: _buildAppBar(context, titles[_selectedIndex]),
-      //   ),
-      // ),
-
-      appBar: _buildPreferredSize(context, titles[_selectedIndex]),
+      appBar: MyAppBar(title: titles[_selectedIndex]),
 
       body: FutureBuilder(
         future: rootBundle.loadString('.env'),
@@ -67,70 +58,4 @@ class _LayoutPageState extends State<LayoutPage> {
       ),
     );
   }
-}
-
-// AppBar _buildAppBar(BuildContext context, String title) {
-//   ColorScheme colorScheme = Theme.of(context).colorScheme;
-//   return AppBar(
-//     // prefer: Size.fromHeight(200.0), // Set the height of the AppBar
-
-//     backgroundColor: colorScheme.primary,
-
-//     title: Text(
-//       title,
-//       style: TextStyle(
-//         color: Theme.of(context).colorScheme.onPrimary,
-//         fontSize: 22,
-//         fontWeight: FontWeight.bold,
-//       ),
-//     ),
-//     flexibleSpace: Container(
-//       decoration: BoxDecoration(
-//         gradient: LinearGradient(
-//           colors: [
-//             colorScheme.primary,
-//             colorScheme.secondary,
-//           ],
-//         ),
-//       ),
-//     ),
-//   );
-// }
-PreferredSize _buildPreferredSize(BuildContext context, String title) {
-  ColorScheme colorScheme = Theme.of(context).colorScheme;
-
-  return PreferredSize (
-    preferredSize: const Size.fromHeight(70.0), // Set the height of the AppBar
-    child: ClipRRect(
-      borderRadius: const BorderRadius.vertical(
-        bottom: Radius.circular(20.0), // Adjust the radius as needed
-      ),
-      child: AppBar(
-        backgroundColor: colorScheme.primary,
-        title: Padding(
-          padding:
-              const EdgeInsets.only(top: 10.0, left: 10.0), // Adjust as needed
-          child: Text(
-            title,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary,
-              fontSize: 22,
-              fontFamily: 'Kantumruy Pro', // Specify your font family
-              fontWeight: FontWeight.w700, // Use FontWeight.w700 for bold
-            ),
-          ),
-        ),
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                colorScheme.primary,
-                colorScheme.secondary,
-              ],
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
 }
