@@ -43,6 +43,7 @@ class _TherapistsPageState extends State<TherapistsPage> {
                     padding: const EdgeInsets.only(bottom: 16),
                     child: TherapistCard(
                       therapist: therapists[index],
+                      isNavigate: true,
                     ),
                   );
                 },

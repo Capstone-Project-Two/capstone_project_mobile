@@ -3,12 +3,11 @@ import 'package:capstone_project_mobile/pages/therapists/detail_therapist_page.d
 import 'package:flutter/material.dart';
 
 class TherapistCard extends StatelessWidget {
-  const TherapistCard({
-    super.key,
-    required this.therapist,
-  });
+  const TherapistCard(
+      {super.key, required this.therapist, this.isNavigate = false});
 
   final Therapist therapist;
+  final bool? isNavigate;
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +20,15 @@ class TherapistCard extends StatelessWidget {
     const TextStyle secondaryTextStyle =
         TextStyle(color: Colors.black, fontSize: 16);
     return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) =>
-                    DetailTherapistPage(therapistId: therapist.id)));
+      onTap: () => {
+        if (isNavigate == true)
+          {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (builder) =>
+                        DetailTherapistPage(therapistId: therapist.id)))
+          }
       },
       child: Container(
         padding: const EdgeInsets.all(16),

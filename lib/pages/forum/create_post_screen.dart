@@ -48,12 +48,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       postImages.isNotEmpty
           ? CreatePost(
               body: body,
-              patient: "63686861790123456789abcd",
+              patient: "61646d696e0123456789abcd",
               postPhotos: getAllPaths(postImages: postImages),
             )
           : CreatePost(
               body: body,
-              patient: "63686861790123456789abcd",
+              patient: "61646d696e0123456789abcd",
               postPhotos: [],
             ),
     ).then(

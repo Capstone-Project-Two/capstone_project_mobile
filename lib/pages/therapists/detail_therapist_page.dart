@@ -27,7 +27,7 @@ class _DetailTherapistPageState extends State<DetailTherapistPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const MyAppBar(
-          title: 'Detail Therapist',
+          title: 'Detailed Therapist',
         ),
         body: FutureBuilder(
           future: futureTherapist,
