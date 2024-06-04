@@ -2,7 +2,6 @@ import 'package:capstone_project_mobile/components/cards/therapist_card.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/model/therapist.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class BookingPage extends StatefulWidget {
   const BookingPage({super.key, required this.therapist});
