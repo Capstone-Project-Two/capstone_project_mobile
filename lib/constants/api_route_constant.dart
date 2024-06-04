@@ -1,5 +1,5 @@
 enum ApiRoute {
   patients,
-  posts,
   therapists,
+  posts,
 }
