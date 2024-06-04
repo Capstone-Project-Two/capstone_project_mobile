@@ -120,7 +120,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               onTap: () async {
                 List<XFile>? images = await picker.pickMultiImage();
                 // if (images.isEmpty) return;
-                print(images);
                 setState(() {
                   postImages = images;
                 });
