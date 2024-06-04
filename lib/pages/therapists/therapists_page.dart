@@ -1,6 +1,7 @@
 import 'package:capstone_project_mobile/components/cards/therapist_card.dart';
 import 'package:capstone_project_mobile/model/therapist.dart';
 import 'package:capstone_project_mobile/services/get_service.dart';
+import 'package:capstone_project_mobile/shared_screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 class TherapistsPage extends StatefulWidget {
@@ -46,7 +47,7 @@ class _TherapistsPageState extends State<TherapistsPage> {
               } else if (snapshot.hasError) {
                 return Text(snapshot.error.toString());
               }
-              return const CircularProgressIndicator();
+              return const LoadingScreen();
             },
           ),
         ),
