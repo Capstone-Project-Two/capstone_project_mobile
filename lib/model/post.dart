@@ -20,8 +20,10 @@ class Post extends BaseModel {
 
   factory Post.fromJson(Map<String, dynamic> json) {
     List<PostPhoto> listPhotos = [];
-    for (var eachPostPhoto in json['postPhotos']) {
-      listPhotos.add(PostPhoto.fromJson(eachPostPhoto));
+    if (json['postPhotos'] != null) {
+      for (var eachPostPhoto in json['postPhotos']) {
+        listPhotos.add(PostPhoto.fromJson(eachPostPhoto));
+      }
     }
 
     return switch (json) {

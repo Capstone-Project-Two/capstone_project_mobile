@@ -126,29 +126,10 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             ),
 
             // Post Button
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(colorScheme.primary),
-              ),
-              onPressed: () async {
-                loading ? null : await handleCreatePost(bodyController.text);
-              },
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Center(
-                  child: loading
-                      ? const CircularProgressIndicator(
-                          color: Colors.white,
-                        )
-                      : Text(
-                          'Post',
-                          style: textTheme.displayMedium!.copyWith(
-                            color: colorScheme.inversePrimary,
-                          ),
-                        ),
-                ),
-              ),
+            PostButton(
+              loading: loading,
+              handleCreatePost: handleCreatePost,
+              bodyController: bodyController,
             ),
             const SizedBox(
               height: 20,
@@ -182,6 +163,48 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class PostButton extends StatelessWidget {
+  final bool loading;
+  final Function(String text) handleCreatePost;
+  final TextEditingController bodyController;
+  const PostButton({
+    super.key,
+    required this.loading,
+    required this.handleCreatePost,
+    required this.bodyController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+    TextTheme textTheme = Theme.of(context).textTheme;
+    return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(colorScheme.primary),
+      ),
+      onPressed: () async {
+        loading ? null : await handleCreatePost(bodyController.text);
+      },
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Center(
+          child: loading
+              ? const CircularProgressIndicator(
+                  color: Colors.white,
+                )
+              : Text(
+                  'Post',
+                  style: textTheme.displayMedium!.copyWith(
+                    color: colorScheme.inversePrimary,
+                  ),
+                ),
         ),
       ),
     );
