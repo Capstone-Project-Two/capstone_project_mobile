@@ -62,3 +62,15 @@ Future<List<Therapist>> fetchTherapists() async {
 
   return therapists;
 }
+
+Future<Therapist> fetchOneTherapist(String therapistId) async {
+  HttpService httpService =
+      HttpService(path: '${ApiRoute.therapists.name}/$therapistId');
+  var HttpResponse(:httpRes, :jsonData) = await httpService.httpGet();
+
+  if (httpRes.statusCode == 200) {
+    return Therapist.fromJson(jsonData['data']);
+  } else {
+    throw jsonData;
+  }
+}
