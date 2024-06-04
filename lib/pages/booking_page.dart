@@ -87,7 +87,7 @@ class _BookingPageState extends State<BookingPage> {
       ),
     );
     return Scaffold(
-      appBar: const MyAppBar(title: 'Book Appointment'),
+      appBar: const MyAppBar(title: 'Book Appointment', actionsEnabled: false,),
       body: Container(
         padding: const EdgeInsets.all(16),
         child: Column(

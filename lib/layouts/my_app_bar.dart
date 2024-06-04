@@ -1,9 +1,13 @@
+import 'package:capstone_project_mobile/pages/login/login_email_page.dart';
 import 'package:capstone_project_mobile/theme/base_app_colors.dart';
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
-  const MyAppBar({super.key, required this.title});
+  final bool actionsEnabled;
+
+  const MyAppBar(
+      {super.key, required this.title, required this.actionsEnabled});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +20,19 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           bottom: Radius.circular(20.0), // Adjust the radius as needed
         ),
         child: AppBar(
+          actions: actionsEnabled
+              ? [
+                  IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const LoginEmail()));
+                      },
+                      icon: const Icon(Icons.login))
+                ]
+              : null,
+          automaticallyImplyLeading: false,
           backgroundColor: colorScheme.primary,
           title: Padding(
             padding: const EdgeInsets.only(
