@@ -1,18 +1,46 @@
 import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
+import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/model/post.dart';
 import 'package:capstone_project_mobile/pages/forum/post_detail_screen.dart';
+import 'package:capstone_project_mobile/services/post_service.dart';
 import 'package:capstone_project_mobile/utils/image_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
-class PostCard extends StatelessWidget {
+class PostCard extends StatefulWidget {
   final Post post;
   final bool isCurrentPost;
   const PostCard({super.key, required this.post, required this.isCurrentPost});
+
+  @override
+  State<PostCard> createState() => _PostCardState();
+}
+
+class _PostCardState extends State<PostCard> {
   final String imgPath = 'lib/assets/images/image 80.png';
+
+  bool loading = false;
+
+  Future handleLikePost() async {
+    setState(() {
+      loading = true;
+    });
+    var res = await likePost(
+            id: widget.post.id, patientId: '72706f6e670123456789abcd')
+        .catchError((err) {
+      showDialog(
+        context: context,
+        builder: (context) => const ErrorDialog(text: "Something went wrong"),
+      );
+    }).whenComplete(() => setState(() {
+              loading = false;
+            }));
+
+    return res;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +48,11 @@ class PostCard extends StatelessWidget {
     TextTheme textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () {
-        if (!isCurrentPost) {
+        if (!widget.isCurrentPost) {
           Navigator.push(
             context,
             CupertinoPageRoute(
-              builder: (context) => PostDetailScreen(postId: post.id),
+              builder: (context) => PostDetailScreen(postId: widget.post.id),
             ),
           ).then((value) => Navigator.maybePop(context));
         }
@@ -55,7 +83,7 @@ class PostCard extends StatelessWidget {
                         SizedBox(
                           width: 150,
                           child: Text(
-                            post.patient.username,
+                            widget.post.patient.username,
                             style: textTheme.displayLarge!.copyWith(
                               fontWeight: FontWeight.w500,
                             ),
@@ -63,9 +91,8 @@ class PostCard extends StatelessWidget {
                         ),
                         // Post time
                         Text(
-                          DateFormat.MMMd()
-                              .add_jm()
-                              .format(DateTime.parse(post.createdAt).toLocal()),
+                          DateFormat.MMMd().add_jm().format(
+                              DateTime.parse(widget.post.createdAt).toLocal()),
                           style: textTheme.bodyLarge,
                         ),
                       ],
@@ -102,7 +129,7 @@ class PostCard extends StatelessWidget {
                 children: [
                   // body text
                   Text(
-                    post.body,
+                    widget.post.body,
                     style: textTheme.bodyLarge,
                   ),
 
@@ -112,10 +139,10 @@ class PostCard extends StatelessWidget {
 
                   Column(
                     children: [
-                      for (int i = 0; i < post.postPhotos.length; i++)
+                      for (int i = 0; i < widget.post.postPhotos.length; i++)
                         Image.network(
                           imageReqHelper.getImage(
-                              filename: post.postPhotos[i].filename),
+                              filename: widget.post.postPhotos[i].filename),
                         )
                     ],
                   ),
@@ -129,9 +156,14 @@ class PostCard extends StatelessWidget {
                     children: [
                       // Like button
                       MyTextButton(
-                        text: 'Like',
+                        text: '${widget.post.likeCount} Like',
                         iconData: LucideIcons.heart,
-                        onTap: () {},
+                        onTap: () async {
+                          if (!loading) {
+                            await handleLikePost();
+                          }
+                        },
+                        loading: loading,
                       ),
                       const SizedBox(
                         width: 8,

@@ -51,3 +51,22 @@ Future createPost(CreatePost body) async {
 
   return res;
 }
+
+Future likePost({required String id, required String patientId}) async {
+  HttpService httpService = HttpService(path: "like-posts/$id");
+
+  var HttpResponse(:httpRes, :jsonData) = await httpService.httpPatch(
+    body: jsonEncode(
+      {
+        'patient': patientId,
+        'post': id,
+      },
+    ),
+  );
+
+  if (httpRes.statusCode == 200 || httpRes.statusCode == 201) {
+    return httpRes;
+  } else {
+    throw jsonData;
+  }
+}

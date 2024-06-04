@@ -32,7 +32,7 @@ class HttpService {
     'Content-Type': 'application/json',
   };
 
-  get url => Uri.http(baseApiUrl, '/$path');
+  get url => Uri.http(baseApiUrl, path);
 
   Future<HttpResponse> httpGet() async {
     var res = await http.get(url);
