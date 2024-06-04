@@ -6,8 +6,8 @@ import 'package:capstone_project_mobile/services/http_service.dart';
 
 Future<List<Patient>> fetchPatients() async {
   List<Patient> patients = [];
-  var HttpResponse(:jsonData, :httpRes) =
-      await httpGet(path: ApiRoute.patients.name);
+  HttpService httpService = HttpService(path: ApiRoute.patients.name);
+  var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
 
   if (httpRes.statusCode == 200) {
     for (var eachPatient in jsonData['data']) {
@@ -22,9 +22,8 @@ Future<List<Patient>> fetchPatients() async {
 
 Future<List<Post>> fetchPosts() async {
   List<Post> posts = [];
-
-  var HttpResponse(:jsonData, :httpRes) =
-      await httpGet(path: ApiRoute.posts.name);
+  HttpService httpService = HttpService(path: ApiRoute.patients.name);
+  var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
 
   if (httpRes.statusCode == 200) {
     for (var eachPost in jsonData['data']) {
@@ -38,8 +37,8 @@ Future<List<Post>> fetchPosts() async {
 }
 
 Future<Post> fetchOnePost(String postId) async {
-  var HttpResponse(:httpRes, :jsonData) =
-      await httpGet(path: '${ApiRoute.posts.name}/$postId');
+  HttpService httpService = HttpService(path: '${ApiRoute.posts.name}/$postId');
+  var HttpResponse(:httpRes, :jsonData) = await httpService.httpGet();
 
   if (httpRes.statusCode == 200) {
     return Post.fromJson(jsonData['data']);
@@ -50,8 +49,8 @@ Future<Post> fetchOnePost(String postId) async {
 
 Future<List<Therapist>> fetchTherapists() async {
   List<Therapist> therapists = [];
-  var HttpResponse(:jsonData, :httpRes) =
-      await httpGet(path: ApiRoute.therapists.name);
+  HttpService httpService = HttpService(path: ApiRoute.therapists.name);
+  var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
 
   if (httpRes.statusCode == 200) {
     for (var eachTherapist in jsonData['data']) {
