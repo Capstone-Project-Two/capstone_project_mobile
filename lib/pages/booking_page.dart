@@ -18,13 +18,13 @@ class _BookingPageState extends State<BookingPage> {
     return Scaffold(
       appBar: const MyAppBar(title: 'Book Appointment'),
       body: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
               alignment: Alignment.topLeft,
-              child: Text(
+              child: const Text(
                 'Apppointment with',
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
               ),
