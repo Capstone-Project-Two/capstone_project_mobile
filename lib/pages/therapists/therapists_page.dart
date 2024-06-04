@@ -1,6 +1,7 @@
 import 'package:capstone_project_mobile/components/cards/therapist_card.dart';
 import 'package:capstone_project_mobile/model/therapist.dart';
 import 'package:capstone_project_mobile/services/get_service.dart';
+import 'package:capstone_project_mobile/shared_screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 class TherapistsPage extends StatefulWidget {
@@ -30,25 +31,28 @@ class _TherapistsPageState extends State<TherapistsPage> {
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: handleRefresh,
-        child: Center(
-          child: FutureBuilder(
-            future: futureTherapists,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                var therapists = snapshot.data!;
-                return ListView.builder(
-                  itemCount: therapists.length,
-                  itemBuilder: (context, index) => TherapistCard(
-                    therapist: therapists[index],
-                  ),
-                  padding: const EdgeInsets.only(bottom: 16),
-                );
-              } else if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              }
-              return const CircularProgressIndicator();
-            },
-          ),
+        child: FutureBuilder(
+          future: futureTherapists,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              var therapists = snapshot.data!;
+              return ListView.builder(
+                itemCount: therapists.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    padding: const EdgeInsets.only(bottom: 16),
+                    child: TherapistCard(
+                      therapist: therapists[index],
+                    ),
+                  );
+                },
+                padding: const EdgeInsets.all(16),
+              );
+            } else if (snapshot.hasError) {
+              return Text(snapshot.error.toString());
+            }
+            return const LoadingScreen();
+          },
         ),
       ),
     );

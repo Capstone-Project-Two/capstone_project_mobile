@@ -22,8 +22,7 @@ Future<List<Patient>> fetchPatients() async {
 
 Future<List<Post>> fetchPosts() async {
   List<Post> posts = [];
-  HttpService httpService = HttpService(path: ApiRoute.posts.name);
-
+  HttpService httpService = HttpService(path: ApiRoute.patients.name);
   var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
 
   if (httpRes.statusCode == 200) {
@@ -38,7 +37,7 @@ Future<List<Post>> fetchPosts() async {
 }
 
 Future<Post> fetchOnePost(String postId) async {
-  HttpService httpService = HttpService(path: "${ApiRoute.posts.name}/$postId");
+  HttpService httpService = HttpService(path: '${ApiRoute.posts.name}/$postId');
   var HttpResponse(:httpRes, :jsonData) = await httpService.httpGet();
 
   if (httpRes.statusCode == 200) {
@@ -62,4 +61,16 @@ Future<List<Therapist>> fetchTherapists() async {
   }
 
   return therapists;
+}
+
+Future<Therapist> fetchOneTherapist(String therapistId) async {
+  HttpService httpService =
+      HttpService(path: '${ApiRoute.therapists.name}/$therapistId');
+  var HttpResponse(:httpRes, :jsonData) = await httpService.httpGet();
+
+  if (httpRes.statusCode == 200) {
+    return Therapist.fromJson(jsonData['data']);
+  } else {
+    throw jsonData;
+  }
 }

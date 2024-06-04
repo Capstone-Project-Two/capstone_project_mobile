@@ -53,7 +53,7 @@ class HttpService {
     return HttpResponse(jsonData: jsonData, httpRes: res);
   }
 
-  Future<HttpResponse> httpPatch({required String id, dynamic body}) async {
+  Future<HttpResponse> httpPatch({dynamic body}) async {
     var res = await http.patch(
       url,
       body: body,
@@ -74,15 +74,5 @@ class HttpService {
       jsonData: jsonData,
       httpRes: res,
     );
-  }
-
-  Future httpMultipartFormData(
-      {required dynamic body, required dynamic files}) async {
-    var res = http.MultipartRequest(
-      HttpMethod.postMethod,
-      url,
-    );
-
-    print(res);
   }
 }

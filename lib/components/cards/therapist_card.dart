@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 class TherapistCard extends StatelessWidget {
   const TherapistCard({
     super.key,
-    this.therapist,
+    required this.therapist,
   });
 
-  final Therapist? therapist;
+  final Therapist therapist;
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +22,13 @@ class TherapistCard extends StatelessWidget {
         TextStyle(color: Colors.black, fontSize: 16);
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => DetailTherapistPage(therapist: therapist)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    DetailTherapistPage(therapistId: therapist.id)));
       },
       child: Container(
-        margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           boxShadow: [
@@ -48,38 +50,39 @@ class TherapistCard extends StatelessWidget {
               width: 100,
             ),
             const SizedBox(width: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Dr. ${therapist!.firstName} ${therapist!.lastName} ",
-                  style: primaryTextStyle,
-                ),
-                const SizedBox(height: 4),
-                const Text(
-                  'Therapist',
-                  style: secondaryTextStyle,
-                ),
-                const SizedBox(height: 4),
-                const Text(
-                  'Specialized in ',
-                  style: secondaryTextStyle,
-                ),
-                SizedBox(
-                  width: 250,
-                  child: Wrap(
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Dr. ${therapist.firstName} ${therapist.lastName}",
+                    overflow: TextOverflow.visible,
+                    style: primaryTextStyle,
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Therapist',
+                    style: secondaryTextStyle,
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Specialized in ',
+                    style: secondaryTextStyle,
+                  ),
+                  Wrap(
                       direction: Axis.horizontal,
-                      children: List.generate(therapist!.specializations.length,
+                      children: List.generate(therapist.specializations.length,
                           (index) {
                         return Text(
-                          index == therapist!.specializations.length - 1
-                              ? '${therapist!.specializations[index]}'
-                              : '${therapist!.specializations[index]}, ',
+                          index == therapist.specializations.length - 1
+                              ? '${therapist.specializations[index]}'
+                              : '${therapist.specializations[index]}, ',
+                          overflow: TextOverflow.visible,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         );
                       })),
-                )
-              ],
+                ],
+              ),
             ),
           ],
         ),

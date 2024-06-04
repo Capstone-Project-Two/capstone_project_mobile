@@ -24,6 +24,7 @@ ThemeData appTheme = ThemeData(
     background: BaseAppColors.backgroundColor,
     tertiary: BaseAppColors.tertiaryColor,
     inversePrimary: BaseAppColors.inversePrimaryColor,
+    
   ),
   textTheme: const TextTheme(
     displayLarge: TextStyle(
