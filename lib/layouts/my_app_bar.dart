@@ -1,3 +1,4 @@
+import 'package:capstone_project_mobile/pages/login_page.dart';
 import 'package:capstone_project_mobile/theme/base_app_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -16,6 +17,17 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           bottom: Radius.circular(20.0), // Adjust the radius as needed
         ),
         child: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignInScreen()));
+                },
+                icon: const Icon(Icons.login))
+          ],
+          automaticallyImplyLeading: false,
           backgroundColor: colorScheme.primary,
           title: Padding(
             padding: const EdgeInsets.only(

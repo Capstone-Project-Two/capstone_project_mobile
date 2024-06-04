@@ -1,29 +1,36 @@
+import 'package:capstone_project_mobile/pages/layout_page.dart';
+import 'package:capstone_project_mobile/shared_screens/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  SignInScreenState createState() => SignInScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class SignInScreenState extends State<SignInScreen> {
   bool _obscureText = true;
+
+  void _signIn() async {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoadingScreen()),
+    );
+
+    // Simulate a 3-second delay for loading
+    await Future.delayed(const Duration(seconds: 1), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LayoutPage()),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Center(
-          child: Text(
-            'Zen Zone | Mental Health',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
+      appBar: _buildAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -32,7 +39,7 @@ class _SignInScreenState extends State<SignInScreen> {
             const SizedBox(height: 20),
             TextField(
               decoration: InputDecoration(
-                labelText: 'Email/ Username',
+                labelText: 'Email / Username',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8.0),
                 ),
@@ -72,6 +79,7 @@ class _SignInScreenState extends State<SignInScreen> {
             ElevatedButton(
               onPressed: () {
                 // Handle sign in
+                _signIn();
               },
               style: ElevatedButton.styleFrom(
                 minimumSize:
@@ -108,7 +116,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 // Handle sign in with Google
               },
               icon: Image.asset(
-                'images/google.png', // Ensure you have a Google icon in your assets
+                'lib/assets/icons/google.png', // Ensure you have a Google icon in your assets
                 height: 25,
                 width: 25,
               ),
@@ -161,4 +169,18 @@ class _SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
+}
+
+AppBar _buildAppBar() {
+  return AppBar(
+    title: const Center(
+      child: Text(
+        'Mental Health',
+        style: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+  );
 }
