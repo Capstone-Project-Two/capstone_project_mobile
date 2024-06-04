@@ -1,6 +1,11 @@
+// ignore_for_file: avoid_print
+
 import 'package:capstone_project_mobile/components/cards/therapist_card.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
+import 'package:capstone_project_mobile/model/dto/create_appointment.dart';
 import 'package:capstone_project_mobile/model/therapist.dart';
+import 'package:capstone_project_mobile/pages/therapists/success_screen.dart';
+import 'package:capstone_project_mobile/services/post_service.dart';
 import 'package:flutter/material.dart';
 
 class BookingPage extends StatefulWidget {
@@ -12,10 +17,59 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
+  final bool isDisabled = false;
+
   final TextEditingController _notesController = TextEditingController();
   final TextEditingController _symtomsController = TextEditingController();
 
   final TextEditingController _dateController = TextEditingController();
+  bool loading = false;
+
+  Future handleBooking() async {
+    setState(() {
+      loading = true;
+    });
+
+    if (_notesController.text.isEmpty ||
+        _symtomsController.text.isEmpty ||
+        _dateController.text.isEmpty) {
+      print('Empty');
+    } else {
+      var res = await createAppointment(CreateAppointment(
+              note: _notesController.text,
+              symptoms: _symtomsController.text,
+              therapist: widget.therapist.id,
+              patient: '61646d696e0123456789abcd',
+              scheduleDate: _dateController.text))
+          .then(
+        (value) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SuccessScreen(
+                successMsg: 'Booking Completed',
+              ),
+            ),
+          );
+          _notesController.clear();
+          _symtomsController.clear();
+          _dateController.clear();
+          return value;
+        },
+      ).catchError((err) {
+        print(err);
+        // showDialog(
+        //   context: context,
+        //   builder: (context) => ErrorDialog(text: err.toString()),
+        // );
+      }).whenComplete(
+        () => setState(() {
+          loading = false;
+        }),
+      );
+      return res;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +112,7 @@ class _BookingPageState extends State<BookingPage> {
                 controller: _notesController),
             const SizedBox(height: 16),
             _textField(
-                hintText: 'Insomniar, Stress, Tired...',
+                hintText: 'Insomnia, Stress, Tired...',
                 label: 'Symptoms',
                 controller: _symtomsController),
             const SizedBox(height: 16),
@@ -152,10 +206,7 @@ class _BookingPageState extends State<BookingPage> {
               children: [
                 Expanded(
                   child: TextButton(
-                    onPressed: () {
-                      print(
-                          '${_dateController.text} ${_notesController.text} ${_symtomsController.text}');
-                    },
+                    onPressed: handleBooking,
                     style: textButtonStyle,
                     child: const Text('Book Appointment',
                         style: TextStyle(
