@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
 import 'package:capstone_project_mobile/model/dto/create_post.dart';
 import 'package:capstone_project_mobile/services/http_service.dart';
@@ -27,4 +29,23 @@ Future createPost(CreatePost body) async {
   );
 
   return res;
+}
+
+Future likePost({required String id, required String patientId}) async {
+  HttpService httpService = HttpService(path: "like-posts/$id");
+
+  var HttpResponse(:httpRes, :jsonData) = await httpService.httpPatch(
+    body: jsonEncode(
+      {
+        'patient': patientId,
+        'post': id,
+      },
+    ),
+  );
+
+  if (httpRes.statusCode == 200 || httpRes.statusCode == 201) {
+    return httpRes;
+  } else {
+    throw jsonData;
+  }
 }

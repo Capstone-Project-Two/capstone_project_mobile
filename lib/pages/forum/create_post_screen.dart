@@ -7,6 +7,9 @@ import 'package:capstone_project_mobile/components/inputs/my_text_field.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/model/dto/create_post.dart';
 import 'package:capstone_project_mobile/services/post_service.dart';
+import 'package:capstone_project_mobile/shared/loading_screen.dart';
+import 'package:capstone_project_mobile/shared/success_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -38,6 +41,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     setState(() {
       loading = true;
     });
+
+    await Future.delayed(const Duration(seconds: 3));
+
     var res = await createPost(
       postImages.isNotEmpty
           ? CreatePost(
@@ -52,8 +58,14 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             ),
     ).then(
       (value) {
-        Navigator.of(context).pop();
-        return value;
+        Navigator.push(
+          context,
+          CupertinoPageRoute(
+            builder: (context) => const SuccessScreen(),
+          ),
+        );
+        // Navigator.of(context).pop();
+        // return value;
       },
     ).catchError((err) {
       showDialog(
@@ -73,6 +85,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     String imgPath = 'lib/assets/images/image 80.png';
     TextTheme textTheme = Theme.of(context).textTheme;
+
+    if (loading) return const LoadingScreen();
+
     return Scaffold(
       appBar: const MyAppBar(
         title: 'Create Post',

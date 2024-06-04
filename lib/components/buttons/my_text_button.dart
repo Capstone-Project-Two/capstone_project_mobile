@@ -5,18 +5,23 @@ class MyTextButton extends StatelessWidget {
   final IconData iconData;
   final void Function()? onTap;
   final EdgeInsets? padding;
+  bool loading;
 
-  const MyTextButton({
+  MyTextButton({
     super.key,
     this.padding,
     required this.text,
     required this.iconData,
     required this.onTap,
+    this.loading = false,
   });
 
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    if (loading) {
+      return const CircularProgressIndicator();
+    }
     return TextButton(
       style: ButtonStyle(
         shape: MaterialStateProperty.all(
