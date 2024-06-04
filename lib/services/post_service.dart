@@ -5,8 +5,9 @@ import 'package:capstone_project_mobile/model/dto/create_post.dart';
 import 'package:capstone_project_mobile/services/http_service.dart';
 
 Future createPost(CreatePost body) async {
-  var HttpResponse(:httpRes, :jsonData) = await httpPost(
-    path: ApiRoute.posts.name,
+  HttpService httpService = HttpService(path: ApiRoute.posts.name);
+
+  var HttpResponse(:httpRes, :jsonData) = await httpService.httpPost(
     body: jsonEncode({
       'body': body.body,
       'patient': body.patient,

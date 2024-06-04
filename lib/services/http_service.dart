@@ -4,6 +4,13 @@ import 'package:capstone_project_mobile/constants/env_constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
+class HttpMethod {
+  static const String getMethod = 'GET';
+  static const String postMethod = 'POST';
+  static const String patchMethod = 'PATCH';
+  static const String deleteMethod = 'DELETE';
+}
+
 class HttpResponse {
   final Response httpRes;
   final dynamic jsonData;
@@ -14,23 +21,68 @@ class HttpResponse {
   });
 }
 
-Future<HttpResponse> httpGet({required String path}) async {
-  var url = Uri.http(baseApiUrl, '/$path');
-  var res = await http.get(url);
-  var jsonData = jsonDecode(res.body);
+class HttpService {
+  final String path;
 
-  return HttpResponse(jsonData: jsonData, httpRes: res);
-}
+  HttpService({
+    required this.path,
+  });
 
-Future<HttpResponse> httpPost({required String path, dynamic body}) async {
-  var url = Uri.http(baseApiUrl, '/$path');
-  var res = await http.post(
-    url,
-    body: body,
-    headers: <String, String>{'Content-Type': 'application/json'},
-  );
+  static const headers = <String, String>{
+    'Content-Type': 'application/json',
+  };
 
-  var jsonData = jsonDecode(res.body);
+  get url => Uri.http(baseApiUrl, '/$path');
 
-  return HttpResponse(jsonData: jsonData, httpRes: res);
+  Future<HttpResponse> httpGet() async {
+    var res = await http.get(url);
+    var jsonData = jsonDecode(res.body);
+
+    return HttpResponse(jsonData: jsonData, httpRes: res);
+  }
+
+  Future<HttpResponse> httpPost({required dynamic body}) async {
+    var res = await http.post(
+      url,
+      body: body,
+      headers: headers,
+    );
+
+    var jsonData = jsonDecode(res.body);
+
+    return HttpResponse(jsonData: jsonData, httpRes: res);
+  }
+
+  Future<HttpResponse> httpPatch({required String id, dynamic body}) async {
+    var res = await http.patch(
+      url,
+      body: body,
+      headers: headers,
+    );
+
+    var jsonData = jsonDecode(res.body);
+
+    return HttpResponse(jsonData: jsonData, httpRes: res);
+  }
+
+  Future<HttpResponse> httpDelete({dynamic body}) async {
+    var res = await http.delete(url, body: body, headers: headers);
+
+    var jsonData = jsonDecode(res.body);
+
+    return HttpResponse(
+      jsonData: jsonData,
+      httpRes: res,
+    );
+  }
+
+  Future httpMultipartFormData(
+      {required dynamic body, required dynamic files}) async {
+    var res = http.MultipartRequest(
+      HttpMethod.postMethod,
+      url,
+    );
+
+    print(res);
+  }
 }
