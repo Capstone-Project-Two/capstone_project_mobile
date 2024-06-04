@@ -29,7 +29,6 @@ class TherapistCard extends StatelessWidget {
                     DetailTherapistPage(therapistId: therapist.id)));
       },
       child: Container(
-        margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           boxShadow: [
