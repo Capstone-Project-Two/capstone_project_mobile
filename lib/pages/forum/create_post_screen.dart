@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
+import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/components/inputs/my_text_field.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/model/dto/create_post.dart';
-import 'package:capstone_project_mobile/model/error_response.dart';
 import 'package:capstone_project_mobile/services/post_service.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,30 +20,46 @@ class CreatePostScreen extends StatefulWidget {
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
   bool loading = false;
-  ErrorResponse? errors;
+  dynamic errors;
   TextEditingController bodyController = TextEditingController();
-  XFile? postImages;
+  List<XFile> postImages = [];
   final ImagePicker picker = ImagePicker();
+
+  List<File> getAllPaths({List<XFile>? postImages}) {
+    List<File> filePaths = [];
+    for (int i = 0; i < postImages!.length; i++) {
+      filePaths.add(File(postImages[i].path));
+    }
+
+    return filePaths;
+  }
 
   Future handleCreatePost(String body) async {
     setState(() {
       loading = true;
     });
     var res = await createPost(
-      CreatePost(
-        body: body,
-        patient: "63686861790123456789abcd",
-        postPhotos: postImages,
-      ),
+      postImages.isNotEmpty
+          ? CreatePost(
+              body: body,
+              patient: "63686861790123456789abcd",
+              postPhotos: getAllPaths(postImages: postImages),
+            )
+          : CreatePost(
+              body: body,
+              patient: "63686861790123456789abcd",
+              postPhotos: [],
+            ),
     ).then(
       (value) {
         Navigator.of(context).pop();
         return value;
       },
     ).catchError((err) {
-      setState(() {
-        errors = ErrorResponse.fromJson(err);
-      });
+      showDialog(
+        context: context,
+        builder: (context) => ErrorDialog(text: err.toString()),
+      );
     }).whenComplete(
       () => setState(() {
         loading = false;
@@ -57,8 +73,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   Widget build(BuildContext context) {
     String imgPath = 'lib/assets/images/image 80.png';
     TextTheme textTheme = Theme.of(context).textTheme;
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
-
     return Scaffold(
       appBar: const MyAppBar(
         title: 'Create Post',
@@ -104,22 +118,28 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               text: "Upload Image",
               iconData: LucideIcons.upload,
               onTap: () async {
-                XFile? images =
-                    await picker.pickImage(source: ImageSource.gallery);
+                List<XFile>? images = await picker.pickMultiImage();
                 // if (images.isEmpty) return;
-
+                print(images);
                 setState(() {
                   postImages = images;
                 });
               },
             ),
 
-            postImages != null
-                ? Image.file(
-                    File(postImages!.path),
-                    width: 100,
-                  )
-                : const Text(''),
+            if (postImages.isNotEmpty)
+              Expanded(
+                child: ListView.builder(
+                  itemCount: postImages.length,
+                  itemBuilder: (context, index) => Image.file(
+                    File(postImages[index].path),
+                    height: 200,
+                    width: 200,
+                  ),
+                ),
+              )
+            else
+              const Text(''),
 
             const SizedBox(
               height: 20,
@@ -134,34 +154,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             const SizedBox(
               height: 20,
             ),
-            Column(
-              children: [
-                Text(errors == null ? '' : errors!.statusCode.toString()),
-                SizedBox(
-                  width: 120,
-                  child: Text(
-                    errors == null ? '' : errors!.messages[0].toString(),
-                    style: const TextStyle(
-                      overflow: TextOverflow.visible,
-                    ),
-                  ),
-                ),
-              ],
-            ),
             const SizedBox(
               height: 20,
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount:
-                    errors == null ? 0 : errors!.validationMessage.length,
-                itemBuilder: (context, index) => Text(
-                  errors == null
-                      ? ''
-                      : errors!.validationMessage[index].toString(),
-                ),
-              ),
-            )
           ],
         ),
       ),
@@ -195,16 +190,12 @@ class PostButton extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Center(
-          child: loading
-              ? const CircularProgressIndicator(
-                  color: Colors.white,
-                )
-              : Text(
-                  'Post',
-                  style: textTheme.displayMedium!.copyWith(
-                    color: colorScheme.inversePrimary,
-                  ),
-                ),
+          child: Text(
+            'Post',
+            style: textTheme.displayMedium!.copyWith(
+              color: colorScheme.inversePrimary,
+            ),
+          ),
         ),
       ),
     );

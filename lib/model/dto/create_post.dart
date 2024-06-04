@@ -1,7 +1,9 @@
+import 'dart:io';
+
 class CreatePost {
   final String body;
   final String patient;
-  final dynamic postPhotos;
+  final List<File>? postPhotos;
 
   CreatePost({
     required this.body,
@@ -11,5 +13,5 @@ class CreatePost {
 
   String get getBody => body;
   String get getPatient => patient;
-  String get getPostPhotos => postPhotos;
+  List<File>? get getPostPhotos => postPhotos;
 }
