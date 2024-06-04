@@ -5,9 +5,9 @@ class MyTextButton extends StatelessWidget {
   final IconData iconData;
   final void Function()? onTap;
   final EdgeInsets? padding;
-  bool loading;
+  final bool loading;
 
-  MyTextButton({
+  const MyTextButton({
     super.key,
     this.padding,
     required this.text,
