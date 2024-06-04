@@ -1,15 +1,18 @@
+import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/pages/layout_page.dart';
+import 'package:capstone_project_mobile/pages/login/login_phone_page.dart';
 import 'package:capstone_project_mobile/shared_screens/loading_screen.dart';
+import 'package:capstone_project_mobile/theme/base_app_colors.dart';
 import 'package:flutter/material.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class LoginEmail extends StatefulWidget {
+  const LoginEmail({super.key});
 
   @override
-  SignInScreenState createState() => SignInScreenState();
+  LoginEmailState createState() => LoginEmailState();
 }
 
-class SignInScreenState extends State<SignInScreen> {
+class LoginEmailState extends State<LoginEmail> {
   bool _obscureText = true;
 
   void _signIn() async {
@@ -27,10 +30,17 @@ class SignInScreenState extends State<SignInScreen> {
     });
   }
 
+  void _loginPhone() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginPhone()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
+      appBar: const MyAppBar(title: "Login", actionsEnabled: false),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -78,17 +88,18 @@ class SignInScreenState extends State<SignInScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Handle sign in
                 _signIn();
               },
               style: ElevatedButton.styleFrom(
                 minimumSize:
                     const Size(double.infinity, 50), // Button width and height
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
+                  borderRadius: BorderRadius.circular(25),
                 ),
+                backgroundColor: BaseAppColors.primaryColor,
               ),
-              child: const Text('Sign In'),
+              child:
+                  const Text('Sign In', style: TextStyle(color: Colors.white)),
             ),
             const SizedBox(height: 20),
             const Divider(),
@@ -96,6 +107,7 @@ class SignInScreenState extends State<SignInScreen> {
             ElevatedButton.icon(
               onPressed: () {
                 // Handle sign in with phone
+                _loginPhone();
               },
               icon: const Icon(Icons.phone),
               label: const Text('Phone'),
@@ -157,7 +169,7 @@ class SignInScreenState extends State<SignInScreen> {
                 // Handle therapist sign up
               },
               child: const Text(
-                'Therapist Sign Up',
+                'Become A Therapist',
                 style: TextStyle(
                   color: Colors.blue,
                   fontWeight: FontWeight.bold,
@@ -169,18 +181,4 @@ class SignInScreenState extends State<SignInScreen> {
       ),
     );
   }
-}
-
-AppBar _buildAppBar() {
-  return AppBar(
-    title: const Center(
-      child: Text(
-        'Mental Health',
-        style: TextStyle(
-          fontSize: 24,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    ),
-  );
 }

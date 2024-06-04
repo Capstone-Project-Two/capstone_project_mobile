@@ -45,6 +45,7 @@ class _LayoutPageState extends State<LayoutPage> {
     return Scaffold(
       appBar: MyAppBar(
         title: titles[_selectedIndex],
+        actionsEnabled: true,
       ),
       body: FutureBuilder(
         future: rootBundle.loadString('.env'),

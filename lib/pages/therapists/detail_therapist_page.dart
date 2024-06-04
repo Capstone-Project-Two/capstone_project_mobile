@@ -12,6 +12,7 @@ class DetailTherapistPage extends StatelessWidget {
     return Scaffold(
       appBar: const MyAppBar(
         title: 'Detail Therapist',
+        actionsEnabled: false,
       ),
       body: Column(
         children: [
