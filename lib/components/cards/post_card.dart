@@ -1,6 +1,8 @@
 import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
+import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
 import 'package:capstone_project_mobile/model/post.dart';
-import 'package:capstone_project_mobile/pages/posts/post_detail_screen.dart';
+import 'package:capstone_project_mobile/pages/forum/post_detail_screen.dart';
+import 'package:capstone_project_mobile/utils/image_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -14,6 +16,7 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ImageHelper imageReqHelper = ImageHelper(imagePath: 'postPhotos');
     TextTheme textTheme = Theme.of(context).textTheme;
     return GestureDetector(
       onTap: () {
@@ -38,7 +41,7 @@ class PostCard extends StatelessWidget {
                 Row(
                   children: [
                     // profile
-                    profilePicture(imgPath: imgPath),
+                    ProfilePictureCard(imgPath: imgPath),
 
                     const SizedBox(
                       width: 12,
@@ -60,10 +63,11 @@ class PostCard extends StatelessWidget {
                         ),
                         // Post time
                         Text(
-                          DateFormat.yMMMd()
-                              .format(DateTime.parse(post.createdAt)),
+                          DateFormat.MMMd()
+                              .add_jm()
+                              .format(DateTime.parse(post.createdAt).toLocal()),
                           style: textTheme.bodyLarge,
-                        )
+                        ),
                       ],
                     ),
                   ],
@@ -105,6 +109,21 @@ class PostCard extends StatelessWidget {
                   const SizedBox(
                     height: 12,
                   ),
+
+                  Column(
+                    children: [
+                      for (int i = 0; i < post.postPhotos.length; i++)
+                        Image.network(
+                          imageReqHelper.getImage(
+                              filename: post.postPhotos[i].filename),
+                        )
+                    ],
+                  ),
+
+                  const SizedBox(
+                    height: 12,
+                  ),
+
                   // buttons
                   Row(
                     children: [
@@ -133,17 +152,4 @@ class PostCard extends StatelessWidget {
       ),
     );
   }
-}
-
-ClipRRect profilePicture({required String imgPath}) {
-  return ClipRRect(
-    borderRadius: BorderRadius.circular(25),
-    child: Image.asset(
-      imgPath,
-      width: 50,
-      height: 50,
-      fit: BoxFit.cover,
-      filterQuality: FilterQuality.high,
-    ),
-  );
 }

@@ -2,7 +2,7 @@ import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/model/therapist.dart';
 import 'package:capstone_project_mobile/pages/booking_page.dart';
 import 'package:capstone_project_mobile/services/get_service.dart';
-import 'package:capstone_project_mobile/shared_screens/loading_screen.dart';
+import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
 
 class DetailTherapistPage extends StatefulWidget {
@@ -19,7 +19,6 @@ class _DetailTherapistPageState extends State<DetailTherapistPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     futureTherapist = fetchOneTherapist(widget.therapistId);
   }

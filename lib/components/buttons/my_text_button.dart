@@ -4,9 +4,11 @@ class MyTextButton extends StatelessWidget {
   final String text;
   final IconData iconData;
   final void Function()? onTap;
+  final EdgeInsets? padding;
 
   const MyTextButton({
     super.key,
+    this.padding,
     required this.text,
     required this.iconData,
     required this.onTap,
@@ -26,21 +28,25 @@ class MyTextButton extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: () {},
-      child: Row(
-        children: [
-          Icon(
-            iconData,
-            color: colorScheme.tertiary,
-          ),
-          const SizedBox(
-            width: 8,
-          ),
-          Text(
-            text,
-            style: TextStyle(color: colorScheme.tertiary),
-          ),
-        ],
+      onPressed: onTap,
+      child: Container(
+        padding: padding,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              iconData,
+              color: colorScheme.tertiary,
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Text(
+              text,
+              style: TextStyle(color: colorScheme.tertiary),
+            ),
+          ],
+        ),
       ),
     );
   }

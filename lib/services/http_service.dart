@@ -75,4 +75,34 @@ class HttpService {
       httpRes: res,
     );
   }
+
+  Future httpMultiPartRequest(
+      {required dynamic body, required List<String> files}) async {
+    var request = http.MultipartRequest(HttpMethod.postMethod, url);
+
+    if (files.isNotEmpty) {
+      for (int i = 0; i < files.length; i++) {
+        dynamic uploadedFiles = await http.MultipartFile.fromPath(
+          'postPhotos',
+          files[i],
+        ).catchError((val) {
+          return val;
+        });
+        request.files.add(uploadedFiles);
+      }
+    }
+
+    body.forEach((key, value) {
+      String stringValue = value.toString();
+      request.fields[key] = stringValue;
+    });
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      return response.statusCode;
+    }
+  }
 }

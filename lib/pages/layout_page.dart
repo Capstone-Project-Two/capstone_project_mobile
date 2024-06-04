@@ -1,9 +1,9 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/layouts/my_bottom_navigation_bar.dart';
-import 'package:capstone_project_mobile/pages/forum_page.dart';
-import 'package:capstone_project_mobile/pages/home_page.dart';
-import 'package:capstone_project_mobile/pages/profile_page.dart';
-import 'package:capstone_project_mobile/pages/resource_page.dart';
+import 'package:capstone_project_mobile/pages/forum/forum_page.dart';
+import 'package:capstone_project_mobile/pages/home/home_page.dart';
+import 'package:capstone_project_mobile/pages/profile/profile_page.dart';
+import 'package:capstone_project_mobile/pages/resource/resource_page.dart';
 import 'package:capstone_project_mobile/pages/therapists/therapists_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
