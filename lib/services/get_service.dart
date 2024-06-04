@@ -64,8 +64,9 @@ Future<List<Therapist>> fetchTherapists() async {
 }
 
 Future<Therapist> fetchOneTherapist(String therapistId) async {
-  var HttpResponse(:jsonData, :httpRes) =
-      await httpGet(path: '${ApiRoute.therapists.name}/$therapistId');
+  HttpService httpService =
+      HttpService(path: '${ApiRoute.therapists.name}/$therapistId');
+  var HttpResponse(:httpRes, :jsonData) = await httpService.httpGet();
 
   if (httpRes.statusCode == 200) {
     return Therapist.fromJson(jsonData['data']);
