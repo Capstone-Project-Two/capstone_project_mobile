@@ -5,8 +5,9 @@ class LoadingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Container(
-      color: Theme.of(context).colorScheme.inversePrimary,
+      color: colorScheme.background,
       child: const Center(
         child: CircularProgressIndicator(),
       ),

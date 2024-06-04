@@ -1,7 +1,7 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/pages/layout_page.dart';
 import 'package:capstone_project_mobile/pages/login/login_phone_page.dart';
-import 'package:capstone_project_mobile/shared_screens/loading_screen.dart';
+import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:capstone_project_mobile/theme/base_app_colors.dart';
 import 'package:flutter/material.dart';
 
