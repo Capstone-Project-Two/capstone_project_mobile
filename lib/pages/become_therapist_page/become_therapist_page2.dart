@@ -7,7 +7,7 @@ class BecomeTherapistPage2 extends StatefulWidget {
   const BecomeTherapistPage2({super.key});
 
   @override
-  State<BecomeTherapistPage2>  createState() => _BecomeTherapistPage2State();
+  State<BecomeTherapistPage2> createState() => _BecomeTherapistPage2State();
 }
 
 class _BecomeTherapistPage2State extends State<BecomeTherapistPage2> {
@@ -183,7 +183,7 @@ class _BecomeTherapistPage2State extends State<BecomeTherapistPage2> {
           children: [
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.image_outlined),
+              icon: const Icon(Icons.image_outlined),
               color: Colors.grey,
             ),
             const Text(
@@ -234,15 +234,15 @@ class _BecomeTherapistPage2State extends State<BecomeTherapistPage2> {
   }
 
   Widget _buildStack() {
-    return Stack(
+    return const Stack(
       alignment: Alignment.center,
       children: [
         // Container with optional adjustments
-        Container(
+        SizedBox(
           width: double.infinity,
           height: 20.0,
         ),
-        const Positioned(
+        Positioned(
           left: 0.0, // Position at left edge
           right: 0.0, // Position at right edge
           top: 15.0, // Adjust vertical position within the container
@@ -252,7 +252,7 @@ class _BecomeTherapistPage2State extends State<BecomeTherapistPage2> {
           ),
         ),
         // Centered Text (optional)
-        const Positioned(
+        Positioned(
           child: Text(
             "\u00A0\u00A0\u00A0\u00A0 or \u00A0\u00A0\u00A0\u00A0",
             style: TextStyle(
