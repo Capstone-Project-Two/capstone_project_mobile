@@ -22,7 +22,6 @@ class _LayoutPageState extends State<LayoutPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _selectedIndex = widget.selectedIndex;
   }
