@@ -76,10 +76,10 @@ ElevatedButton _elevatedButton(BuildContext context) {
 
   return ElevatedButton.icon(
     style: const ButtonStyle(
-      backgroundColor: MaterialStatePropertyAll(
+      backgroundColor: WidgetStatePropertyAll(
         Colors.amber,
       ),
-      padding: MaterialStatePropertyAll(
+      padding: WidgetStatePropertyAll(
         EdgeInsets.symmetric(vertical: 20, horizontal: 24),
       ),
       alignment: Alignment.center,

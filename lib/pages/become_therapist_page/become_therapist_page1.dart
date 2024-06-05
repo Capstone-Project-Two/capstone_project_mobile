@@ -2,6 +2,7 @@ import 'package:capstone_project_mobile/pages/become_therapist_page/become_thera
 import 'package:capstone_project_mobile/pages/layout_page.dart';
 import 'package:flutter/material.dart';
 
+
 class BecomeTherapistPage1 extends StatelessWidget {
   final img1 =
       "https://i.pinimg.com/736x/d2/28/6e/d2286eb8935144d6cbfa0b40744aa41e.jpg";

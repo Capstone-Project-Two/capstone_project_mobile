@@ -10,7 +10,7 @@ class SuccessScreen extends StatelessWidget {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     TextTheme textTheme = Theme.of(context).textTheme;
     return Container(
-      color: colorScheme.background,
+      color: colorScheme.surface,
       padding: const EdgeInsets.all(40),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -25,7 +25,7 @@ class SuccessScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(
+              backgroundColor: WidgetStatePropertyAll(
                 colorScheme.primary,
               ),
             ),

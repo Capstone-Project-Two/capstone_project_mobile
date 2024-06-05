@@ -21,7 +21,7 @@ ThemeData appTheme = ThemeData(
   colorScheme: ColorScheme.light(
     primary: BaseAppColors.primaryColor,
     secondary: BaseAppColors.secondaryColor,
-    background: BaseAppColors.backgroundColor,
+    surface: BaseAppColors.backgroundColor,
     tertiary: BaseAppColors.tertiaryColor,
     inversePrimary: BaseAppColors.inversePrimaryColor,
     

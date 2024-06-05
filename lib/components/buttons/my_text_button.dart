@@ -24,7 +24,7 @@ class MyTextButton extends StatelessWidget {
     }
     return TextButton(
       style: ButtonStyle(
-        shape: MaterialStateProperty.all(
+        shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
             side: BorderSide(
