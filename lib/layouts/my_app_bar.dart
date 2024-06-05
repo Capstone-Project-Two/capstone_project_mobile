@@ -32,7 +32,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                       icon: const Icon(Icons.login))
                 ]
               : null,
-          automaticallyImplyLeading: false,
+          // automaticallyImplyLeading: false,
           backgroundColor: colorScheme.primary,
           title: Padding(
             padding: const EdgeInsets.only(
