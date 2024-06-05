@@ -26,6 +26,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     return Scaffold(
       appBar: const MyAppBar(
         title: 'Detailed Post',
+        actionsEnabled: false,
       ),
       body: SingleChildScrollView(
         child: FutureBuilder(
