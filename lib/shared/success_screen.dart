@@ -25,7 +25,7 @@ class SuccessScreen extends StatelessWidget {
           ),
           ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(
+              backgroundColor: MaterialStatePropertyAll(
                 colorScheme.primary,
               ),
             ),

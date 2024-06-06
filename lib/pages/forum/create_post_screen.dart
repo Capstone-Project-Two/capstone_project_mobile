@@ -91,7 +91,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     return Scaffold(
       appBar: const MyAppBar(
         title: 'Create Post',
-        actionsEnabled: false,
       ),
       body: Container(
         padding: const EdgeInsets.all(25),
@@ -196,7 +195,7 @@ class PostButton extends StatelessWidget {
     TextTheme textTheme = Theme.of(context).textTheme;
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(colorScheme.primary),
+        backgroundColor: MaterialStateProperty.all(colorScheme.primary),
       ),
       onPressed: () async {
         loading ? null : await handleCreatePost(bodyController.text);

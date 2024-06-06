@@ -40,7 +40,7 @@ class LoginEmailState extends State<LoginEmail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const MyAppBar(title: "Login", actionsEnabled: false),
+      appBar: const MyAppBar(title: "Login"),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
