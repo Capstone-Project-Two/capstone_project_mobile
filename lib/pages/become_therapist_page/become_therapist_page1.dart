@@ -1,7 +1,9 @@
-import 'package:capstone_project_mobile/pages/become_therapist_page/become_therapist_page2.dart';
-import 'package:capstone_project_mobile/pages/layout_page.dart';
-import 'package:flutter/material.dart';
+// ignore_for_file: prefer_const_constructors
 
+import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
+import 'package:capstone_project_mobile/pages/become_therapist_page/become_therapist_page2.dart';
+import 'package:capstone_project_mobile/pages/login/login_email_page.dart';
+import 'package:flutter/material.dart';
 
 class BecomeTherapistPage1 extends StatelessWidget {
   final img1 =
@@ -19,54 +21,24 @@ class BecomeTherapistPage1 extends StatelessWidget {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      appBar: _buildPreferredSize(context),
+      appBar: const MyAppBar(
+        title: "Therapist Sign Up",
+        actionsEnabled: true,
+      ),
       body: _buildBody(context),
       bottomNavigationBar: _buildBottomAppBar(context),
     );
   }
 
-  PreferredSize _buildPreferredSize(BuildContext context) {
+  Widget _buildBottomAppBar(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
-    return PreferredSize(
-      preferredSize:
-          const Size.fromHeight(65.0), // Set the height of the AppBar
-      child: ClipRRect(
-        borderRadius: const BorderRadius.vertical(
-          bottom: Radius.circular(20.0), // Adjust the radius as needed
-        ),
-        child: AppBar(
-          backgroundColor: colorScheme.primary,
-          title: Text(
-            "Therapist Sign Up",
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary,
-              fontSize: 22,
-              fontFamily: 'Kantumruy Pro', // Specify your font family
-              fontWeight: FontWeight.w500, // Use FontWeight.w700 for bold
-            ),
-          ),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  colorScheme.primary,
-                  colorScheme.secondary,
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildBottomAppBar(BuildContext context) {
     return SizedBox(
       height: 50, // Set the desired height for the BottomAppBar
       child: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        color: Colors.white,
+        color: colorScheme.background,
+        elevation: 0,
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -86,11 +58,10 @@ class BecomeTherapistPage1 extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              const LayoutPage(selectedIndex: 4)));
+                          builder: (context) => const LoginEmail()));
                 },
                 child: const Text(
-                  "Sign Up",
+                  "Sign In",
                   style: TextStyle(
                     color: Colors.blue,
                     fontSize: 16,
@@ -141,12 +112,7 @@ class BecomeTherapistPage1 extends StatelessWidget {
         labelText: "Email", // Label text
         labelStyle: const TextStyle(
           color: Colors.grey, // Label color
-          fontSize: 20,
-        ),
-        hintText: "Input Text",
-        hintStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 20,
+          fontSize: 18,
         ),
         filled: true,
         fillColor: Colors.white,
@@ -156,17 +122,6 @@ class BecomeTherapistPage1 extends StatelessWidget {
             color: Colors.grey,
             width: 2.0,
           ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(
-            color: Colors.black,
-            width: 2.0,
-          ),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 15,
-          horizontal: 10,
         ),
       ),
       validator: (value) {
@@ -188,12 +143,7 @@ class BecomeTherapistPage1 extends StatelessWidget {
         labelText: "First Name", // Label text
         labelStyle: const TextStyle(
           color: Colors.grey, // Label color
-          fontSize: 20,
-        ),
-        hintText: "Input Text",
-        hintStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 20,
+          fontSize: 18,
         ),
         filled: true,
         fillColor: Colors.white,
@@ -203,17 +153,6 @@ class BecomeTherapistPage1 extends StatelessWidget {
             color: Colors.grey,
             width: 2.0,
           ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(
-            color: Colors.black,
-            width: 2.0,
-          ),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 15,
-          horizontal: 10,
         ),
       ),
       validator: (value) {
@@ -232,12 +171,7 @@ class BecomeTherapistPage1 extends StatelessWidget {
         labelText: "Last Name", // Label text
         labelStyle: const TextStyle(
           color: Colors.grey, // Label color
-          fontSize: 20,
-        ),
-        hintText: "Input Text",
-        hintStyle: const TextStyle(
-          color: Colors.black,
-          fontSize: 20,
+          fontSize: 18,
         ),
         filled: true,
         fillColor: Colors.white,
@@ -247,17 +181,6 @@ class BecomeTherapistPage1 extends StatelessWidget {
             color: Colors.grey,
             width: 2.0,
           ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(
-            color: Colors.black,
-            width: 2.0,
-          ),
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 15,
-          horizontal: 10,
         ),
       ),
       validator: (value) {

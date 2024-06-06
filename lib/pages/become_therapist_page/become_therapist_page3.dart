@@ -1,4 +1,6 @@
+import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/pages/layout_page.dart';
+import 'package:capstone_project_mobile/pages/login/login_email_page.dart';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 // import 'package:flutter/widgets.dart';
@@ -28,45 +30,12 @@ class _BecomeTherapistPage3State extends State<BecomeTherapistPage3> {
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.white,
-      appBar: _buildPreferredSize(context),
+      appBar: const MyAppBar(
+        title: "Therapist Sign Up",
+        actionsEnabled: true,
+      ),
       body: _buildBody(context),
       bottomNavigationBar: _buildBottomAppBar(context),
-    );
-  }
-
-  PreferredSize _buildPreferredSize(BuildContext context) {
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
-
-    return PreferredSize(
-      preferredSize:
-          const Size.fromHeight(65.0), // Set the height of the AppBar
-      child: ClipRRect(
-        borderRadius: const BorderRadius.vertical(
-          bottom: Radius.circular(20.0), // Adjust the radius as needed
-        ),
-        child: AppBar(
-          backgroundColor: colorScheme.primary,
-          title: Text(
-            "Therapist Sign Up",
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary,
-              fontSize: 22,
-              fontFamily: 'Kantumruy Pro', // Specify your font family
-              fontWeight: FontWeight.w500, // Use FontWeight.w700 for bold
-            ),
-          ),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  colorScheme.primary,
-                  colorScheme.secondary,
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -76,6 +45,7 @@ class _BecomeTherapistPage3State extends State<BecomeTherapistPage3> {
       child: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         color: Colors.white,
+        elevation: 0,
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -95,11 +65,10 @@ class _BecomeTherapistPage3State extends State<BecomeTherapistPage3> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>
-                              const LayoutPage(selectedIndex: 4)));
+                          builder: (context) => const LoginEmail()));
                 },
                 child: const Text(
-                  "Sign Up",
+                  "Sign In",
                   style: TextStyle(
                     color: Colors.blue, // Change the text color if needed
                     fontSize: 16, // Adjust the font size if needed
@@ -209,10 +178,9 @@ class _BecomeTherapistPage3State extends State<BecomeTherapistPage3> {
         onPressed: () {
           if (_formKey.currentState!.validate()) {
             Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              const LayoutPage(selectedIndex: 0)));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const LayoutPage(selectedIndex: 0)));
           }
         },
         style: ElevatedButton.styleFrom(
@@ -241,7 +209,7 @@ class _BecomeTherapistPage3State extends State<BecomeTherapistPage3> {
           width: double.infinity,
           height: 20.0,
         ),
-       Positioned(
+        Positioned(
           left: 0.0, // Position at left edge
           right: 0.0, // Position at right edge
           top: 15.0, // Adjust vertical position within the container
@@ -251,7 +219,7 @@ class _BecomeTherapistPage3State extends State<BecomeTherapistPage3> {
           ),
         ),
         // Centered Text (optional)
-         Positioned(
+        Positioned(
           child: Text(
             "\u00A0\u00A0\u00A0\u00A0 or \u00A0\u00A0\u00A0\u00A0",
             style: TextStyle(
