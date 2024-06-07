@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool actionsEnabled;
+  final bool leadingEnabled;
 
   const MyAppBar(
-      {super.key, required this.title, required this.actionsEnabled});
+      {super.key, required this.title, this.actionsEnabled = false, this.leadingEnabled = true});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                       icon: const Icon(Icons.login))
                 ]
               : null,
-          // automaticallyImplyLeading: false,
+          automaticallyImplyLeading: leadingEnabled,
           backgroundColor: colorScheme.primary,
           title: Padding(
             padding: const EdgeInsets.only(

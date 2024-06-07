@@ -116,7 +116,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
     return Scaffold(
       appBar: const MyAppBar(
         title: 'Create Post',
-        actionsEnabled: false,
       ),
       body: Container(
         padding: const EdgeInsets.all(25),

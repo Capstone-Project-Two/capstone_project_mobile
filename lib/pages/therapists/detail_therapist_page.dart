@@ -28,7 +28,6 @@ class _DetailTherapistPageState extends State<DetailTherapistPage> {
     return Scaffold(
         appBar: const MyAppBar(
           title: 'Detailed Therapist',
-          actionsEnabled: false,
         ),
         body: FutureBuilder(
           future: futureTherapist,
