@@ -1,11 +1,11 @@
-// ignore_for_file: avoid_print
-
 import 'package:capstone_project_mobile/components/cards/therapist_card.dart';
+import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/model/dto/create_appointment.dart';
 import 'package:capstone_project_mobile/model/therapist.dart';
-import 'package:capstone_project_mobile/pages/therapists/success_screen.dart';
+import 'package:capstone_project_mobile/pages/layout_page.dart';
 import 'package:capstone_project_mobile/services/post_service.dart';
+import 'package:capstone_project_mobile/shared/success_screen.dart';
 import 'package:flutter/material.dart';
 
 class BookingPage extends StatefulWidget {
@@ -33,21 +33,46 @@ class _BookingPageState extends State<BookingPage> {
     if (_notesController.text.isEmpty ||
         _symtomsController.text.isEmpty ||
         _dateController.text.isEmpty) {
-      print('Empty');
+      showDialog(
+          context: context,
+          builder: (context) =>
+              const ErrorDialog(text: 'Please input the required fields.'));
     } else {
       var res = await createAppointment(CreateAppointment(
               note: _notesController.text,
               symptoms: _symtomsController.text,
               therapist: widget.therapist.id,
-              patient: '61646d696e0123456789abcd',
+              patient: '63686861790123456789abcd',
               scheduleDate: _dateController.text))
           .then(
         (value) {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const SuccessScreen(
+              builder: (context) => SuccessScreen(
                 successMsg: 'Booking Completed',
+                backBtnTitle: 'Go to Therapist Page',
+                nextBtnTitle: 'View Booking Details',
+                backBtn: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LayoutPage(
+                        selectedIndex: 2,
+                      ),
+                    ),
+                  );
+                },
+                nextBtn: () {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const LayoutPage(
+                        selectedIndex: 2,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           );
@@ -57,11 +82,10 @@ class _BookingPageState extends State<BookingPage> {
           return value;
         },
       ).catchError((err) {
-        print(err);
-        // showDialog(
-        //   context: context,
-        //   builder: (context) => ErrorDialog(text: err.toString()),
-        // );
+        showDialog(
+          context: context,
+          builder: (context) => ErrorDialog(text: err.toString()),
+        );
       }).whenComplete(
         () => setState(() {
           loading = false;

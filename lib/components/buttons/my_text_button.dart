@@ -19,9 +19,6 @@ class MyTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
-    if (loading) {
-      return const CircularProgressIndicator();
-    }
     return TextButton(
       style: ButtonStyle(
         shape: MaterialStateProperty.all(
