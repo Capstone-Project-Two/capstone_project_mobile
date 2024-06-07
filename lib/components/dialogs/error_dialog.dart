@@ -14,7 +14,9 @@ class ErrorDialog extends StatelessWidget {
         child: Center(
           child: Text(
             text,
+            textAlign: TextAlign.center,
             style: const TextStyle(
+              overflow: TextOverflow.visible,
               color: Colors.white,
             ),
           ),
