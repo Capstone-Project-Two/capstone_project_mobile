@@ -2,27 +2,12 @@ import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/pages/become_therapist_page/become_therapist_page3.dart';
 import 'package:capstone_project_mobile/pages/login/login_email_page.dart';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
 
-class BecomeTherapistPage2 extends StatefulWidget {
-  const BecomeTherapistPage2({super.key});
-
-  @override
-  State<BecomeTherapistPage2> createState() => _BecomeTherapistPage2State();
-}
-
-class _BecomeTherapistPage2State extends State<BecomeTherapistPage2> {
-  final img1 =
-      "https://i.pinimg.com/736x/d2/28/6e/d2286eb8935144d6cbfa0b40744aa41e.jpg";
-  final img2 =
-      "https://w0.peakpx.com/wallpaper/681/788/HD-wallpaper-hualian-hua-cheng-mxtx-tgcf-tian-guan-ci-fu-xie-lian-thumbnail.jpg";
-
+class BecomeTherapistPage2 extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
-  // BecomeTherapistPage2({super.key});
-
-  String? _filePath;
+  BecomeTherapistPage2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -99,14 +84,14 @@ class _BecomeTherapistPage2State extends State<BecomeTherapistPage2> {
             ),
             const SizedBox(height: 20),
             _buildFileUploadButton(context),
-            if (_filePath != null) ...[
-              const SizedBox(height: 10),
-              Text('Selected file: $_filePath')
-            ],
+            // if (_filePath != null) ...[
+            //   const SizedBox(height: 10),
+            //   Text('Selected file: $_filePath')
+            // ],
             const SizedBox(height: 20),
             _buildStack(),
             const SizedBox(height: 20),
-            _buildTakePhoto(),
+            _buildTakePhoto(context),
             const SizedBox(height: 20),
             _buildNextButton(context),
           ],
@@ -122,16 +107,9 @@ class _BecomeTherapistPage2State extends State<BecomeTherapistPage2> {
       height: 200,
       child: ElevatedButton(
         onPressed: () async {
-          FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-          if (result != null) {
-            setState(() {
-              _filePath = result.files.single.path;
-            });
-          }
+          //upload file place
         },
         style: ElevatedButton.styleFrom(
-          
           backgroundColor: colorScheme.onPrimary,
           foregroundColor: colorScheme.onPrimary,
           textStyle: const TextStyle(fontSize: 20),
@@ -180,8 +158,7 @@ class _BecomeTherapistPage2State extends State<BecomeTherapistPage2> {
             // context.router.push(const BecomeTherapistPage3());
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => const BecomeTherapistPage3()),
+              MaterialPageRoute(builder: (context) => BecomeTherapistPage3()),
             );
           }
         },
@@ -235,19 +212,21 @@ class _BecomeTherapistPage2State extends State<BecomeTherapistPage2> {
     );
   }
 
-  Widget _buildTakePhoto() {
+  Widget _buildTakePhoto(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return SizedBox(
       width: double.infinity,
       height: 60,
       child: ElevatedButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            // context.router.push(BecomeTherapistPage2());
+            //take photo place
           }
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.blue,
-          foregroundColor: Theme.of(context).colorScheme.onPrimary,
+          foregroundColor: colorScheme.onPrimary,
           textStyle: const TextStyle(fontSize: 20),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),

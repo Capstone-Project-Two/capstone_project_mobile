@@ -6,11 +6,6 @@ import 'package:capstone_project_mobile/pages/login/login_email_page.dart';
 import 'package:flutter/material.dart';
 
 class BecomeTherapistPage1 extends StatelessWidget {
-  final img1 =
-      "https://i.pinimg.com/736x/d2/28/6e/d2286eb8935144d6cbfa0b40744aa41e.jpg";
-  final img2 =
-      "https://w0.peakpx.com/wallpaper/681/788/HD-wallpaper-hualian-hua-cheng-mxtx-tgcf-tian-guan-ci-fu-xie-lian-thumbnail.jpg";
-
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
@@ -92,11 +87,41 @@ class BecomeTherapistPage1 extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
-            _buildFirstName(),
+            _buildTextField(
+              labelText: 'First Name',
+              keyboardType: TextInputType.name,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your first name';
+                }
+                return null;
+              },
+            ),
             const SizedBox(height: 20),
-            _buildLastName(),
+            _buildTextField(
+              labelText: 'Last Name',
+              keyboardType: TextInputType.name,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your last name';
+                }
+                return null;
+              },
+            ),
             const SizedBox(height: 20),
-            _buildEmailTextField(),
+            _buildTextField(
+              labelText: 'Email',
+              keyboardType: TextInputType.emailAddress,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter your email';
+                }
+                if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                  return 'Please enter a valid email address';
+                }
+                return null;
+              },
+            ),
             const SizedBox(height: 20),
             _buildNextButton(context),
           ],
@@ -105,91 +130,30 @@ class BecomeTherapistPage1 extends StatelessWidget {
     );
   }
 
-  Widget _buildEmailTextField() {
+  Widget _buildTextField({
+    required TextInputType keyboardType,
+    required String labelText,
+    String? Function(String?)? validator,
+  }) {
     return TextFormField(
-      keyboardType: TextInputType.emailAddress,
-      decoration: InputDecoration(
-        labelText: "Email", // Label text
-        labelStyle: const TextStyle(
-          color: Colors.grey, // Label color
-          fontSize: 18,
-        ),
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(
-            color: Colors.grey,
-            width: 2.0,
+        keyboardType: keyboardType,
+        decoration: InputDecoration(
+          labelText: labelText, // Label text
+          labelStyle: const TextStyle(
+            color: Colors.grey, // Label color
+            fontSize: 18,
+          ),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: const BorderSide(
+              color: Colors.grey,
+              width: 2.0,
+            ),
           ),
         ),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your email';
-        }
-        if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-          return 'Please enter a valid email address';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _buildFirstName() {
-    return TextFormField(
-      keyboardType: TextInputType.name,
-      decoration: InputDecoration(
-        labelText: "First Name", // Label text
-        labelStyle: const TextStyle(
-          color: Colors.grey, // Label color
-          fontSize: 18,
-        ),
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(
-            color: Colors.grey,
-            width: 2.0,
-          ),
-        ),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your first name';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _buildLastName() {
-    return TextFormField(
-      keyboardType: TextInputType.name,
-      decoration: InputDecoration(
-        labelText: "Last Name", // Label text
-        labelStyle: const TextStyle(
-          color: Colors.grey, // Label color
-          fontSize: 18,
-        ),
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(
-            color: Colors.grey,
-            width: 2.0,
-          ),
-        ),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Please enter your Last name';
-        }
-        return null;
-      },
-    );
+        validator: validator);
   }
 
   Widget _buildNextButton(BuildContext context) {
@@ -204,7 +168,7 @@ class BecomeTherapistPage1 extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const BecomeTherapistPage2()),
+                  builder: (context) => BecomeTherapistPage2()),
             );
           }
         },
