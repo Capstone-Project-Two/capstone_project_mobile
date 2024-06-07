@@ -82,11 +82,10 @@ class _BookingPageState extends State<BookingPage> {
           return value;
         },
       ).catchError((err) {
-        print(err);
-        // showDialog(
-        //   context: context,
-        //   builder: (context) => ErrorDialog(text: err.toString()),
-        // );
+        showDialog(
+          context: context,
+          builder: (context) => ErrorDialog(text: err.toString()),
+        );
       }).whenComplete(
         () => setState(() {
           loading = false;
