@@ -1,8 +1,7 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/pages/become_therapist_page/become_therapist_page2.dart';
+import 'package:capstone_project_mobile/pages/therapist_sign_up/input_nid_page.dart';
 import 'package:capstone_project_mobile/pages/login/login_email_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BecomeTherapistPage1 extends StatelessWidget {
@@ -52,7 +51,7 @@ class BecomeTherapistPage1 extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
                           builder: (context) => const LoginEmail()));
                 },
                 child: const Text(
@@ -71,6 +70,7 @@ class BecomeTherapistPage1 extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
+    TextTheme textTheme = Theme.of(context).textTheme;
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20.0),
       child: Form(
@@ -79,11 +79,10 @@ class BecomeTherapistPage1 extends StatelessWidget {
           crossAxisAlignment:
               CrossAxisAlignment.start, // Align children to the start
           children: [
-            const Text(
+            Text(
               "Input Personal Information",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
+              style: textTheme.displayMedium!.copyWith(
+                fontWeight: FontWeight.normal,
               ),
             ),
             const SizedBox(height: 20),
@@ -167,8 +166,7 @@ class BecomeTherapistPage1 extends StatelessWidget {
           if (_formKey.currentState!.validate()) {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                  builder: (context) => BecomeTherapistPage2()),
+              CupertinoPageRoute(builder: (context) => BecomeTherapistPage2()),
             );
           }
         },
@@ -177,7 +175,7 @@ class BecomeTherapistPage1 extends StatelessWidget {
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           textStyle: const TextStyle(fontSize: 20),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(100),
           ),
           padding: const EdgeInsets.symmetric(
             vertical: 15,

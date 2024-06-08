@@ -1,30 +1,23 @@
 import 'package:capstone_project_mobile/theme/base_app_colors.dart';
 import 'package:flutter/material.dart';
 
-Color primaryColor = const Color(0xFF005EDC);
-Color secondaryColor = const Color(0xFF7908D2);
-Color backgroundColor = const Color(0xFFF2F8FF);
-Color tertiaryColor = const Color(0xFF3B3B3B);
-Color inversePrimaryColor = const Color(0xFFFFFFFF);
-
 ThemeData appTheme = ThemeData(
   appBarTheme: AppBarTheme(
-    backgroundColor: primaryColor,
+    backgroundColor: BaseAppColors.primaryColor,
     titleTextStyle: TextStyle(
-      color: inversePrimaryColor,
+      color: BaseAppColors.inversePrimaryColor,
       fontSize: 24,
     ),
     iconTheme: IconThemeData(
-      color: inversePrimaryColor,
+      color: BaseAppColors.inversePrimaryColor,
     ),
   ),
   colorScheme: ColorScheme.light(
     primary: BaseAppColors.primaryColor,
     secondary: BaseAppColors.secondaryColor,
-    surface: BaseAppColors.backgroundColor,
+    surface: BaseAppColors.surfaceColor,
     tertiary: BaseAppColors.tertiaryColor,
     inversePrimary: BaseAppColors.inversePrimaryColor,
-    
   ),
   textTheme: const TextTheme(
     displayLarge: TextStyle(

@@ -1,13 +1,14 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/pages/layout_page.dart';
+import 'package:capstone_project_mobile/pages/therapist_sign_up/upload_certificates_page.dart';
 import 'package:capstone_project_mobile/pages/login/login_email_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BecomeTherapistPage3 extends StatelessWidget {
+class BecomeTherapistPage2 extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
-  BecomeTherapistPage3({super.key});
+  BecomeTherapistPage2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class BecomeTherapistPage3 extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(
+                      CupertinoPageRoute(
                           builder: (context) => const LoginEmail()));
                 },
                 child: const Text(
@@ -84,6 +85,10 @@ class BecomeTherapistPage3 extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             _buildFileUploadButton(context),
+            // if (_filePath != null) ...[
+            //   const SizedBox(height: 10),
+            //   Text('Selected file: $_filePath')
+            // ],
             const SizedBox(height: 20),
             _buildStack(),
             const SizedBox(height: 20),
@@ -103,7 +108,7 @@ class BecomeTherapistPage3 extends StatelessWidget {
       height: 200,
       child: ElevatedButton(
         onPressed: () async {
-            //upload file
+          //upload file place
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: colorScheme.onPrimary,
@@ -151,10 +156,11 @@ class BecomeTherapistPage3 extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {
+            // context.router.push(const BecomeTherapistPage3());
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const LayoutPage(selectedIndex: 0)));
+              context,
+              CupertinoPageRoute(builder: (context) => BecomeTherapistPage3()),
+            );
           }
         },
         style: ElevatedButton.styleFrom(
@@ -162,7 +168,7 @@ class BecomeTherapistPage3 extends StatelessWidget {
           foregroundColor: Theme.of(context).colorScheme.onPrimary,
           textStyle: const TextStyle(fontSize: 20),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(100),
           ),
           padding: const EdgeInsets.symmetric(
             vertical: 15,
@@ -224,7 +230,7 @@ class BecomeTherapistPage3 extends StatelessWidget {
           foregroundColor: colorScheme.onPrimary,
           textStyle: const TextStyle(fontSize: 20),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(100),
           ),
           padding: const EdgeInsets.symmetric(
             vertical: 15,

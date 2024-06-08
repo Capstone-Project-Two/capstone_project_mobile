@@ -1,9 +1,10 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/pages/become_therapist_page/become_therapist_page1.dart';
+import 'package:capstone_project_mobile/pages/therapist_sign_up/input_information_page.dart';
 import 'package:capstone_project_mobile/pages/layout_page.dart';
 import 'package:capstone_project_mobile/pages/login/login_phone_page.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:capstone_project_mobile/theme/base_app_colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class LoginEmail extends StatefulWidget {
@@ -19,14 +20,13 @@ class LoginEmailState extends State<LoginEmail> {
   void _signIn() async {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const LoadingScreen()),
+      CupertinoPageRoute(builder: (context) => const LoadingScreen()),
     );
 
-    // Simulate a 3-second delay for loading
     await Future.delayed(const Duration(seconds: 1), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LayoutPage()),
+        CupertinoPageRoute(builder: (context) => const LayoutPage()),
       );
     });
   }
@@ -34,7 +34,7 @@ class LoginEmailState extends State<LoginEmail> {
   void _loginPhone() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const LoginPhone()),
+      CupertinoPageRoute(builder: (context) => const LoginPhone()),
     );
   }
 
@@ -225,7 +225,7 @@ class LoginEmailState extends State<LoginEmail> {
                   // Handle therapist sign up
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    CupertinoPageRoute(
                         builder: (context) => BecomeTherapistPage1()),
                   );
                 },
