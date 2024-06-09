@@ -43,7 +43,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       loading = true;
     });
 
-    await Future.delayed(const Duration(seconds: 3));
+    // await Future.delayed(const Duration(seconds: 3));
 
     var res = await createPost(
       postImages.isNotEmpty
@@ -59,38 +59,38 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             ),
     ).then(
       (value) {
-        Navigator.push(
-          context,
-          CupertinoPageRoute(
-            builder: (context) => SuccessScreen(
-              backBtn: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LayoutPage(
-                      selectedIndex: 0,
-                    ),
-                  ),
-                );
-              },
-              nextBtn: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LayoutPage(
-                      selectedIndex: 1,
-                    ),
-                  ),
-                );
-              },
-              successMsg: "Post Created Successfully",
-              backBtnTitle: "Go to home page",
-              nextBtnTitle: "View forum",
-            ),
-          ),
-        );
-        // Navigator.of(context).pop();
-        // return value;
+        // Navigator.pushReplacement(
+        //   context,
+        //   CupertinoPageRoute(
+        //     builder: (context) => SuccessScreen(
+        //       backBtn: () {
+        //         Navigator.pushReplacement(
+        //           context,
+        //           CupertinoPageRoute(
+        //             builder: (context) => const LayoutPage(
+        //               selectedIndex: 0,
+        //             ),
+        //           ),
+        //         );
+        //       },
+        //       nextBtn: () {
+        //         Navigator.pushReplacement(
+        //           context,
+        //           CupertinoPageRoute(
+        //             builder: (context) => const LayoutPage(
+        //               selectedIndex: 1,
+        //             ),
+        //           ),
+        //         );
+        //       },
+        //       successMsg: "Post Created Successfully",
+        //       backBtnTitle: "Go to home page",
+        //       nextBtnTitle: "View forum",
+        //     ),
+        //   ),
+        // );
+        // // Navigator.of(context).pop();
+        return value;
       },
     ).catchError((err) {
       showDialog(
@@ -189,6 +189,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               loading: loading,
               handleCreatePost: handleCreatePost,
               bodyController: bodyController,
+              isDisabled: bodyController.text.isEmpty && postImages.isEmpty,
             ),
             const SizedBox(
               height: 20,
@@ -207,11 +208,13 @@ class PostButton extends StatelessWidget {
   final bool loading;
   final Function(String text) handleCreatePost;
   final TextEditingController bodyController;
+  final bool isDisabled;
   const PostButton({
     super.key,
     required this.loading,
     required this.handleCreatePost,
     required this.bodyController,
+    required this.isDisabled,
   });
 
   @override
@@ -220,10 +223,13 @@ class PostButton extends StatelessWidget {
     TextTheme textTheme = Theme.of(context).textTheme;
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(colorScheme.primary),
+        backgroundColor: MaterialStateProperty.all(
+            !isDisabled ? colorScheme.primary : Colors.grey.shade500),
       ),
       onPressed: () async {
-        loading ? null : await handleCreatePost(bodyController.text);
+        if (!isDisabled) {
+          loading ? null : await handleCreatePost(bodyController.text);
+        }
       },
       child: Container(
         width: double.infinity,

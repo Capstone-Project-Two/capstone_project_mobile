@@ -78,9 +78,8 @@ class HttpService {
 
   Future httpMultiPartRequest(
       {required dynamic body, required List<String> files}) async {
-    var request = http.MultipartRequest(HttpMethod.postMethod, url);
-
     if (files.isNotEmpty) {
+      var request = http.MultipartRequest(HttpMethod.postMethod, url);
       for (int i = 0; i < files.length; i++) {
         dynamic uploadedFiles = await http.MultipartFile.fromPath(
           'postPhotos',
@@ -90,19 +89,24 @@ class HttpService {
         });
         request.files.add(uploadedFiles);
       }
-    }
+      body.forEach((key, value) {
+        String stringValue = value.toString();
+        request.fields[key] = stringValue;
+      });
 
-    body.forEach((key, value) {
-      String stringValue = value.toString();
-      request.fields[key] = stringValue;
-    });
+      StreamedResponse response = await request.send();
 
-    http.StreamedResponse response = await request.send();
-
-    if (response.statusCode == 200) {
-      return response;
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return response.statusCode;
+      }
     } else {
-      return response.statusCode;
+      var res = await http.post(url, body: jsonEncode(body), headers: headers);
+
+      var jsonData = jsonDecode(res.body);
+
+      return HttpResponse(jsonData: jsonData, httpRes: res);
     }
   }
 }

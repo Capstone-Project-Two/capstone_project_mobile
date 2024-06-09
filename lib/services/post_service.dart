@@ -31,14 +31,14 @@ Future createPost(CreatePost body) async {
 
   List<String> files = [];
 
+  if (body.body.isEmpty && body.postPhotos!.isEmpty) {
+    throw ErrorDescription('Please fill sth');
+  }
+
   if (body.postPhotos!.isNotEmpty) {
     for (int i = 0; i < body.postPhotos!.length; i++) {
       files.add(body.postPhotos![i].path);
     }
-  }
-
-  if (body.body.isEmpty && body.postPhotos!.isEmpty) {
-    throw ErrorDescription('Please fill sth');
   }
 
   var res = await httpService.httpMultiPartRequest(
