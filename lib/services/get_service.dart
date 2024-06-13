@@ -3,13 +3,14 @@ import 'package:capstone_project_mobile/model/patient.dart';
 import 'package:capstone_project_mobile/model/post.dart';
 import 'package:capstone_project_mobile/model/therapist.dart';
 import 'package:capstone_project_mobile/services/http_service.dart';
+import 'package:capstone_project_mobile/utils/api_helper.dart';
 
 Future<List<Patient>> fetchPatients() async {
   List<Patient> patients = [];
   HttpService httpService = HttpService(path: ApiRoute.patients.name);
   var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
 
-  if (httpRes.statusCode == 200) {
+  if (ApiHelper.isOk(httpRes.statusCode)) {
     for (var eachPatient in jsonData['data']) {
       patients.add(Patient.fromJson(eachPatient));
     }
@@ -25,7 +26,7 @@ Future<List<Post>> fetchPosts() async {
   HttpService httpService = HttpService(path: ApiRoute.posts.name);
   var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
 
-  if (httpRes.statusCode == 200) {
+  if (ApiHelper.isOk(httpRes.statusCode)) {
     for (var eachPost in jsonData['data']) {
       posts.add(Post.fromJson(eachPost));
     }
@@ -40,7 +41,7 @@ Future<Post> fetchOnePost(String postId) async {
   HttpService httpService = HttpService(path: '${ApiRoute.posts.name}/$postId');
   var HttpResponse(:httpRes, :jsonData) = await httpService.httpGet();
 
-  if (httpRes.statusCode == 200) {
+  if (ApiHelper.isOk(httpRes.statusCode)) {
     return Post.fromJson(jsonData['data']);
   } else {
     throw jsonData;
@@ -52,7 +53,7 @@ Future<List<Therapist>> fetchTherapists() async {
   HttpService httpService = HttpService(path: ApiRoute.therapists.name);
   var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
 
-  if (httpRes.statusCode == 200) {
+  if (ApiHelper.isOk(httpRes.statusCode)) {
     for (var eachTherapist in jsonData['data']) {
       therapists.add(Therapist.fromJson(eachTherapist));
     }
@@ -68,7 +69,7 @@ Future<Therapist> fetchOneTherapist(String therapistId) async {
       HttpService(path: '${ApiRoute.therapists.name}/$therapistId');
   var HttpResponse(:httpRes, :jsonData) = await httpService.httpGet();
 
-  if (httpRes.statusCode == 200) {
+  if (ApiHelper.isOk(httpRes.statusCode)) {
     return Therapist.fromJson(jsonData['data']);
   } else {
     throw jsonData;

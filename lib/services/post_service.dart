@@ -4,7 +4,7 @@ import 'package:capstone_project_mobile/constants/api_route_constant.dart';
 import 'package:capstone_project_mobile/model/dto/create_appointment.dart';
 import 'package:capstone_project_mobile/model/dto/create_post.dart';
 import 'package:capstone_project_mobile/services/http_service.dart';
-import 'package:flutter/material.dart';
+import 'package:capstone_project_mobile/utils/api_helper.dart';
 
 Future createAppointment(CreateAppointment body) async {
   HttpService httpService = HttpService(path: ApiRoute.appointments.name);
@@ -19,7 +19,7 @@ Future createAppointment(CreateAppointment body) async {
     }),
   );
 
-  if (httpRes.statusCode == 201) {
+  if (ApiHelper.isOk(httpRes.statusCode)) {
     return httpRes;
   } else {
     throw jsonData;
@@ -31,25 +31,36 @@ Future createPost(CreatePost body) async {
 
   List<String> files = [];
 
-  if (body.body.isEmpty && body.postPhotos!.isEmpty) {
-    throw ErrorDescription('Please fill sth');
-  }
-
   if (body.postPhotos!.isNotEmpty) {
     for (int i = 0; i < body.postPhotos!.length; i++) {
       files.add(body.postPhotos![i].path);
     }
   }
 
-  var res = await httpService.httpMultiPartRequest(
+  if (files.isNotEmpty) {
+    var res = await httpService.httpMultiPartRequest(
+      body: {
+        'body': body.body,
+        'patient': body.patient,
+      },
+      files: files,
+    );
+
+    return res;
+  }
+  var HttpResponse(:httpRes, :jsonData) =
+      await httpService.httpMultiPartRequest(
     body: {
       'body': body.body,
       'patient': body.patient,
     },
-    files: files,
+    files: [],
   );
-
-  return res;
+  if (ApiHelper.isOk(httpRes.statusCode)) {
+    return httpRes;
+  } else {
+    throw jsonData;
+  }
 }
 
 Future likePost({required String id, required String patientId}) async {
@@ -64,7 +75,7 @@ Future likePost({required String id, required String patientId}) async {
     ),
   );
 
-  if (httpRes.statusCode == 200 || httpRes.statusCode == 201) {
+  if (ApiHelper.isOk(httpRes.statusCode)) {
     return httpRes;
   } else {
     throw jsonData;

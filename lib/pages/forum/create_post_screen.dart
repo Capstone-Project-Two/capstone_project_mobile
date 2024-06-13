@@ -189,7 +189,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               loading: loading,
               handleCreatePost: handleCreatePost,
               bodyController: bodyController,
-              isDisabled: bodyController.text.isEmpty && postImages.isEmpty,
             ),
             const SizedBox(
               height: 20,
@@ -208,13 +207,11 @@ class PostButton extends StatelessWidget {
   final bool loading;
   final Function(String text) handleCreatePost;
   final TextEditingController bodyController;
-  final bool isDisabled;
   const PostButton({
     super.key,
     required this.loading,
     required this.handleCreatePost,
     required this.bodyController,
-    required this.isDisabled,
   });
 
   @override
@@ -223,13 +220,10 @@ class PostButton extends StatelessWidget {
     TextTheme textTheme = Theme.of(context).textTheme;
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(
-            !isDisabled ? colorScheme.primary : Colors.grey.shade500),
+        backgroundColor: MaterialStateProperty.all(colorScheme.primary),
       ),
       onPressed: () async {
-        if (!isDisabled) {
-          loading ? null : await handleCreatePost(bodyController.text);
-        }
+        loading ? null : await handleCreatePost(bodyController.text);
       },
       child: Container(
         width: double.infinity,
