@@ -3,6 +3,7 @@ import 'package:capstone_project_mobile/model/dto/create_appointment.dart';
 import 'package:capstone_project_mobile/model/dto/create_post.dart';
 import 'package:capstone_project_mobile/services/http_service.dart';
 import 'package:capstone_project_mobile/utils/api_helper.dart';
+import 'package:http/http.dart';
 
 class PostService {
   static Future createAppointment(CreateAppointment body) async {
@@ -37,15 +38,7 @@ class PostService {
     }
 
     if (files.isNotEmpty) {
-      var res = await httpService.httpMultiPartRequest(
-        body: {
-          'body': body.body,
-          'patient': body.patient,
-        },
-        files: files,
-      );
-
-      return res;
+      return await uploadPostPhotos(httpService, body, files);
     }
     var HttpResponse(:httpRes, :jsonData) =
         await httpService.httpMultiPartRequest(
@@ -57,6 +50,23 @@ class PostService {
     );
     if (ApiHelper.isOk(httpRes.statusCode)) {
       return httpRes;
+    } else {
+      throw jsonData;
+    }
+  }
+
+  static Future<StreamedResponse> uploadPostPhotos(
+      HttpService httpService, CreatePost body, List<String> files) async {
+    var MultipartResponse(:jsonData, :response) =
+        await httpService.httpMultiPartRequest(
+      body: {
+        'body': body.body,
+        'patient': body.patient,
+      },
+      files: files,
+    );
+    if (ApiHelper.isOk(response.statusCode)) {
+      return response;
     } else {
       throw jsonData;
     }

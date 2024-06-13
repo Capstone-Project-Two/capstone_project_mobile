@@ -21,6 +21,16 @@ class HttpResponse {
   });
 }
 
+class MultipartResponse {
+  final StreamedResponse response;
+  final dynamic jsonData;
+
+  MultipartResponse({
+    required this.response,
+    required this.jsonData,
+  });
+}
+
 class HttpService {
   final String path;
 
@@ -76,8 +86,10 @@ class HttpService {
     );
   }
 
-  Future httpMultiPartRequest(
-      {required dynamic body, required List<String> files}) async {
+  Future httpMultiPartRequest({
+    required dynamic body,
+    required List<String> files,
+  }) async {
     if (files.isNotEmpty) {
       var request = http.MultipartRequest(HttpMethod.postMethod, url);
       for (int i = 0; i < files.length; i++) {
@@ -95,18 +107,11 @@ class HttpService {
       });
 
       StreamedResponse response = await request.send();
+      var jsonData = jsonDecode(await response.stream.bytesToString());
 
-      if (response.statusCode == 200) {
-        return response;
-      } else {
-        return response.statusCode;
-      }
+      return MultipartResponse(response: response, jsonData: jsonData);
     } else {
-      var res = await http.post(url, body: jsonEncode(body), headers: headers);
-
-      var jsonData = jsonDecode(res.body);
-
-      return HttpResponse(jsonData: jsonData, httpRes: res);
+      return await httpPost(body: body);
     }
   }
 }
