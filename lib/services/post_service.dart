@@ -74,7 +74,8 @@ class PostService {
 
   static Future likePost(
       {required String id, required String patientId}) async {
-    HttpService httpService = HttpService(path: "like-posts/$id");
+    HttpService httpService =
+        HttpService(path: "${ApiRoute.likePosts.name}/$id");
 
     var HttpResponse(:httpRes, :jsonData) = await httpService.httpPatch(
       body: {
