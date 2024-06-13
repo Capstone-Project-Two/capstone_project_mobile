@@ -7,7 +7,7 @@ class LoadingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Container(
-      color: colorScheme.background,
+      color: colorScheme.surface,
       child: const Center(
         child: CircularProgressIndicator(),
       ),

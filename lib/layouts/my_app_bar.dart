@@ -8,7 +8,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final bool leadingEnabled;
 
   const MyAppBar(
-      {super.key, required this.title, this.actionsEnabled = false, this.leadingEnabled = true});
+      {super.key,
+      required this.title,
+      this.actionsEnabled = false,
+      this.leadingEnabled = true});
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +38,19 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               : null,
           automaticallyImplyLeading: leadingEnabled,
           backgroundColor: colorScheme.primary,
-          title: Padding(
-            padding: const EdgeInsets.only(
-                top: 10.0, left: 10.0), // Adjust as needed
-            child: Text(
-              title,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onPrimary,
-                fontSize: 22,
-                fontFamily: 'Kantumruy Pro', // Specify your font family
-                fontWeight: FontWeight.w700, // Use FontWeight.w700 for bold
-              ),
+          title:
+              //  Padding(
+              //   // padding: const EdgeInsets.only(
+              //   //     top: 10.0, left: 10.0), // Adjust as needed
+              //   child:
+              Text(
+            title,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.onPrimary,
+              fontSize: 22,
+              fontFamily: 'Kantumruy Pro', // Specify your font family
+              fontWeight: FontWeight.w700, // Use FontWeight.w700 for bold
+              // ),
             ),
           ),
           flexibleSpace: Container(
@@ -59,5 +64,5 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size(double.infinity, 70);
+  Size get preferredSize => const Size(double.infinity, 60);
 }
