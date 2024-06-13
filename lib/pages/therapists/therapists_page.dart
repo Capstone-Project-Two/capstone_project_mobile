@@ -17,12 +17,12 @@ class _TherapistsPageState extends State<TherapistsPage> {
   @override
   void initState() {
     super.initState();
-    futureTherapists = fetchTherapists();
+    futureTherapists = GetService.fetchTherapists();
   }
 
   Future handleRefresh() async {
     setState(() {
-      futureTherapists = fetchTherapists();
+      futureTherapists = GetService.fetchTherapists();
     });
   }
 

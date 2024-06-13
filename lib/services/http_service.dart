@@ -44,7 +44,7 @@ class HttpService {
   Future<HttpResponse> httpPost({required dynamic body}) async {
     var res = await http.post(
       url,
-      body: body,
+      body: jsonEncode(body),
       headers: headers,
     );
 
@@ -56,7 +56,7 @@ class HttpService {
   Future<HttpResponse> httpPatch({dynamic body}) async {
     var res = await http.patch(
       url,
-      body: body,
+      body: jsonEncode(body),
       headers: headers,
     );
 
@@ -66,7 +66,7 @@ class HttpService {
   }
 
   Future<HttpResponse> httpDelete({dynamic body}) async {
-    var res = await http.delete(url, body: body, headers: headers);
+    var res = await http.delete(url, body: jsonEncode(body), headers: headers);
 
     var jsonData = jsonDecode(res.body);
 

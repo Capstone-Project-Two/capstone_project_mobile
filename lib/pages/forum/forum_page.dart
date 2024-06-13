@@ -1,8 +1,6 @@
 import 'package:capstone_project_mobile/components/cards/post_card.dart';
-import 'package:capstone_project_mobile/model/post.dart';
 import 'package:capstone_project_mobile/pages/forum/create_post_screen.dart';
 import 'package:capstone_project_mobile/providers/post_provider.dart';
-import 'package:capstone_project_mobile/services/get_service.dart';
 import 'package:capstone_project_mobile/shared/empty_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
@@ -17,19 +15,24 @@ class ForumPage extends StatefulWidget {
 }
 
 class _ForumPageState extends State<ForumPage> {
-  // late Future<List<Post>> futurePosts;
+  bool loading = false;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    Provider.of<PostProvider>(context).futurePosts = fetchPosts();
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      setState(() {
+        loading = true;
+      });
+      await Provider.of<PostProvider>(context, listen: false)
+          .getAllPosts()
+          .whenComplete(
+            () => setState(() {
+              loading = false;
+            }),
+          );
+    });
   }
-
-  // Future handleRefresh() async {
-  //   setState(() {
-  //     futurePosts = fetchPosts();
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -37,38 +40,22 @@ class _ForumPageState extends State<ForumPage> {
       floatingActionButton: _elevatedButton(context),
       body: Consumer<PostProvider>(
         builder: (context, post, child) {
+          if (loading) {
+            return const LoadingScreen();
+          }
           return RefreshIndicator(
-            onRefresh: post.handleRefresh,
-            child: FutureBuilder(
-              future: post.futurePosts,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  var posts = snapshot.data!;
-                  if (posts.isEmpty) {
-                    return const EmptyScreen();
-                  }
-
-                  return ListView.builder(
-                    itemCount: posts.length,
-                    itemBuilder: (context, index) {
+            onRefresh: post.getAllPosts,
+            child: post.getPosts.isEmpty
+                ? const EmptyScreen()
+                : ListView.builder(
+                    itemCount: post.getPosts.length,
+                    itemBuilder: (ctx, index) {
                       return PostCard(
-                        post: posts[index],
+                        post: post.getPosts[index],
                         isCurrentPost: false,
                       );
                     },
-                  );
-                }
-
-                if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
-                }
-                if (snapshot.error == null && snapshot.data == null) {
-                  return const EmptyScreen();
-                }
-
-                return const LoadingScreen();
-              },
-            ),
+                  ),
           );
         },
       ),
@@ -76,7 +63,7 @@ class _ForumPageState extends State<ForumPage> {
   }
 }
 
-ElevatedButton _elevatedButton(BuildContext context) {
+Widget _elevatedButton(BuildContext context) {
   ColorScheme colorScheme = Theme.of(context).colorScheme;
   TextTheme textTheme = Theme.of(context).textTheme;
 

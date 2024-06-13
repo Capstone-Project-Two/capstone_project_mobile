@@ -6,14 +6,13 @@ import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/components/inputs/my_text_field.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/model/dto/create_post.dart';
-import 'package:capstone_project_mobile/pages/layout_page.dart';
+import 'package:capstone_project_mobile/providers/post_provider.dart';
 import 'package:capstone_project_mobile/services/post_service.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
-import 'package:capstone_project_mobile/shared/success_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:provider/provider.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({super.key});
@@ -45,20 +44,13 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
     // await Future.delayed(const Duration(seconds: 3));
 
-    var res = await createPost(
-      postImages.isNotEmpty
-          ? CreatePost(
-              body: body,
-              patient: "63686861790123456789abcd",
-              postPhotos: getAllPaths(postImages: postImages),
-            )
-          : CreatePost(
-              body: body,
-              patient: "63686861790123456789abcd",
-              postPhotos: [],
-            ),
-    ).then(
+    var res = await PostService.createPost(CreatePost(
+      body: body,
+      patient: "63686861790123456789abcd",
+      postPhotos: getAllPaths(postImages: postImages),
+    )).then(
       (value) {
+        Provider.of<PostProvider>(context, listen: false).getAllPosts();
         // Navigator.pushReplacement(
         //   context,
         //   CupertinoPageRoute(
@@ -89,7 +81,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
         //     ),
         //   ),
         // );
-        // // Navigator.of(context).pop();
+
+        Navigator.of(context).pop();
         return value;
       },
     ).catchError((err) {
