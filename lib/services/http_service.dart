@@ -21,6 +21,16 @@ class HttpResponse {
   });
 }
 
+class MultipartResponse {
+  final StreamedResponse response;
+  final dynamic jsonData;
+
+  MultipartResponse({
+    required this.response,
+    required this.jsonData,
+  });
+}
+
 class HttpService {
   final String path;
 
@@ -44,7 +54,7 @@ class HttpService {
   Future<HttpResponse> httpPost({required dynamic body}) async {
     var res = await http.post(
       url,
-      body: body,
+      body: jsonEncode(body),
       headers: headers,
     );
 
@@ -56,7 +66,7 @@ class HttpService {
   Future<HttpResponse> httpPatch({dynamic body}) async {
     var res = await http.patch(
       url,
-      body: body,
+      body: jsonEncode(body),
       headers: headers,
     );
 
@@ -66,7 +76,7 @@ class HttpService {
   }
 
   Future<HttpResponse> httpDelete({dynamic body}) async {
-    var res = await http.delete(url, body: body, headers: headers);
+    var res = await http.delete(url, body: jsonEncode(body), headers: headers);
 
     var jsonData = jsonDecode(res.body);
 
@@ -76,11 +86,12 @@ class HttpService {
     );
   }
 
-  Future httpMultiPartRequest(
-      {required dynamic body, required List<String> files}) async {
-    var request = http.MultipartRequest(HttpMethod.postMethod, url);
-
+  Future httpMultiPartRequest({
+    required dynamic body,
+    required List<String> files,
+  }) async {
     if (files.isNotEmpty) {
+      var request = http.MultipartRequest(HttpMethod.postMethod, url);
       for (int i = 0; i < files.length; i++) {
         dynamic uploadedFiles = await http.MultipartFile.fromPath(
           'postPhotos',
@@ -90,19 +101,17 @@ class HttpService {
         });
         request.files.add(uploadedFiles);
       }
-    }
+      body.forEach((key, value) {
+        String stringValue = value.toString();
+        request.fields[key] = stringValue;
+      });
 
-    body.forEach((key, value) {
-      String stringValue = value.toString();
-      request.fields[key] = stringValue;
-    });
+      StreamedResponse response = await request.send();
+      var jsonData = jsonDecode(await response.stream.bytesToString());
 
-    http.StreamedResponse response = await request.send();
-
-    if (response.statusCode == 200) {
-      return response;
+      return MultipartResponse(response: response, jsonData: jsonData);
     } else {
-      return response.statusCode;
+      return await httpPost(body: body);
     }
   }
 }

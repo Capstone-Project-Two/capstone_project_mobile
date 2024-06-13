@@ -3,12 +3,14 @@ import 'package:capstone_project_mobile/components/cards/profile_picture_card.da
 import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/model/post.dart';
 import 'package:capstone_project_mobile/pages/forum/post_detail_screen.dart';
+import 'package:capstone_project_mobile/providers/post_provider.dart';
 import 'package:capstone_project_mobile/services/post_service.dart';
 import 'package:capstone_project_mobile/utils/image_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:provider/provider.dart';
 
 class PostCard extends StatefulWidget {
   final Post post;
@@ -28,16 +30,20 @@ class _PostCardState extends State<PostCard> {
     setState(() {
       loading = true;
     });
-    var res = await likePost(
-            id: widget.post.id, patientId: '72706f6e670123456789abcd')
-        .catchError((err) {
+    var res = await PostService.likePost(
+      id: widget.post.id,
+      patientId: '72706f6e670123456789abcd',
+    ).catchError((err) {
       showDialog(
         context: context,
         builder: (context) => const ErrorDialog(text: "Something went wrong"),
       );
-    }).whenComplete(() => setState(() {
-              loading = false;
-            }));
+    }).whenComplete(
+      () => setState(() {
+        loading = false;
+        Provider.of<PostProvider>(context, listen: false).getAllPosts();
+      }),
+    );
 
     return res;
   }

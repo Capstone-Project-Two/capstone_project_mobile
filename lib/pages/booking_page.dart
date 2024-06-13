@@ -38,7 +38,7 @@ class _BookingPageState extends State<BookingPage> {
           builder: (context) =>
               const ErrorDialog(text: 'Please input the required fields.'));
     } else {
-      var res = await createAppointment(CreateAppointment(
+      var res = await PostService.createAppointment(CreateAppointment(
               note: _notesController.text,
               symptoms: _symtomsController.text,
               therapist: widget.therapist.id,

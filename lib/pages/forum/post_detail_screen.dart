@@ -18,7 +18,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   @override
   void initState() {
     super.initState();
-    futurePost = fetchOnePost(widget.postId);
+    futurePost = GetService.fetchOnePost(widget.postId);
   }
 
   @override
