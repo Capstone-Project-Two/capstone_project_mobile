@@ -5,4 +5,5 @@ enum RouteConstant {
   resourcePage,
   profilePage,
   postDetailPage,
+  commentPage,
 }
