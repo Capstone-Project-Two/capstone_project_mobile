@@ -22,25 +22,6 @@ class _LayoutPageState extends State<LayoutPage> {
     _selectedIndex = widget.selectedIndex;
   }
 
-<<<<<<< Updated upstream
-  List pages = [
-    const HomePage(),
-    const ForumPage(),
-    const TherapistsPage(),
-    const ResourcePage(),
-    const ProfilePage(),
-  ];
-
-  List<String> titles = [
-    'Home',
-    'Forum',
-    'Therapists',
-    'Resources',
-    'Profile',
-  ];
-
-=======
->>>>>>> Stashed changes
   void _navigateBottomBar(int index) {
     setState(() {
       _selectedIndex = index;
@@ -57,14 +38,10 @@ class _LayoutPageState extends State<LayoutPage> {
       body: FutureBuilder(
         future: rootBundle.loadString('.env'),
         initialData: '',
-<<<<<<< Updated upstream
-        builder: (context, snapshot) => pages[_selectedIndex!],
-=======
         builder: (context, snapshot) => IndexedStack(
           index: _selectedIndex,
           children: AppRoute.appPages,
         ),
->>>>>>> Stashed changes
       ),
       bottomNavigationBar: MyBottomNavigationBar(
         selectedIndex: _selectedIndex!,
