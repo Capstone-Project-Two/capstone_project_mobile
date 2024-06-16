@@ -5,6 +5,7 @@ import 'package:capstone_project_mobile/model/post_photo.dart';
 class Post extends BaseModel {
   final String body;
   final int likeCount;
+  final int commentCount;
   final Patient patient;
   final List<PostPhoto> postPhotos;
 
@@ -14,6 +15,7 @@ class Post extends BaseModel {
     required super.updatedAt,
     required this.body,
     required this.likeCount,
+    required this.commentCount,
     required this.patient,
     required this.postPhotos,
   });
@@ -33,6 +35,7 @@ class Post extends BaseModel {
         'updatedAt': String updatedAt,
         'body': String body,
         'like_count': int likeCount,
+        'comment_count': int commentCount,
       } =>
         Post(
           body: body,
@@ -42,6 +45,7 @@ class Post extends BaseModel {
           likeCount: likeCount,
           patient: Patient.fromJson(json['patient']),
           postPhotos: listPhotos,
+          commentCount: commentCount,
         ),
       _ => throw const FormatException('Failed to load post'),
     };

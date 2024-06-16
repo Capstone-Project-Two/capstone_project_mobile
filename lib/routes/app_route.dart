@@ -1,5 +1,5 @@
 import 'package:capstone_project_mobile/constants/route_constants.dart';
-import 'package:capstone_project_mobile/pages/comment/comment_page.dart';
+import 'package:capstone_project_mobile/pages/forum/comment/comment_page.dart';
 import 'package:capstone_project_mobile/pages/forum/forum_page.dart';
 import 'package:capstone_project_mobile/pages/home/home_page.dart';
 import 'package:capstone_project_mobile/pages/profile/profile_page.dart';

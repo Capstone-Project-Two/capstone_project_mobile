@@ -1,4 +1,5 @@
 import 'package:capstone_project_mobile/pages/layout_page.dart';
+import 'package:capstone_project_mobile/providers/patient_comment_provider.dart';
 import 'package:capstone_project_mobile/providers/post_provider.dart';
 import 'package:capstone_project_mobile/routes/app_route.dart';
 import 'package:capstone_project_mobile/theme/app_theme.dart';
@@ -12,6 +13,9 @@ Future main() async {
     providers: [
       ChangeNotifierProvider(
         create: (context) => PostProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => PatientCommentProvider(),
       ),
       // Other providers
     ],

@@ -1,6 +1,7 @@
 import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
 import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
+import 'package:capstone_project_mobile/constants/route_constants.dart';
 import 'package:capstone_project_mobile/model/post.dart';
 import 'package:capstone_project_mobile/pages/forum/post_detail_screen.dart';
 import 'package:capstone_project_mobile/providers/post_provider.dart';
@@ -176,9 +177,12 @@ class _PostCardState extends State<PostCard> {
                       ),
                       // Comment button
                       MyTextButton(
-                        text: 'Comment',
+                        text: '${widget.post.commentCount} Comment',
                         iconData: LucideIcons.messageCircle,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, RouteConstant.commentPage.name);
+                        },
                       )
                     ],
                   )
