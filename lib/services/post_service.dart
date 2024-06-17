@@ -1,72 +1,93 @@
-import 'dart:convert';
-
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
 import 'package:capstone_project_mobile/model/dto/create_appointment.dart';
 import 'package:capstone_project_mobile/model/dto/create_post.dart';
 import 'package:capstone_project_mobile/services/http_service.dart';
-import 'package:flutter/material.dart';
+import 'package:capstone_project_mobile/utils/api_helper.dart';
+import 'package:http/http.dart';
 
-Future createAppointment(CreateAppointment body) async {
-  HttpService httpService = HttpService(path: ApiRoute.appointments.name);
+class PostService {
+  static Future createAppointment(CreateAppointment body) async {
+    HttpService httpService = HttpService(path: ApiRoute.appointments.name);
 
-  var HttpResponse(:httpRes, :jsonData) = await httpService.httpPost(
-    body: jsonEncode({
-      'note': body.note,
-      'symptoms': body.symptoms,
-      'patient': body.patient,
-      'therapist': body.therapist,
-      'scheduleDate': body.scheduleDate,
-    }),
-  );
+    var HttpResponse(:httpRes, :jsonData) = await httpService.httpPost(
+      body: {
+        'note': body.note,
+        'symptoms': body.symptoms,
+        'patient': body.patient,
+        'therapist': body.therapist,
+        'scheduleDate': body.scheduleDate,
+      },
+    );
 
-  if (httpRes.statusCode == 201) {
-    return httpRes;
-  } else {
-    throw jsonData;
-  }
-}
-
-Future createPost(CreatePost body) async {
-  HttpService httpService = HttpService(path: ApiRoute.posts.name);
-
-  List<String> files = [];
-
-  if (body.postPhotos!.isNotEmpty) {
-    for (int i = 0; i < body.postPhotos!.length; i++) {
-      files.add(body.postPhotos![i].path);
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      return httpRes;
+    } else {
+      throw jsonData;
     }
   }
 
-  if (body.body.isEmpty && body.postPhotos!.isEmpty) {
-    throw ErrorDescription('Please fill sth');
+  static Future createPost(CreatePost body) async {
+    HttpService httpService = HttpService(path: ApiRoute.posts.name);
+
+    List<String> files = [];
+
+    if (body.postPhotos!.isNotEmpty) {
+      for (int i = 0; i < body.postPhotos!.length; i++) {
+        files.add(body.postPhotos![i].path);
+      }
+    }
+
+    if (files.isNotEmpty) {
+      return await uploadPostPhotos(httpService, body, files);
+    }
+    var HttpResponse(:httpRes, :jsonData) =
+        await httpService.httpMultiPartRequest(
+      body: {
+        'body': body.body,
+        'patient': body.patient,
+      },
+      files: [],
+    );
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      return httpRes;
+    } else {
+      throw jsonData;
+    }
   }
 
-  var res = await httpService.httpMultiPartRequest(
-    body: {
-      'body': body.body,
-      'patient': body.patient,
-    },
-    files: files,
-  );
+  static Future<StreamedResponse> uploadPostPhotos(
+      HttpService httpService, CreatePost body, List<String> files) async {
+    var MultipartResponse(:jsonData, :response) =
+        await httpService.httpMultiPartRequest(
+      body: {
+        'body': body.body,
+        'patient': body.patient,
+      },
+      files: files,
+    );
+    if (ApiHelper.isOk(response.statusCode)) {
+      return response;
+    } else {
+      throw jsonData;
+    }
+  }
 
-  return res;
-}
+  static Future likePost(
+      {required String id, required String patientId}) async {
+    HttpService httpService =
+        HttpService(path: "${ApiRoute.likePosts.name}/$id");
 
-Future likePost({required String id, required String patientId}) async {
-  HttpService httpService = HttpService(path: "like-posts/$id");
-
-  var HttpResponse(:httpRes, :jsonData) = await httpService.httpPatch(
-    body: jsonEncode(
-      {
+    var HttpResponse(:httpRes, :jsonData) = await httpService.httpPatch(
+      body: {
         'patient': patientId,
         'post': id,
       },
-    ),
-  );
+    );
 
-  if (httpRes.statusCode == 200 || httpRes.statusCode == 201) {
-    return httpRes;
-  } else {
-    throw jsonData;
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      return httpRes;
+    } else {
+      throw jsonData;
+    }
   }
 }

@@ -20,7 +20,7 @@ class _DetailTherapistPageState extends State<DetailTherapistPage> {
   @override
   void initState() {
     super.initState();
-    futureTherapist = fetchOneTherapist(widget.therapistId);
+    futureTherapist = GetService.fetchOneTherapist(widget.therapistId);
   }
 
   @override

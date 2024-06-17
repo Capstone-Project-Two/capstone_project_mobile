@@ -1,10 +1,6 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/layouts/my_bottom_navigation_bar.dart';
-import 'package:capstone_project_mobile/pages/forum/forum_page.dart';
-import 'package:capstone_project_mobile/pages/home/home_page.dart';
-import 'package:capstone_project_mobile/pages/profile/profile_page.dart';
-import 'package:capstone_project_mobile/pages/resource/resource_page.dart';
-import 'package:capstone_project_mobile/pages/therapists/therapists_page.dart';
+import 'package:capstone_project_mobile/routes/app_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -26,22 +22,6 @@ class _LayoutPageState extends State<LayoutPage> {
     _selectedIndex = widget.selectedIndex;
   }
 
-  List pages = [
-    const HomePage(),
-    const ForumPage(),
-    const TherapistsPage(),
-    const ResourcePage(),
-    const ProfilePage(),
-  ];
-
-  List<String> titles = [
-    'Home',
-    'Forum',
-    'Therapists',
-    'Resources',
-    'Profile',
-  ];
-
   void _navigateBottomBar(int index) {
     setState(() {
       _selectedIndex = index;
@@ -52,13 +32,16 @@ class _LayoutPageState extends State<LayoutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MyAppBar(
-        title: titles[_selectedIndex!],
+        title: AppRoute.appTitle[_selectedIndex!],
         actionsEnabled: true,
       ),
       body: FutureBuilder(
         future: rootBundle.loadString('.env'),
         initialData: '',
-        builder: (context, snapshot) => pages[_selectedIndex!],
+        builder: (context, snapshot) => IndexedStack(
+          index: _selectedIndex,
+          children: AppRoute.appPages,
+        ),
       ),
       bottomNavigationBar: MyBottomNavigationBar(
         selectedIndex: _selectedIndex!,
