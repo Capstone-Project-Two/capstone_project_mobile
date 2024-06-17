@@ -45,13 +45,13 @@ class _ForumPageState extends State<ForumPage> {
           }
           return RefreshIndicator(
             onRefresh: post.getAllPosts,
-            child: post.getPosts.isEmpty
+            child: post.getFuturePosts.isEmpty
                 ? const EmptyScreen()
                 : ListView.builder(
-                    itemCount: post.getPosts.length,
+                    itemCount: post.getFuturePosts.length,
                     itemBuilder: (ctx, index) {
                       return PostCard(
-                        post: post.getPosts[index],
+                        post: post.getFuturePosts[index],
                         isCurrentPost: false,
                       );
                     },

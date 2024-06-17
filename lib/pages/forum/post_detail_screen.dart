@@ -3,11 +3,12 @@ import 'package:capstone_project_mobile/components/cards/post_card.dart';
 import 'package:capstone_project_mobile/components/lists/comments_list.dart';
 import 'package:capstone_project_mobile/constants/route_constants.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/model/post.dart';
-import 'package:capstone_project_mobile/services/get_service.dart';
+import 'package:capstone_project_mobile/providers/post_provider.dart';
+import 'package:capstone_project_mobile/shared/error_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
+import 'package:provider/provider.dart';
 
 class PostDetailScreen extends StatefulWidget {
   final String postId;
@@ -18,11 +19,29 @@ class PostDetailScreen extends StatefulWidget {
 }
 
 class _PostDetailScreenState extends State<PostDetailScreen> {
-  late Future<Post> futurePost;
+  bool loading = false;
+  dynamic errorResponse;
+
   @override
   void initState() {
     super.initState();
-    futurePost = GetService.fetchOnePost(widget.postId);
+    setState(() {
+      loading = true;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await Provider.of<PostProvider>(context, listen: false)
+          .getOnePost(widget.postId)
+          .catchError(
+        (err) {
+          errorResponse = err;
+        },
+      ).whenComplete(
+        () => setState(() {
+          loading = false;
+        }),
+      );
+    });
+    // futurePost = GetService.fetchOnePost(widget.postId);
   }
 
   @override
@@ -31,46 +50,62 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
       appBar: const MyAppBar(
         title: 'Detailed Post',
       ),
-      body: Column(children: [
-        SingleChildScrollView(
-          child: FutureBuilder(
-            future: futurePost,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                var post = snapshot.data!;
-
-                return PostCard(
-                  post: post,
-                  isCurrentPost: widget.postId == post.id,
-                );
-              } else if (snapshot.hasError) {
-                return Text(snapshot.error.toString());
-              }
-
-              return const LoadingScreen();
+      body: Consumer<PostProvider>(
+        builder: (ctx, post, child) {
+          if (loading) {
+            return const LoadingScreen();
+          }
+          if (errorResponse != null) {
+            return ErrorScreen(
+              onTryAgain: () async {
+                await post.getOnePost(widget.postId);
+              },
+            );
+          }
+          return RefreshIndicator(
+            onRefresh: () async {
+              await post.getOnePost(widget.postId);
             },
-          ),
-        ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 25),
-            child: CommentsList(
-              postId: widget.postId,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // Post Card
+                  PostCard(
+                    post: post.getOneFuturePost,
+                    isCurrentPost: post.getOneFuturePost.id == widget.postId,
+                  ),
+
+                  // Comment List
+                  CommentsList(
+                    postId: widget.postId,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ),
-        // const Spacer(),
-        Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: MyTextButton(
-            onTap: () {
-              Navigator.pushNamed(context, RouteConstant.commentPage.name);
-            },
-            iconData: LucideIcons.messageCircle,
-            text: 'Write a comment',
-          ),
-        )
-      ]),
+          );
+        },
+      ),
+      bottomNavigationBar: buildCommentButton(context),
     );
   }
+}
+
+Widget buildCommentButton(BuildContext context) {
+  return Container(
+    decoration: BoxDecoration(
+      border: Border(
+        top: BorderSide(
+          color: Colors.grey.shade300,
+        ),
+      ),
+    ),
+    padding: const EdgeInsets.all(25.0),
+    child: MyTextButton(
+      onTap: () {
+        Navigator.pushNamed(context, RouteConstant.commentPage.name);
+      },
+      iconData: LucideIcons.messageCircle,
+      text: 'Write a comment',
+    ),
+  );
 }

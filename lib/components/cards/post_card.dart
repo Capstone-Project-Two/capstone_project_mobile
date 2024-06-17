@@ -42,6 +42,8 @@ class _PostCardState extends State<PostCard> {
     }).whenComplete(
       () => setState(() {
         loading = false;
+        Provider.of<PostProvider>(context, listen: false)
+            .getOnePost(widget.post.id);
         Provider.of<PostProvider>(context, listen: false).getAllPosts();
       }),
     );

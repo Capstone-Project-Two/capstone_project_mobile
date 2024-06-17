@@ -1,3 +1,4 @@
+import 'package:capstone_project_mobile/components/cards/comment_card.dart';
 import 'package:capstone_project_mobile/model/patient_comment.dart';
 import 'package:capstone_project_mobile/providers/patient_comment_provider.dart';
 import 'package:capstone_project_mobile/shared/empty_screen.dart';
@@ -50,26 +51,14 @@ class _CommentsListState extends State<CommentsList> {
             text: 'No comments',
           );
         }
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: GridView.builder(
-            shrinkWrap: true,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 1,
-              childAspectRatio: 8,
-            ),
-            itemCount: comment
-                .getFuturePatientComments.length, // total number of items
-            itemBuilder: (context, index) {
-              PatientComment cmt = comment.getFuturePatientComments[index];
-              return Row(
-                children: [
-                  Text(cmt.content),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text("Reply count: ${cmt.replyCount.toString()}"),
-                ],
+        return Column(
+          children: List.generate(
+            comment.getFuturePatientComments.length,
+            (index) {
+              PatientComment patientComment =
+                  comment.getFuturePatientComments[index];
+              return CommentCard(
+                patientComment: patientComment,
               );
             },
           ),
