@@ -1,5 +1,5 @@
 import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
-import 'package:capstone_project_mobile/model/patient_comment.dart';
+import 'package:capstone_project_mobile/model/patient_comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';

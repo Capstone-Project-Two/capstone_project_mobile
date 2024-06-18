@@ -1,4 +1,4 @@
-import 'package:capstone_project_mobile/model/post.dart';
+import 'package:capstone_project_mobile/model/post_model.dart';
 import 'package:capstone_project_mobile/services/get_service.dart';
 import 'package:flutter/material.dart';
 

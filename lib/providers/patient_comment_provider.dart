@@ -1,4 +1,4 @@
-import 'package:capstone_project_mobile/model/patient_comment.dart';
+import 'package:capstone_project_mobile/model/patient_comment_model.dart';
 import 'package:capstone_project_mobile/services/get_service.dart';
 import 'package:flutter/material.dart';
 

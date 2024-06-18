@@ -1,6 +1,6 @@
 import 'package:capstone_project_mobile/model/base_model.dart';
-import 'package:capstone_project_mobile/model/patient.dart';
-import 'package:capstone_project_mobile/model/post_photo.dart';
+import 'package:capstone_project_mobile/model/patient_model.dart';
+import 'package:capstone_project_mobile/model/post_photo_model.dart';
 
 class Post extends BaseModel {
   final String body;
