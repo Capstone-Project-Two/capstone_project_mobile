@@ -25,7 +25,7 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   final String imgPath =
-      'https://raw.githubusercontent.com/Capstone-Project-Two/assets/main/profiles-pics/profile_nine.png';
+      'https://raw.githubusercontent.com/Capstone-Project-Two/assets/main/profiles-pics/profile_one.png';
 
   @override
   Widget build(BuildContext context) {

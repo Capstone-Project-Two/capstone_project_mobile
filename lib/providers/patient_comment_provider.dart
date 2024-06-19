@@ -19,7 +19,7 @@ class PatientCommentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future getPatientCommentsByPost(String postId) async {
+  Future handleGetAllPatientComments(String postId) async {
     List<PatientComment> patientComments =
         await GetService.fetchCommentByPost(postId)
             .catchError((err) => throw err);

@@ -26,10 +26,12 @@ class _CommentsListState extends State<CommentsList> {
       builder: ((context, patientCommentProvider, child) {
         return FutureBuilder(
           future:
-              patientCommentProvider.getPatientCommentsByPost(widget.postId),
+              patientCommentProvider.handleGetAllPatientComments(widget.postId),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              var comments = snapshot.data!;
+              var comments = snapshot.data!
+                  .where((element) => element.parent == null)
+                  .toList();
               if (comments.length == 0) {
                 return const Padding(
                   padding: EdgeInsets.all(25.0),
@@ -55,7 +57,7 @@ class _CommentsListState extends State<CommentsList> {
                 child: ErrorScreen(
                   onTryAgain: () async {
                     await patientCommentProvider
-                        .getPatientCommentsByPost(widget.postId);
+                        .handleGetAllPatientComments(widget.postId);
                   },
                   errorObject: snapshot.error,
                 ),
