@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 
 class ProfilePictureCard extends StatelessWidget {
   final String imgPath;
-  const ProfilePictureCard({super.key, required this.imgPath});
+  final double size;
+  const ProfilePictureCard({super.key, required this.imgPath, this.size = 50});
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(25),
-      child: Image.asset(
+      child: Image.network(
         imgPath,
-        width: 50,
-        height: 50,
+        width: size,
+        height: size,
         fit: BoxFit.cover,
         filterQuality: FilterQuality.high,
       ),

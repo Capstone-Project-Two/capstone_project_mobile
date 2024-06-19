@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class MyTextButton extends StatelessWidget {
   final String text;
-  final IconData iconData;
+  final Icon icon;
   final void Function()? onTap;
   final EdgeInsets? padding;
   final bool loading;
@@ -11,7 +11,7 @@ class MyTextButton extends StatelessWidget {
     super.key,
     this.padding,
     required this.text,
-    required this.iconData,
+    required this.icon,
     required this.onTap,
     this.loading = false,
   });
@@ -36,10 +36,7 @@ class MyTextButton extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              iconData,
-              color: colorScheme.tertiary,
-            ),
+            icon,
             const SizedBox(
               width: 8,
             ),

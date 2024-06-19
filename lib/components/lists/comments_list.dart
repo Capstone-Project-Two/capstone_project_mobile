@@ -20,43 +20,33 @@ class CommentsList extends StatefulWidget {
 }
 
 class _CommentsListState extends State<CommentsList> {
-  bool loading = false;
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      setState(() {
-        loading = true;
-      });
-
       await Provider.of<PatientCommentProvider>(context, listen: false)
-          .getPatientCommentsByPost(widget.postId)
-          .whenComplete(
-            () => setState(() {
-              loading = false;
-            }),
-          );
+          .getPatientCommentsByPost(widget.postId);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Consumer<PatientCommentProvider>(
-      builder: ((context, comment, child) {
-        if (loading) {
+      builder: ((context, patientCommentProvider, child) {
+        if (patientCommentProvider.getLoading) {
           return const LoadingScreen();
         }
-        if (comment.getFuturePatientComments.isEmpty) {
+        if (patientCommentProvider.getFuturePatientComments.isEmpty) {
           return const EmptyScreen(
             text: 'No comments',
           );
         }
         return Column(
           children: List.generate(
-            comment.getFuturePatientComments.length,
+            patientCommentProvider.getFuturePatientComments.length,
             (index) {
               PatientComment patientComment =
-                  comment.getFuturePatientComments[index];
+                  patientCommentProvider.getFuturePatientComments[index];
               return CommentCard(
                 patientComment: patientComment,
               );

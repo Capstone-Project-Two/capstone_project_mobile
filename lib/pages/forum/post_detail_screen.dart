@@ -4,7 +4,6 @@ import 'package:capstone_project_mobile/components/lists/comments_list.dart';
 import 'package:capstone_project_mobile/constants/route_constants.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/providers/post_provider.dart';
-import 'package:capstone_project_mobile/shared/error_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -19,93 +18,82 @@ class PostDetailScreen extends StatefulWidget {
 }
 
 class _PostDetailScreenState extends State<PostDetailScreen> {
-  bool loading = false;
-  dynamic errorResponse;
-
-  @override
-  void initState() {
-    super.initState();
-    setState(() {
-      loading = true;
-    });
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await Provider.of<PostProvider>(context, listen: false)
-          .getOnePost(widget.postId)
-          .catchError(
-        (err) {
-          errorResponse = err;
-        },
-      ).whenComplete(
-        () => setState(() {
-          loading = false;
-        }),
-      );
-    });
-    // futurePost = GetService.fetchOnePost(widget.postId);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const MyAppBar(
         title: 'Detailed Post',
       ),
-      body: Consumer<PostProvider>(
-        builder: (ctx, post, child) {
-          if (loading) {
-            return const LoadingScreen();
-          }
-          if (errorResponse != null) {
-            return ErrorScreen(
-              onTryAgain: () async {
-                await post.getOnePost(widget.postId);
-              },
-            );
-          }
-          return RefreshIndicator(
-            onRefresh: () async {
-              await post.getOnePost(widget.postId);
-            },
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  // Post Card
-                  PostCard(
-                    post: post.getOneFuturePost,
-                    isCurrentPost: post.getOneFuturePost.id == widget.postId,
-                  ),
-
-                  // Comment List
-                  CommentsList(
-                    postId: widget.postId,
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-      bottomNavigationBar: buildCommentButton(context),
+      body: _buildBody(),
+      bottomNavigationBar: _buildCommentButton(context),
     );
   }
-}
 
-Widget buildCommentButton(BuildContext context) {
-  return Container(
-    decoration: BoxDecoration(
-      border: Border(
-        top: BorderSide(
-          color: Colors.grey.shade300,
+  Widget _buildBody() {
+    return Consumer<PostProvider>(
+      builder: (context, postProvider, child) {
+        return FutureBuilder(
+          future: postProvider.handleGetOnePost(widget.postId),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              var post = snapshot.data!;
+              return RefreshIndicator(
+                onRefresh: () async {
+                  await postProvider.handleGetOnePost(widget.postId);
+                },
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      PostCard(
+                        post: post,
+                        isCurrentPost: post.id == widget.postId,
+                      ),
+                      CommentsList(
+                        postId: widget.postId,
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+
+            if (snapshot.hasError) {
+              return Text(
+                snapshot.error.toString(),
+                style: const TextStyle(
+                  overflow: TextOverflow.visible,
+                ),
+              );
+            }
+
+            return const LoadingScreen();
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildCommentButton(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          top: BorderSide(
+            color: Colors.grey.shade300,
+          ),
         ),
       ),
-    ),
-    padding: const EdgeInsets.all(25.0),
-    child: MyTextButton(
-      onTap: () {
-        Navigator.pushNamed(context, RouteConstant.commentPage.name);
-      },
-      iconData: LucideIcons.messageCircle,
-      text: 'Write a comment',
-    ),
-  );
+      padding: const EdgeInsets.all(25.0),
+      child: MyTextButton(
+        onTap: () {
+          Navigator.pushNamed(context, RouteConstant.commentPage.name);
+        },
+        icon: Icon(
+          LucideIcons.messageCircle,
+          color: colorScheme.tertiary,
+        ),
+        text: 'Write a comment',
+      ),
+    );
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
+import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
 import 'package:capstone_project_mobile/model/patient_comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,6 +14,7 @@ class CommentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     const profile =
         'https://raw.githubusercontent.com/Capstone-Project-Two/assets/main/profiles-pics/profile_nine.png';
     return Container(
@@ -34,12 +36,9 @@ class CommentCard extends StatelessWidget {
               // Left side
               Row(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Image.network(
-                      profile,
-                      width: 50,
-                    ),
+                  const ProfilePictureCard(
+                    imgPath: profile,
+                    size: 50,
                   ),
                   const SizedBox(
                     width: 10,
@@ -75,7 +74,10 @@ class CommentCard extends StatelessWidget {
               ),
               MyTextButton(
                 text: patientComment.replyCount.toString(),
-                iconData: LucideIcons.messageCircle,
+                icon: Icon(
+                  LucideIcons.messageCircle,
+                  color: colorScheme.tertiary,
+                ),
                 onTap: () {},
               )
             ],
