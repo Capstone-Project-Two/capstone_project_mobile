@@ -39,22 +39,65 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Stress Monitor',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
 
-                  SizedBox(width: 60), // Space between icon and text
-                  Image.network(
-                    'https://cdn-icons-png.flaticon.com/512/11091/11091858.png',
-                    width: 60,
-                    height: 70,
+              child: Row(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const Align(
+                      alignment: Alignment.topLeft,
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Stress Monitor',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                            SizedBox(width: 50),
+                            Text(
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                              'Find out your level of emotions ',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                  const SizedBox(width: 10),
+                  Image.asset(
+                    'lib/assets/images/stressmonitor.png',
+                    width: 70,
+                    height: 90,
                   ),
                 ],
               ),
+              // child: Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     child: Column(
+              //       const Text(
+              //       'Stress Monitor',
+              //       style: TextStyle(color: Colors.white, fontSize: 20),
+              //     ),
+              //     ),
+              //     const Text(
+              //       'Stress Monitor',
+              //       style: TextStyle(color: Colors.white, fontSize: 20),
+              //     ),
+
+              //     SizedBox(width: 60), // Space between icon and text
+              //     Image.asset(
+              //       'lib/assets/images/stressmonitor.png',
+              //       width: 90,
+              //       height: 90,
+              //     ),
+              //   ],
+              // ),
             ),
             const SizedBox(height: 20),
             //find activity
@@ -65,7 +108,7 @@ class HomePage extends StatelessWidget {
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
                 border: Border.all(
-                  color: Colors.blueAccent,
+                  color: Colors.grey,
                   width: 2,
                 ),
                 boxShadow: const [
@@ -74,6 +117,38 @@ class HomePage extends StatelessWidget {
                     blurRadius: 10,
                     offset: Offset(0, 5),
                   ),
+                ],
+              ),
+              child: Stack(
+                // mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Find Your Activities',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 20),
+                            ),
+                            SizedBox(height: 10),
+                            const Text(
+                              'Understand which activity is suitable for your lifestyle',
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 16),
+                            ),
+                            SizedBox(height: 10),
+                            Image.asset(
+                              'lib/assets/images/activity.jpg',
+                              width: 300,
+                              height: 300,
+                            ),
+                          ],
+                        ),
+                      )),
                 ],
               ),
             ),
