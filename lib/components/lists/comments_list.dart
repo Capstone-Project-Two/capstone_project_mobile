@@ -1,7 +1,7 @@
 import 'package:capstone_project_mobile/components/cards/comment_card.dart';
-import 'package:capstone_project_mobile/model/patient_comment_model.dart';
 import 'package:capstone_project_mobile/providers/patient_comment_provider.dart';
 import 'package:capstone_project_mobile/shared/empty_screen.dart';
+import 'package:capstone_project_mobile/shared/error_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,37 +21,51 @@ class CommentsList extends StatefulWidget {
 
 class _CommentsListState extends State<CommentsList> {
   @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      await Provider.of<PatientCommentProvider>(context, listen: false)
-          .getPatientCommentsByPost(widget.postId);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Consumer<PatientCommentProvider>(
       builder: ((context, patientCommentProvider, child) {
-        if (patientCommentProvider.getLoading) {
-          return const LoadingScreen();
-        }
-        if (patientCommentProvider.getFuturePatientComments.isEmpty) {
-          return const EmptyScreen(
-            text: 'No comments',
-          );
-        }
-        return Column(
-          children: List.generate(
-            patientCommentProvider.getFuturePatientComments.length,
-            (index) {
-              PatientComment patientComment =
-                  patientCommentProvider.getFuturePatientComments[index];
-              return CommentCard(
-                patientComment: patientComment,
+        return FutureBuilder(
+          future:
+              patientCommentProvider.getPatientCommentsByPost(widget.postId),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              var comments = snapshot.data!;
+              if (comments.length == 0) {
+                return const Padding(
+                  padding: EdgeInsets.all(25.0),
+                  child: EmptyScreen(
+                    text: 'Be the first one to comment',
+                  ),
+                );
+              }
+              return Column(
+                children: List.generate(
+                  comments.length,
+                  (index) {
+                    return CommentCard(
+                      patientComment: comments[index],
+                    );
+                  },
+                ),
               );
-            },
-          ),
+            }
+            if (snapshot.hasError) {
+              return Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: ErrorScreen(
+                  onTryAgain: () async {
+                    await patientCommentProvider
+                        .getPatientCommentsByPost(widget.postId);
+                  },
+                  errorObject: snapshot.error,
+                ),
+              );
+            }
+            return const Padding(
+              padding: EdgeInsets.all(25),
+              child: LoadingScreen(),
+            );
+          },
         );
       }),
     );

@@ -4,6 +4,7 @@ import 'package:capstone_project_mobile/components/lists/comments_list.dart';
 import 'package:capstone_project_mobile/constants/route_constants.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/providers/post_provider.dart';
+import 'package:capstone_project_mobile/shared/error_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -58,10 +59,13 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
             }
 
             if (snapshot.hasError) {
-              return Text(
-                snapshot.error.toString(),
-                style: const TextStyle(
-                  overflow: TextOverflow.visible,
+              return Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: ErrorScreen(
+                  onTryAgain: () async {
+                    await postProvider.handleGetOnePost(widget.postId);
+                  },
+                  errorObject: snapshot.error,
                 ),
               );
             }

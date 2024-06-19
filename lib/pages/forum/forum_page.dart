@@ -1,6 +1,7 @@
 import 'package:capstone_project_mobile/components/buttons/floating_post_button.dart';
 import 'package:capstone_project_mobile/components/cards/post_card.dart';
 import 'package:capstone_project_mobile/providers/post_provider.dart';
+import 'package:capstone_project_mobile/shared/error_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,7 +43,15 @@ class _ForumPageState extends State<ForumPage> {
                   );
                 }
                 if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
+                  return Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: ErrorScreen(
+                      onTryAgain: () async {
+                        await postProvider.handleGetAllPosts();
+                      },
+                      errorObject: snapshot.error,
+                    ),
+                  );
                 }
                 return const LoadingScreen();
               },
