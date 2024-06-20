@@ -24,7 +24,7 @@ class _ResourcePageState extends State<ResourcePage> {
       flags: const YoutubePlayerFlags(
         mute: false,
         loop: false,
-        autoPlay: false,
+        autoPlay: true,
       ),
     );
   }
@@ -37,7 +37,6 @@ class _ResourcePageState extends State<ResourcePage> {
   }
 
   Widget _buildBody(BuildContext context) {
-    // ColorScheme colorScheme = Theme.of(context).colorScheme;
     TextTheme textTheme = Theme.of(context).textTheme;
 
     return SingleChildScrollView(
@@ -97,10 +96,10 @@ class _ResourcePageState extends State<ResourcePage> {
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () {
-           Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ArticlePage()),
-            );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ArticlePage()),
+          );
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: colorScheme.primary,

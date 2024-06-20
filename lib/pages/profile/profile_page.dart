@@ -7,7 +7,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Text('Profile  ddddddd dddd dd ddd dddd dddddd  ddddddd Page' ),
+        child: Text('Profile Page' ),
       ),
     );
   }

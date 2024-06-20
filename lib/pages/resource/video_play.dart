@@ -1,16 +1,6 @@
-// youtube_player_widget.dart
-
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-// class ResourcePage extends StatefulWidget {
-//   const ResourcePage({Key? key}) : super(key: key);
-
-//   @override
-//   State<ResourcePage> createState() => _ResourcePageState();
-// }
-
-// class _ResourcePageState extends State<ResourcePage> {
 class VideoPlayer extends StatefulWidget {
   final YoutubePlayerController controller;
 
