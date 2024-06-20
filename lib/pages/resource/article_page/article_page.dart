@@ -1,5 +1,4 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-// import 'package:capstone_project_mobile/pages/resource/book_recommendation_page/book_recommendation_page.dart';
 import 'package:capstone_project_mobile/pages/resource/expandable_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -13,7 +12,7 @@ class ArticlePage extends StatelessWidget {
       'title': 'Coping with ADHD',
       'author': 'by Louis Armstrong',
       'date': '2019',
-      'url': 'https://example.com/article1' // Add URLs to your data
+      'url': 'https://example.com/article1' 
     },
     {
       'img': 'lib/assets/images/article.png',

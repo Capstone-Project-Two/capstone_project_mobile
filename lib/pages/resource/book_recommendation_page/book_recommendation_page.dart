@@ -1,5 +1,6 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/pages/resource/expandable_tile.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:flutter/material.dart';
 
@@ -11,20 +12,22 @@ class BookRecommendationPage extends StatelessWidget {
       'img': 'lib/assets/images/books/book1.png',
       'title': 'Atomic Habits',
       'author': 'James Clear',
-      'date': '2017'
-      
+      'date': '2017',
+      'url': 'https://www.youtube.com/'
     },
     {
       'img': 'lib/assets/images/books/book2.png',
       'title': 'The Subtle Art of Not Giving a F*ck',
       'author': 'Mark Manson',
-      'date': '2017'
+      'date': '2017',
+      'url': 'https://www.youtube.com/'
     },
     {
       'img': 'lib/assets/images/books/book3.png',
       'title': 'Permission to come home',
       'author': 'Mark Manson',
-      'date': '2017'
+      'date': '2017',
+      'url': 'https://www.youtube.com/'
     },
   ];
 
@@ -57,7 +60,7 @@ class BookRecommendationPage extends StatelessWidget {
               return Column(
                 children: [
                   _buildBookCard(context, book['img']!, book['title']!,
-                      book['author']!, book['date']!),
+                      book['author']!, book['date']!, book['url']!),
                   const SizedBox(height: 30),
                 ],
               );
@@ -112,15 +115,10 @@ class BookRecommendationPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBookCard(
-      BuildContext context, final img, final title, final author, final date) {
+  Widget _buildBookCard(BuildContext context, final img, final title,
+      final author, final date, final url) {
     return ElevatedButton(
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => BookRecommendationPage()),
-        );
-      },
+      onPressed: () => _launchURL(url),
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
         shadowColor: Colors.grey,
@@ -221,6 +219,15 @@ class BookRecommendationPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 
