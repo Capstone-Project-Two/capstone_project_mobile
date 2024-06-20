@@ -12,6 +12,7 @@ class BookRecommendationPage extends StatelessWidget {
       'title': 'Atomic Habits',
       'author': 'James Clear',
       'date': '2017'
+      
     },
     {
       'img': 'lib/assets/images/books/book2.png',
