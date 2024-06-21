@@ -1,15 +1,14 @@
 import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
-import 'package:capstone_project_mobile/model/patient_comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class CommentCard extends StatelessWidget {
-  final PatientComment patientComment;
+  final dynamic comment;
   const CommentCard({
     super.key,
-    required this.patientComment,
+    required this.comment,
   });
 
   @override
@@ -46,10 +45,10 @@ class CommentCard extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(patientComment.patient.username),
+                      Text(comment.patient.username),
                       Text(
                         DateFormat.MMMd().add_jm().format(
-                            DateTime.parse(patientComment.createdAt).toLocal()),
+                            DateTime.parse(comment.createdAt).toLocal()),
                       ),
                     ],
                   )
@@ -68,18 +67,28 @@ class CommentCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(patientComment.content),
+              Text(comment.content),
               const SizedBox(
                 height: 16,
               ),
               MyTextButton(
-                text: patientComment.replyCount.toString(),
+                text: comment.replyCount.toString(),
                 icon: Icon(
                   LucideIcons.messageCircle,
                   color: colorScheme.tertiary,
                 ),
-                onTap: () {},
-              )
+                onTap: () {
+                  
+                },
+              ),
+              if (comment.children!.isNotEmpty &&
+                  comment.children[0] is! String)
+                ...List.generate(
+                  comment.children!.length,
+                  (index) => CommentCard(
+                    comment: comment.children![index],
+                  ),
+                ),
             ],
           )
         ],

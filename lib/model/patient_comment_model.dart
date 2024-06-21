@@ -1,30 +1,86 @@
 import 'package:capstone_project_mobile/model/base_model.dart';
 
-class PatientComment extends BaseModel {
+class ParentComment extends BaseModel {
   final String content;
   final CommentPatient patient;
-  final int replyCount;
   final String post;
-  ParentComment? parent;
-  final List<ParentComment> children;
+  final ParentComment? parentComment;
+  final List<ChildComment>? children;
+  final int replyCount;
 
-  PatientComment({
+  ParentComment({
     required this.content,
-    required this.replyCount,
     required this.patient,
     required this.post,
-    this.parent,
+    this.parentComment,
     required this.children,
+    required this.replyCount,
     required super.id,
     required super.createdAt,
     required super.updatedAt,
   });
 
-  factory PatientComment.fromJson(Map<String, dynamic> json) {
-    List<ParentComment> listParentComments = [];
+  factory ParentComment.fromJson(Map<String, dynamic> json) {
+    List<ChildComment> listParentComments = [];
     if (json['children'] != null) {
       for (var eachChild in json['children']) {
-        listParentComments.add(ParentComment.fromJson(eachChild));
+        if (eachChild is String) return listParentComments = json['children'];
+        listParentComments.add(ChildComment.fromJson(eachChild));
+      }
+    }
+
+    return switch (json) {
+      {
+        '_id': String id,
+        'createdAt': String createdAt,
+        'updatedAt': String updatedAt,
+        'content': String content,
+        'reply_count': int replyCount,
+        'post': String post,
+      } =>
+        ParentComment(
+          children: listParentComments,
+          id: id,
+          createdAt: createdAt,
+          updatedAt: updatedAt,
+          content: content,
+          replyCount: replyCount,
+          patient: CommentPatient.fromJson(json['patient']),
+          parentComment: json['parent'] != null
+              ? ParentComment.fromJson(json['parent'])
+              : null,
+          post: post,
+        ),
+      _ => throw const FormatException('Failed to load patient comment')
+    };
+  }
+}
+
+class ChildComment extends BaseModel {
+  final String content;
+  final CommentPatient patient;
+  final String post;
+  final ChildComment? parentComment;
+  final List<String>? children;
+  final int replyCount;
+
+  ChildComment({
+    required this.content,
+    required this.patient,
+    required this.post,
+    this.parentComment,
+    required this.children,
+    required this.replyCount,
+    required super.id,
+    required super.createdAt,
+    required super.updatedAt,
+  });
+
+  factory ChildComment.fromJson(Map<String, dynamic> json) {
+    List<String> listChildComments = [];
+    if (json['children'] != null) {
+      for (var eachChild in json['children']) {
+        listChildComments.add(eachChild);
       }
     }
     return switch (json) {
@@ -36,51 +92,20 @@ class PatientComment extends BaseModel {
         'reply_count': int replyCount,
         'post': String post,
       } =>
-        PatientComment(
+        ChildComment(
           content: content,
-          replyCount: replyCount,
           patient: CommentPatient.fromJson(json['patient']),
           post: post,
-          parent: json['parent'] != null
-              ? ParentComment.fromJson(json['parent'])
+          parentComment: json['parent'] != null
+              ? ChildComment.fromJson(json['parent'])
               : null,
-          children: listParentComments,
+          children: listChildComments,
+          replyCount: replyCount,
           id: id,
           createdAt: createdAt,
           updatedAt: updatedAt,
         ),
-      _ => throw const FormatException('Cannot load patient comment')
-    };
-  }
-}
-
-class ParentComment {
-  final String content;
-  final dynamic patient;
-  final int replyCount;
-  final dynamic post;
-
-  ParentComment({
-    required this.content,
-    required this.replyCount,
-    required this.patient,
-    required this.post,
-  });
-
-  factory ParentComment.fromJson(Map<String, dynamic> json) {
-    return switch (json) {
-      {
-        'content': String content,
-        'reply_count': int replyCount,
-        'post': String post,
-      } =>
-        ParentComment(
-          content: content,
-          replyCount: replyCount,
-          patient: CommentPatient.fromJson(json['patient']),
-          post: post,
-        ),
-      _ => throw const FormatException('Failed to load patient comment')
+      _ => throw const FormatException('Cannot load child comment')
     };
   }
 }

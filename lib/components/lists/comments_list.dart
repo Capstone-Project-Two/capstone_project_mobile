@@ -10,9 +10,11 @@ import 'package:provider/provider.dart';
 
 class CommentsList extends StatefulWidget {
   final String postId;
+  final String? parentId;
   const CommentsList({
     super.key,
     required this.postId,
+    this.parentId,
   });
 
   @override
@@ -24,14 +26,21 @@ class _CommentsListState extends State<CommentsList> {
   Widget build(BuildContext context) {
     return Consumer<PatientCommentProvider>(
       builder: ((context, patientCommentProvider, child) {
+        // return MaterialButton(
+        //   onPressed: () async {
+        //     await patientCommentProvider
+        //         .handleGetAllPatientComments(widget.postId);
+        //   },
+        //   child: const Text('Try again'),
+        // );
         return FutureBuilder(
-          future:
-              patientCommentProvider.handleGetAllPatientComments(widget.postId),
+          future: patientCommentProvider.handleGetAllPatientComments(
+            postId: widget.postId,
+            parentId: widget.parentId,
+          ),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              var comments = snapshot.data!
-                  .where((element) => element.parent == null)
-                  .toList();
+              var comments = snapshot.data!;
               if (comments.length == 0) {
                 return const Padding(
                   padding: EdgeInsets.all(25.0),
@@ -45,7 +54,7 @@ class _CommentsListState extends State<CommentsList> {
                   comments.length,
                   (index) {
                     return CommentCard(
-                      patientComment: comments[index],
+                      comment: comments[index],
                     );
                   },
                 ),
@@ -56,8 +65,10 @@ class _CommentsListState extends State<CommentsList> {
                 padding: const EdgeInsets.all(25.0),
                 child: ErrorScreen(
                   onTryAgain: () async {
-                    await patientCommentProvider
-                        .handleGetAllPatientComments(widget.postId);
+                    await patientCommentProvider.handleGetAllPatientComments(
+                      postId: widget.postId,
+                      parentId: widget.parentId,
+                    );
                   },
                   errorObject: snapshot.error,
                 ),

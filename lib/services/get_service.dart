@@ -79,17 +79,23 @@ class GetService {
     }
   }
 
-  static Future<List<PatientComment>> fetchCommentByPost(String postId) async {
-    List<PatientComment> patientComments = [];
+  static Future<List<ParentComment>> fetchCommentByPost({
+    required String postId,
+    String? parentId,
+  }) async {
+    List<ParentComment> patientComments = [];
     HttpService httpService = HttpService(
       path: ApiRoute.patientComments.name,
-      query: {"post": postId},
+      query: {
+        "post": postId,
+        "parent": parentId,
+      },
     );
     var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
 
     if (ApiHelper.isOk(httpRes.statusCode)) {
       for (var eachComment in jsonData['data']) {
-        patientComments.add(PatientComment.fromJson(eachComment));
+        patientComments.add(ParentComment.fromJson(eachComment));
       }
     } else {
       throw jsonData;

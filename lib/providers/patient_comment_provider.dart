@@ -3,10 +3,10 @@ import 'package:capstone_project_mobile/services/get_service.dart';
 import 'package:flutter/material.dart';
 
 class PatientCommentProvider extends ChangeNotifier {
-  List<PatientComment> _allPatientComments = [];
+  List<ParentComment> _allPatientComments = [];
 
-  List<PatientComment> get getAllPatientComments => _allPatientComments;
-  void setAllPatientComments(List<PatientComment> newComments) {
+  List<ParentComment> get getAllPatientComments => _allPatientComments;
+  void setAllPatientComments(List<ParentComment> newComments) {
     _allPatientComments = newComments;
     notifyListeners();
   }
@@ -19,10 +19,14 @@ class PatientCommentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future handleGetAllPatientComments(String postId) async {
-    List<PatientComment> patientComments =
-        await GetService.fetchCommentByPost(postId)
-            .catchError((err) => throw err);
+  Future handleGetAllPatientComments({
+    required String postId,
+    String? parentId,
+  }) async {
+    List<ParentComment> patientComments = await GetService.fetchCommentByPost(
+      postId: postId,
+      parentId: parentId,
+    ).catchError((err) => throw err);
 
     setAllPatientComments(patientComments);
     return patientComments;

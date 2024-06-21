@@ -33,7 +33,7 @@ class MultipartResponse {
 
 class HttpService {
   final String path;
-  final Map<String, String>? query;
+  final Map<String, dynamic>? query;
 
   HttpService({
     required this.path,
