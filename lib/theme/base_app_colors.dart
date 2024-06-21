@@ -13,4 +13,18 @@ class BaseAppColors {
       secondaryColor,
     ],
   );
+
+  static LinearGradient primaryGradient = LinearGradient(
+    colors: [primaryColor, secondaryColor],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    stops: const [0.0, 1.0],
+    tileMode: TileMode.clamp,
+  );
+
+  static LinearGradient reversePrimaryGradient = LinearGradient(
+    colors: [secondaryColor, primaryColor],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+  );
 }
