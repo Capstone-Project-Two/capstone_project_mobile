@@ -81,8 +81,10 @@ class GetService {
 
   static Future<List<PatientComment>> fetchCommentByPost(String postId) async {
     List<PatientComment> patientComments = [];
-    HttpService httpService =
-        HttpService(path: '${ApiRoute.postPatientComments.name}/$postId');
+    HttpService httpService = HttpService(
+      path: ApiRoute.patientComments.name,
+      query: {"post": postId},
+    );
     var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
 
     if (ApiHelper.isOk(httpRes.statusCode)) {
