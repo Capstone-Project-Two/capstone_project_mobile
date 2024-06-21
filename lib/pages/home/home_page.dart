@@ -76,28 +76,6 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-              // child: Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     child: Column(
-              //       const Text(
-              //       'Stress Monitor',
-              //       style: TextStyle(color: Colors.white, fontSize: 20),
-              //     ),
-              //     ),
-              //     const Text(
-              //       'Stress Monitor',
-              //       style: TextStyle(color: Colors.white, fontSize: 20),
-              //     ),
-
-              //     SizedBox(width: 60), // Space between icon and text
-              //     Image.asset(
-              //       'lib/assets/images/stressmonitor.png',
-              //       width: 90,
-              //       height: 90,
-              //     ),
-              //   ],
-              // ),
             ),
             const SizedBox(height: 20),
             //find activity
@@ -125,7 +103,7 @@ class HomePage extends StatelessWidget {
                   Align(
                       alignment: Alignment.center,
                       child: Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -134,13 +112,13 @@ class HomePage extends StatelessWidget {
                               style:
                                   TextStyle(color: Colors.black, fontSize: 20),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             const Text(
                               'Understand which activity is suitable for your lifestyle',
                               style:
                                   TextStyle(color: Colors.black, fontSize: 16),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Image.asset(
                               'lib/assets/images/activity.jpg',
                               width: 300,
