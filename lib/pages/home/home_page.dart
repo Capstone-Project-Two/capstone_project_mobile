@@ -1,3 +1,4 @@
+import 'package:capstone_project_mobile/theme/base_app_colors.dart';
 import 'package:flutter/material.dart';
 // import '../../constants/env_constants.dart';
 
@@ -16,14 +17,7 @@ class HomePage extends StatelessWidget {
               height: 150,
               margin: const EdgeInsets.only(top: 16),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF005EDC), Color(0xFF7908D2)],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: [0.0, 1.0],
-                  tileMode: TileMode
-                      .clamp, // Optional, defines how the gradient should be repeated
-                ),
+                gradient: BaseAppColors.primaryGradient,
                 borderRadius: BorderRadius.circular(15),
                 // border: Border.all(
                 //   color: Colors.blueAccent,
@@ -37,7 +31,6 @@ class HomePage extends StatelessWidget {
                   ),
                 ],
               ),
-
               child: Row(
                 // mainAxisAlignment: MainAxisAlignment.start,
                 children: [

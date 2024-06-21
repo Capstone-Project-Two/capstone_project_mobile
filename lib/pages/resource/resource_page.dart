@@ -2,6 +2,7 @@ import 'package:capstone_project_mobile/pages/resource/article_page/article_page
 import 'package:capstone_project_mobile/pages/resource/book_recommendation_page/book_recommendation_page.dart';
 import 'package:capstone_project_mobile/pages/resource/quote_page/qoute_slideshow.dart';
 import 'package:capstone_project_mobile/pages/resource/video_play.dart';
+import 'package:capstone_project_mobile/theme/base_app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -159,11 +160,7 @@ class _ResourcePageState extends State<ResourcePage> {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [colorScheme.secondary, colorScheme.primary],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
+        gradient: BaseAppColors.reversePrimaryGradient,
         borderRadius: BorderRadius.circular(16),
       ),
       child: SizedBox(
