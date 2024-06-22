@@ -16,7 +16,7 @@ class _ResourcePageState extends State<ResourcePage> {
   final img =
       "https://i.ytimg.com/an_webp/tY8NY6CMDFA/mqdefault_6s.webp?du=3000&sqp=COCR2bMG&rs=AOn4CLDT5fbXfIlx1ZqHQ15fAlI5nhc4LA";
   final title =
-      'What Mental Health Is and Why It’s Important to Take Care of It? - Kids Academy';
+      "What Mental Health Is and Why It's Important to Take Care of It? - Kids Academy";
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +105,8 @@ class _ResourcePageState extends State<ResourcePage> {
                 right: 0,
                 bottom: 0,
                 child: Container(
-                  padding: const EdgeInsets.all(8.0), // Adjust padding as needed
+                  padding:
+                      const EdgeInsets.all(8.0), // Adjust padding as needed
                   color: Colors.black.withOpacity(
                       0.5), // Adjust the opacity and color as needed
                   child: Text(
