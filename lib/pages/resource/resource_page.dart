@@ -12,9 +12,8 @@ class ResourcePage extends StatefulWidget {
 }
 
 class _ResourcePageState extends State<ResourcePage> {
-  final url = 'https://youtu.be/tY8NY6CMDFA?si=80fyBHrN8cUDQCh9';
-  final img =
-      "https://i.ytimg.com/an_webp/tY8NY6CMDFA/mqdefault_6s.webp?du=3000&sqp=COCR2bMG&rs=AOn4CLDT5fbXfIlx1ZqHQ15fAlI5nhc4LA";
+  final url = 'https://flutter.dev';
+  final img = 'https://i.ytimg.com/vi/tY8NY6CMDFA/mqdefault.jpg';
   final title =
       "What Mental Health Is and Why It's Important to Take Care of It? - Kids Academy";
 
@@ -78,7 +77,7 @@ class _ResourcePageState extends State<ResourcePage> {
     );
   }
 
-  Widget _buildVideoPlay(final url, final img, final title) {
+  Widget _buildVideoPlay(String url, String img, String title) {
     return InkWell(
       onTap: () {
         _launchURL(url);
