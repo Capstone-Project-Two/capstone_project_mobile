@@ -28,20 +28,22 @@ class _CommentsListState extends State<CommentsList> {
       builder: ((context, patientCommentProvider, child) {
         // return MaterialButton(
         //   onPressed: () async {
-        //     await patientCommentProvider
-        //         .handleGetAllPatientComments(widget.postId);
+        //     await patientCommentProvider.handleGetAllComments(
+        //       postId: widget.postId,
+        //       parentId: widget.parentId,
+        //     );
         //   },
-        //   child: const Text('Try again'),
+        //   child: const Text('try again'),
         // );
         return FutureBuilder(
-          future: patientCommentProvider.handleGetAllPatientComments(
+          future: patientCommentProvider.handleGetAllComments(
             postId: widget.postId,
             parentId: widget.parentId,
           ),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var comments = snapshot.data!;
-              if (comments.length == 0) {
+              if (comments.isEmpty) {
                 return const Padding(
                   padding: EdgeInsets.all(25.0),
                   child: EmptyScreen(

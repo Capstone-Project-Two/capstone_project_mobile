@@ -4,7 +4,7 @@ class ParentComment extends BaseModel {
   final String content;
   final CommentPatient patient;
   final String post;
-  final ParentComment? parentComment;
+  final String? parentComment;
   final List<ChildComment>? children;
   final int replyCount;
 
@@ -46,9 +46,7 @@ class ParentComment extends BaseModel {
           content: content,
           replyCount: replyCount,
           patient: CommentPatient.fromJson(json['patient']),
-          parentComment: json['parent'] != null
-              ? ParentComment.fromJson(json['parent'])
-              : null,
+          parentComment: json['parent'],
           post: post,
         ),
       _ => throw const FormatException('Failed to load patient comment')
@@ -60,7 +58,7 @@ class ChildComment extends BaseModel {
   final String content;
   final CommentPatient patient;
   final String post;
-  final ChildComment? parentComment;
+  final String? parentComment;
   final List<String>? children;
   final int replyCount;
 
@@ -96,9 +94,7 @@ class ChildComment extends BaseModel {
           content: content,
           patient: CommentPatient.fromJson(json['patient']),
           post: post,
-          parentComment: json['parent'] != null
-              ? ChildComment.fromJson(json['parent'])
-              : null,
+          parentComment: json['parent'],
           children: listChildComments,
           replyCount: replyCount,
           id: id,
