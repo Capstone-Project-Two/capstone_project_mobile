@@ -1,9 +1,8 @@
 import 'package:capstone_project_mobile/pages/resource/article_page/article_page.dart';
 import 'package:capstone_project_mobile/pages/resource/book_recommendation_page/book_recommendation_page.dart';
 import 'package:capstone_project_mobile/pages/resource/quote_page/qoute_slideshow.dart';
-import 'package:capstone_project_mobile/pages/resource/video_play.dart';
 import 'package:flutter/material.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ResourcePage extends StatefulWidget {
   const ResourcePage({super.key});
@@ -13,21 +12,11 @@ class ResourcePage extends StatefulWidget {
 }
 
 class _ResourcePageState extends State<ResourcePage> {
-  late YoutubePlayerController controller;
-
-  @override
-  void initState() {
-    super.initState();
-    const url = 'https://www.youtube.com/watch?v=tY8NY6CMDFA';
-    controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(url)!,
-      flags: const YoutubePlayerFlags(
-        mute: false,
-        loop: false,
-        autoPlay: true,
-      ),
-    );
-  }
+  final url = 'https://youtu.be/tY8NY6CMDFA?si=80fyBHrN8cUDQCh9';
+  final img =
+      "https://i.ytimg.com/an_webp/tY8NY6CMDFA/mqdefault_6s.webp?du=3000&sqp=COCR2bMG&rs=AOn4CLDT5fbXfIlx1ZqHQ15fAlI5nhc4LA";
+  final title =
+      'What Mental Health Is and Why It’s Important to Take Care of It? - Kids Academy';
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +50,7 @@ class _ResourcePageState extends State<ResourcePage> {
               ),
             ),
             const SizedBox(height: 20),
-            VideoPlayer(controller: controller), // Use the new widget here
+            _buildVideoPlay(url, img, title),
             const SizedBox(height: 20),
             Text(
               'Motivation Quote',
@@ -84,6 +73,54 @@ class _ResourcePageState extends State<ResourcePage> {
             const SizedBox(height: 20),
             _buildArticlePage(context)
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildVideoPlay(final url, final img, final title) {
+    return InkWell(
+      onTap: () {
+        _launchURL(url);
+      },
+      child: Center(
+        child: ClipRRect(
+          borderRadius:
+              BorderRadius.circular(10), // Adjust the radius as needed
+          child: Stack(
+            children: <Widget>[
+              Image.network(
+                img,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, progress) {
+                  if (progress == null) return child;
+                  return const CircularProgressIndicator();
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return Text('Error loading image: $error');
+                },
+              ),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  padding: const EdgeInsets.all(8.0), // Adjust padding as needed
+                  color: Colors.black.withOpacity(
+                      0.5), // Adjust the opacity and color as needed
+                  child: Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -214,5 +251,14 @@ class _ResourcePageState extends State<ResourcePage> {
         ),
       ),
     );
+  }
+
+  Future<void> _launchURL(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
