@@ -40,7 +40,7 @@ class BookRecommendationPage extends StatelessWidget {
         backgroundColor: Colors.white,
         appBar: const MyAppBar(
           title: "Book Recommedation",
-          actionsEnabled: true,
+          actionsSearchEnabled: true,
         ),
         body: _buildBody(context));
   }

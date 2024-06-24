@@ -12,7 +12,7 @@ class ArticlePage extends StatelessWidget {
       'title': 'Coping with ADHD',
       'author': 'by Louis Armstrong',
       'date': '2019',
-      'url': 'https://example.com/article1' 
+      'url': 'https://example.com/article1'
     },
     {
       'img': 'lib/assets/images/article.png',
@@ -46,7 +46,7 @@ class ArticlePage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: const MyAppBar(
         title: "Article and Research",
-        actionsEnabled: true,
+        actionsSearchEnabled: true,
       ),
       body: _buildBody(context),
     );
