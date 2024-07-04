@@ -1,12 +1,13 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/pages/resource/expandable_tile.dart';
+import 'package:capstone_project_mobile/components/buttons/expandable_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:capstone_project_mobile/components/buttons/favorite_button.dart';
 
 class ArticlePage extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  final List<Map<String, String>> books = [
+  final List<Map<String, String>> articles = [
     {
       'img': 'lib/assets/images/article.png',
       'title': 'Coping with ADHD',
@@ -41,9 +42,10 @@ class ArticlePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       key: _scaffoldKey,
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.surface,
       appBar: const MyAppBar(
         title: "Article and Research",
         actionsSearchEnabled: true,
@@ -61,18 +63,18 @@ class ArticlePage extends StatelessWidget {
           children: [
             _buildText(context),
             const SizedBox(height: 20),
-            ...books.map((book) {
+            ...articles.map((article) {
               return Column(
                 children: [
                   _buildArticleCard(
                     context,
-                    book['img']!,
-                    book['title']!,
-                    book['author']!,
-                    book['date']!,
-                    book['url']!,
+                    article['img']!,
+                    article['title']!,
+                    article['author']!,
+                    article['date']!,
+                    article['url']!,
                   ),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 25),
                 ],
               );
             }),
@@ -150,10 +152,10 @@ class ArticlePage extends StatelessWidget {
         decoration: const BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.grey,
-              spreadRadius: 3,
-              blurRadius: 6,
-              offset: Offset(0, 5), // changes position of shadow
+              color: Color.fromRGBO(0, 0, 0, 0.12),
+              spreadRadius: 4,
+              blurRadius: 4,
+              offset: Offset(0, 5),
             ),
           ],
           color: Colors.white,
@@ -240,42 +242,5 @@ class ArticlePage extends StatelessWidget {
     } else {
       throw 'Could not launch $url';
     }
-  }
-}
-
-class FavoriteButton extends StatefulWidget {
-  const FavoriteButton({super.key});
-
-  @override
-  State<FavoriteButton> createState() => _FavoriteButtonState();
-}
-
-class _FavoriteButtonState extends State<FavoriteButton> {
-  var isLike = false;
-  void handleLike() {
-    setState(() {
-      isLike = !isLike; // Toggle the value of isLike
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: IconButton(
-        onPressed: () {
-          handleLike();
-        },
-        icon: Icon(
-          isLike ? Icons.bookmark : Icons.bookmark_outline,
-          color: isLike ? colorScheme.primary : Colors.black,
-          size: 30,
-        ),
-      ),
-    );
   }
 }
