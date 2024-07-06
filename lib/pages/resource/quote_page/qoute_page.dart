@@ -27,8 +27,10 @@ class _QoutePageState extends State<QoutePage> {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: Colors.blueGrey,
+      backgroundColor: colorScheme.surface,
       body: Stack(
         children: [
           Center(

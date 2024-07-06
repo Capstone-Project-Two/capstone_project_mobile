@@ -71,6 +71,7 @@ flutter:
     - lib/assets/
     - lib/assets/images/
     - lib/assets/images/books/
+    - lib/assets/images/activitys/
     - lib/assets/icons/
     - .env
 

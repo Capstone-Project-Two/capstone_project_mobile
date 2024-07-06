@@ -1,6 +1,7 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/pages/resource/expandable_tile.dart';
+import 'package:capstone_project_mobile/components/buttons/expandable_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:capstone_project_mobile/components/buttons/favorite_button.dart';
 
 import 'package:flutter/material.dart';
 
@@ -35,9 +36,11 @@ class BookRecommendationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
         key: _scaffoldKey,
-        backgroundColor: Colors.white,
+        backgroundColor: colorScheme.surface,
         appBar: const MyAppBar(
           title: "Book Recommedation",
           actionsSearchEnabled: true,
@@ -61,7 +64,7 @@ class BookRecommendationPage extends StatelessWidget {
                 children: [
                   _buildBookCard(context, book['img']!, book['title']!,
                       book['author']!, book['date']!, book['url']!),
-                  const SizedBox(height: 30),
+                  const SizedBox(height: 25),
                 ],
               );
             }),
@@ -134,10 +137,10 @@ class BookRecommendationPage extends StatelessWidget {
         decoration: const BoxDecoration(
             boxShadow: [
               BoxShadow(
-                color: Colors.grey,
-                spreadRadius: 3,
-                blurRadius: 6,
-                offset: Offset(0, 5), // changes position of shadow
+                color: Color.fromRGBO(0, 0, 0, 0.12),
+                spreadRadius: 4,
+                blurRadius: 4,
+                offset: Offset(0, 5),
               ),
             ],
             color: Colors.white,
@@ -228,44 +231,5 @@ class BookRecommendationPage extends StatelessWidget {
     } else {
       throw 'Could not launch $url';
     }
-  }
-}
-
-class FavoriteButton extends StatefulWidget {
-  const FavoriteButton({
-    super.key,
-  });
-
-  @override
-  State<FavoriteButton> createState() => _FavoriteButtonState();
-}
-
-class _FavoriteButtonState extends State<FavoriteButton> {
-  var isLike = false;
-  void handleLike() {
-    setState(() {
-      isLike = !isLike; // Toggle the value of isLike
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: IconButton(
-        onPressed: () {
-          handleLike();
-        },
-        icon: Icon(
-          isLike ? Icons.bookmark : Icons.bookmark_outline,
-          color: isLike ? colorScheme.primary : Colors.black,
-          size: 30,
-        ),
-      ),
-    );
   }
 }

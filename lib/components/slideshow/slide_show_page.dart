@@ -1,21 +1,30 @@
-import 'package:capstone_project_mobile/pages/resource/quote_page/qoute_page.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:capstone_project_mobile/pages/resource/quote_page/qoute_page.dart';
+
+class SlideShowItem {
+  final String img;
+  final Function(BuildContext) navigation;
+  SlideShowItem({required this.img, required this.navigation});
+}
 
 class SlideshowPage extends StatefulWidget {
-  const SlideshowPage({super.key});
+  final List<String>? slideImgUrl;
+  final List<SlideShowItem>? slideImgNav;
+
+  final bool actionsEnabled;
+
+  const SlideshowPage(
+      {super.key,
+      this.slideImgUrl,
+      this.actionsEnabled = false,
+      this.slideImgNav});
+
   @override
   State<SlideshowPage> createState() => _SlideshowPageState();
 }
 
 class _SlideshowPageState extends State<SlideshowPage> {
-  final List<String> imageUrls = [
-    'https://i.pinimg.com/236x/58/50/6b/58506b21cb2333e481478bf0631ca5c9.jpg',
-    'https://cdn.shopify.com/s/files/1/0070/7032/files/rohn-quote.png?v=1706739779',
-    'https://m.media-amazon.com/images/I/71MQYuGHUkL._AC_UF1000,1000_QL80_.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2BgOfjoH6kuOgqHd0xPg_KxKOwJ2CQ-QU4w&s',
-  ];
-
   late CarouselController _controller;
   int _currentIndex = 0;
 
@@ -27,6 +36,16 @@ class _SlideshowPageState extends State<SlideshowPage> {
 
   @override
   Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (widget.actionsEnabled == true) _buildImgUrl(),
+        if (widget.actionsEnabled == false) _buildImgNav(),
+      ],
+    );
+  }
+
+  Widget _buildImgUrl() {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return Column(
@@ -34,7 +53,7 @@ class _SlideshowPageState extends State<SlideshowPage> {
       children: [
         CarouselSlider.builder(
           carouselController: _controller,
-          itemCount: imageUrls.length,
+          itemCount: widget.slideImgUrl!.length,
           options: CarouselOptions(
             autoPlay: true,
             enlargeCenterPage: true,
@@ -47,7 +66,8 @@ class _SlideshowPageState extends State<SlideshowPage> {
             },
           ),
           itemBuilder: (context, index, realIndex) {
-            final imageUrl = imageUrls[index];
+            final imageUrl = widget.slideImgUrl![index];
+
             return ClipRRect(
               borderRadius: BorderRadius.circular(12.0),
               child: Image.network(
@@ -59,15 +79,13 @@ class _SlideshowPageState extends State<SlideshowPage> {
             );
           },
         ),
-        const SizedBox(
-          height: 10,
-        ),
+        const SizedBox(height: 10),
         Stack(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: List.generate(
-                imageUrls.length,
+                widget.slideImgUrl!.length,
                 (index) => Container(
                   width: 10.0,
                   height: 30.0,
@@ -90,7 +108,8 @@ class _SlideshowPageState extends State<SlideshowPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const QoutePage()),
+                        builder: (context) => const QoutePage(),
+                      ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -113,8 +132,48 @@ class _SlideshowPageState extends State<SlideshowPage> {
               ),
             ),
           ],
-        ),
+        )
       ],
+    );
+  }
+
+  Widget _buildImgNav() {
+    return CarouselSlider.builder(
+      carouselController: _controller,
+      itemCount: widget.slideImgNav!.length,
+      options: CarouselOptions(
+        autoPlay: true,
+        enlargeCenterPage: true,
+        aspectRatio: 16 / 9,
+        height: 300,
+        onPageChanged: (index, reason) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
+      ),
+      itemBuilder: (context, index, realIndex) {
+        final imageUrl = widget.slideImgNav![index];
+
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(12.0),
+          child: InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => imageUrl.navigation(context)),
+              );
+            },
+            child: Image.asset(
+              imageUrl.img,
+              fit: BoxFit.fitHeight,
+              width: double.infinity,
+              height: 300,
+            ),
+          ),
+        );
+      },
     );
   }
 }

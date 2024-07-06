@@ -1,6 +1,6 @@
+import 'package:capstone_project_mobile/components/slideshow/slide_show_page.dart';
 import 'package:capstone_project_mobile/pages/resource/article_page/article_page.dart';
 import 'package:capstone_project_mobile/pages/resource/book_recommendation_page/book_recommendation_page.dart';
-import 'package:capstone_project_mobile/pages/resource/quote_page/qoute_slideshow.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -16,10 +16,18 @@ class _ResourcePageState extends State<ResourcePage> {
   final img = 'https://i.ytimg.com/vi/tY8NY6CMDFA/mqdefault.jpg';
   final title =
       "What Mental Health Is and Why It's Important to Take Care of It? - Kids Academy";
+  final List<String> slideImgUrl = [
+    'https://i.pinimg.com/236x/58/50/6b/58506b21cb2333e481478bf0631ca5c9.jpg',
+    'https://cdn.shopify.com/s/files/1/0070/7032/files/rohn-quote.png?v=1706739779',
+    'https://m.media-amazon.com/images/I/71MQYuGHUkL._AC_UF1000,1000_QL80_.jpg',
+  ];
 
   @override
   Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
+      backgroundColor: colorScheme.surface,
       body: _buildBody(context),
     );
   }
@@ -59,7 +67,10 @@ class _ResourcePageState extends State<ResourcePage> {
               ),
             ),
             const SizedBox(height: 20),
-            const SlideshowPage(),
+            SlideshowPage(
+              slideImgUrl: slideImgUrl,
+              actionsEnabled: true,
+            ),
             Text(
               'Other',
               style: textTheme.displayMedium?.copyWith(
