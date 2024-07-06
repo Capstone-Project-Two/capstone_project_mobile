@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 class EmptyScreen extends StatelessWidget {
-  const EmptyScreen({super.key});
+  final String? title;
+
+  const EmptyScreen({super.key, this.title});
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Empty Data'),
+    return Center(
+      child: Text(title ?? 'Empty Data'),
     );
   }
 }

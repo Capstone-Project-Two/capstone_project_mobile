@@ -1,4 +1,5 @@
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
+import 'package:capstone_project_mobile/model/appointment.dart';
 import 'package:capstone_project_mobile/model/patient.dart';
 import 'package:capstone_project_mobile/model/post.dart';
 import 'package:capstone_project_mobile/model/therapist.dart';
@@ -76,5 +77,21 @@ class GetService {
     } else {
       throw jsonData;
     }
+  }
+
+  static Future<List<Appointment>> fetchAppointments() async {
+    List<Appointment> appointments = [];
+    HttpService httpService = HttpService(path: ApiRoute.appointments.name);
+    var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
+
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      for (var eachAppointment in jsonData['data']) {
+        appointments.add(Appointment.fromJson(eachAppointment));
+      }
+    } else {
+      throw jsonData;
+    }
+
+    return appointments;
   }
 }

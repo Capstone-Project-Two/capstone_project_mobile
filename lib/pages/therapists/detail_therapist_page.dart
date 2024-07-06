@@ -1,6 +1,6 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/model/therapist.dart';
-import 'package:capstone_project_mobile/pages/booking_page.dart';
+import 'package:capstone_project_mobile/pages/booking/booking_list_page.dart';
 import 'package:capstone_project_mobile/services/get_service.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
@@ -100,8 +100,7 @@ class _DetailTherapistPageState extends State<DetailTherapistPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>
-                                BookingPage(therapist: therapist)));
+                            builder: (context) => BookingListPage()));
                   },
                   style: textButtonStyle,
                   child:

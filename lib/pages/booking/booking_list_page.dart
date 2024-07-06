@@ -1,55 +1,58 @@
-import 'package:capstone_project_mobile/components/cards/therapist_card.dart';
-import 'package:capstone_project_mobile/model/therapist.dart';
+import 'package:capstone_project_mobile/components/cards/booking_card.dart';
+import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
+import 'package:capstone_project_mobile/model/appointment.dart';
 import 'package:capstone_project_mobile/services/get_service.dart';
 import 'package:capstone_project_mobile/shared/empty_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
 
-class TherapistsPage extends StatefulWidget {
-  const TherapistsPage({super.key});
+class BookingListPage extends StatefulWidget {
+  const BookingListPage({super.key});
 
   @override
-  State<TherapistsPage> createState() => _TherapistsPageState();
+  State<BookingListPage> createState() => _BookingListPageState();
 }
 
-class _TherapistsPageState extends State<TherapistsPage> {
-  late Future<List<Therapist>> futureTherapists;
+class _BookingListPageState extends State<BookingListPage> {
+  late Future<List<Appointment>> futureAppointments;
 
   @override
   void initState() {
     super.initState();
-    futureTherapists = GetService.fetchTherapists();
+    futureAppointments = GetService.fetchAppointments();
   }
 
   Future handleRefresh() async {
     setState(() {
-      futureTherapists = GetService.fetchTherapists();
+      futureAppointments = GetService.fetchAppointments();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: MyAppBar(
+        title: 'All Bookings',
+      ),
       body: RefreshIndicator(
         onRefresh: handleRefresh,
         child: FutureBuilder(
-          future: futureTherapists,
+          future: futureAppointments,
           builder: (context, snapshot) {
             if (snapshot.data!.isEmpty) {
               return const EmptyScreen(
-                title: 'Therapist Empty',
+                title: 'You havent book any appointment.',
               );
             }
             if (snapshot.hasData) {
-              var therapists = snapshot.data!;
+              var appointments = snapshot.data!;
               return ListView.builder(
-                itemCount: therapists.length,
+                itemCount: appointments.length,
                 itemBuilder: (context, index) {
                   return Container(
                     padding: const EdgeInsets.only(bottom: 16),
-                    child: TherapistCard(
-                      therapist: therapists[index],
-                      isNavigate: true,
+                    child: BookingCard(
+                      appointment: appointments[index],
                     ),
                   );
                 },
