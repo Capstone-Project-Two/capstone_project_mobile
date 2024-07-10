@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool actionsEnabled;
+  final bool actionsSearchEnabled;
+
   final bool leadingEnabled;
 
   const MyAppBar(
       {super.key,
       required this.title,
       this.actionsEnabled = false,
+      this.actionsSearchEnabled = false,
       this.leadingEnabled = true});
 
   @override
@@ -24,18 +27,28 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           bottom: Radius.circular(20.0), // Adjust the radius as needed
         ),
         child: AppBar(
-          actions: actionsEnabled
-              ? [
-                  IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginEmail()));
-                      },
-                      icon: const Icon(Icons.login))
-                ]
-              : null,
+          actions: [
+            if (actionsEnabled)
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginEmail()));
+                },
+                icon: const Icon(Icons.login),
+              ),
+            if (actionsSearchEnabled)
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const LoginEmail()));
+                },
+                icon: const Icon(Icons.search),
+              ),
+          ],
           automaticallyImplyLeading: leadingEnabled,
           backgroundColor: colorScheme.primary,
           title:
