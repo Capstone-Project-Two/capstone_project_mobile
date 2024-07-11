@@ -5,9 +5,9 @@ import 'package:capstone_project_mobile/components/cards/profile_picture_card.da
 import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/components/inputs/my_text_field.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/model/dto/create_post.dart';
-import 'package:capstone_project_mobile/providers/post_provider.dart';
-import 'package:capstone_project_mobile/services/post_service.dart';
+import 'package:capstone_project_mobile/core/model/dto/create_post.dart';
+import 'package:capstone_project_mobile/core/providers/post_provider.dart';
+import 'package:capstone_project_mobile/core/services/post_service.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

@@ -1,8 +1,8 @@
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
-import 'package:capstone_project_mobile/model/patient.dart';
-import 'package:capstone_project_mobile/model/post.dart';
-import 'package:capstone_project_mobile/model/therapist.dart';
-import 'package:capstone_project_mobile/services/http_service.dart';
+import 'package:capstone_project_mobile/core/model/patient.dart';
+import 'package:capstone_project_mobile/core/model/post.dart';
+import 'package:capstone_project_mobile/core/model/therapist.dart';
+import 'package:capstone_project_mobile/core/services/http_service.dart';
 import 'package:capstone_project_mobile/utils/api_helper.dart';
 
 class GetService {

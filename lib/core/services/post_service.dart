@@ -1,7 +1,7 @@
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
-import 'package:capstone_project_mobile/model/dto/create_appointment.dart';
-import 'package:capstone_project_mobile/model/dto/create_post.dart';
-import 'package:capstone_project_mobile/services/http_service.dart';
+import 'package:capstone_project_mobile/core/model/dto/create_appointment.dart';
+import 'package:capstone_project_mobile/core/model/dto/create_post.dart';
+import 'package:capstone_project_mobile/core/services/http_service.dart';
 import 'package:capstone_project_mobile/utils/api_helper.dart';
 import 'package:http/http.dart';
 

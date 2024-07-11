@@ -1,7 +1,7 @@
 import 'package:capstone_project_mobile/components/cards/post_card.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/model/post.dart';
-import 'package:capstone_project_mobile/services/get_service.dart';
+import 'package:capstone_project_mobile/core/model/post.dart';
+import 'package:capstone_project_mobile/core/services/get_service.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
 
