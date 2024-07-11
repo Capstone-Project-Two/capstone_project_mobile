@@ -6,13 +6,11 @@ import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/components/inputs/my_text_field.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_post.dart';
-import 'package:capstone_project_mobile/core/providers/post_provider.dart';
 import 'package:capstone_project_mobile/core/services/post_service.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:provider/provider.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({super.key});
@@ -50,7 +48,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       postPhotos: getAllPaths(postImages: postImages),
     )).then(
       (value) {
-        Provider.of<PostProvider>(context, listen: false).getAllPosts();
+        // Provider.of<PostProvider>(context, listen: false).getAllPosts();
         // Navigator.pushReplacement(
         //   context,
         //   CupertinoPageRoute(

@@ -1,14 +1,17 @@
+import 'dart:async';
+
 import 'package:capstone_project_mobile/core/model/post.dart';
 import 'package:capstone_project_mobile/core/services/get_service.dart';
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class PostProvider extends ChangeNotifier {
+class PostController extends GetxController {
   List<Post> _futurePosts = [];
 
   List<Post> get getPosts => _futurePosts;
 
-  Future getAllPosts() async {
+  Future<List<Post>> handleGetAllPosts() async {
     _futurePosts = await GetService.fetchPosts();
-    notifyListeners();
+    update();
+    return _futurePosts;
   }
 }
