@@ -33,16 +33,18 @@ class MultipartResponse {
 
 class HttpService {
   final String path;
+  final Map<String, dynamic>? query;
 
   HttpService({
     required this.path,
+    this.query,
   });
 
   static const headers = <String, String>{
     'Content-Type': 'application/json',
   };
 
-  get url => Uri.http(baseApiUrl, path);
+  get url => Uri.http(baseApiUrl, path, query);
 
   Future<HttpResponse> httpGet() async {
     var res = await http.get(url);

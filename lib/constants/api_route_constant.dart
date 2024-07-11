@@ -3,7 +3,8 @@ enum ApiRoute {
   therapists("therapists"),
   appointments("appointments"),
   posts("posts"),
-  likePosts("like-posts");
+  likePosts("like-posts"),
+  patientComments("patient-comments");
 
   final String name;
 

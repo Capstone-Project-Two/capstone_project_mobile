@@ -1,4 +1,4 @@
-import 'package:capstone_project_mobile/model/therapist.dart';
+import 'package:capstone_project_mobile/model/therapist_model.dart';
 import 'package:capstone_project_mobile/pages/therapists/detail_therapist_page.dart';
 import 'package:flutter/material.dart';
 

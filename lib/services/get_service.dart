@@ -1,7 +1,8 @@
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
-import 'package:capstone_project_mobile/model/patient.dart';
-import 'package:capstone_project_mobile/model/post.dart';
-import 'package:capstone_project_mobile/model/therapist.dart';
+import 'package:capstone_project_mobile/model/patient_model.dart';
+import 'package:capstone_project_mobile/model/patient_comment_model.dart';
+import 'package:capstone_project_mobile/model/post_model.dart';
+import 'package:capstone_project_mobile/model/therapist_model.dart';
 import 'package:capstone_project_mobile/services/http_service.dart';
 import 'package:capstone_project_mobile/utils/api_helper.dart';
 
@@ -76,5 +77,30 @@ class GetService {
     } else {
       throw jsonData;
     }
+  }
+
+  static Future<List<ParentComment>> fetchCommentByPost({
+    required String postId,
+    String? parentId,
+  }) async {
+    List<ParentComment> patientComments = [];
+    HttpService httpService = HttpService(
+      path: ApiRoute.patientComments.name,
+      query: {
+        "post": postId,
+        "parent": parentId,
+      },
+    );
+    var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
+
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      for (var eachComment in jsonData['data']) {
+        patientComments.add(ParentComment.fromJson(eachComment));
+      }
+    } else {
+      throw jsonData;
+    }
+
+    return patientComments;
   }
 }
