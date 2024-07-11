@@ -1,14 +1,14 @@
-import 'package:capstone_project_mobile/model/patient_comment_model.dart';
-import 'package:capstone_project_mobile/services/get_service.dart';
-import 'package:flutter/material.dart';
+import 'package:capstone_project_mobile/core/model/patient_comment_model.dart';
+import 'package:capstone_project_mobile/core/services/get_service.dart';
+import 'package:get/get.dart';
 
-class PatientCommentProvider extends ChangeNotifier {
+class PatientCommentController extends GetxController {
   List<dynamic> _allComments = [];
 
   List<dynamic> get getAllComments => _allComments;
   void setAllComments(List<dynamic> newComments) {
     _allComments = newComments;
-    notifyListeners();
+    update();
   }
 
   List<ParentComment> _allPatientComments = [];
@@ -16,14 +16,14 @@ class PatientCommentProvider extends ChangeNotifier {
   List<ParentComment> get getAllPatientComments => _allPatientComments;
   void setAllPatientComments(List<ParentComment> newComments) {
     _allPatientComments = newComments;
-    notifyListeners();
+    update();
   }
 
   // List<ParentComment> _allChildComments = [];
   // List<ParentComment> get getAllChildComments => _allChildComments;
   // void setAllChildComments(List<ParentComment> newComments) {
   //   _allChildComments = newComments;
-  //   notifyListeners();
+  //   update();
   // }
 
   bool _loading = false;
@@ -31,7 +31,7 @@ class PatientCommentProvider extends ChangeNotifier {
   bool get getLoading => _loading;
   void setLoading(bool loading) {
     _loading = loading;
-    notifyListeners();
+    update();
   }
 
   Future handleGetAllPatientComments({
