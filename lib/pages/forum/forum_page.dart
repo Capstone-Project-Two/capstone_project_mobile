@@ -1,9 +1,13 @@
+import 'package:capstone_project_mobile/components/buttons/floating_post_button.dart';
 import 'package:capstone_project_mobile/components/cards/post_card.dart';
+import 'package:capstone_project_mobile/providers/post_provider.dart';
+import 'package:capstone_project_mobile/shared/error_screen.dart';
 import 'package:capstone_project_mobile/core/controller/post_controller.dart';
 import 'package:capstone_project_mobile/pages/forum/create_post_screen.dart';
 import 'package:capstone_project_mobile/shared/error_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
@@ -26,6 +30,42 @@ class _ForumPageState extends State<ForumPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: const FloatingPostButton(),
+      body: Consumer<PostProvider>(
+        builder: (context, postProvider, child) {
+          return RefreshIndicator(
+            onRefresh: postProvider.handleGetAllPosts,
+            child: FutureBuilder(
+              future: postProvider.handleGetAllPosts(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  var posts = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: postProvider.getAllPosts.length,
+                    itemBuilder: (ctx, index) {
+                      return PostCard(
+                        post: posts[index],
+                        isCurrentPost: false,
+                      );
+                    },
+                  );
+                }
+                if (snapshot.hasError) {
+                  return Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: ErrorScreen(
+                      onTryAgain: () async {
+                        await postProvider.handleGetAllPosts();
+                      },
+                      errorObject: snapshot.error,
+                    ),
+                  );
+                }
+                return const LoadingScreen();
+              },
+            ),
+          );
+        },
       floatingActionButton: _elevatedButton(context),
       body: RefreshIndicator(
         onRefresh: () async {},
@@ -61,39 +101,4 @@ class _ForumPageState extends State<ForumPage> {
       ),
     );
   }
-}
-
-Widget _elevatedButton(BuildContext context) {
-  ColorScheme colorScheme = Theme.of(context).colorScheme;
-  TextTheme textTheme = Theme.of(context).textTheme;
-
-  return ElevatedButton.icon(
-    style: const ButtonStyle(
-      backgroundColor: MaterialStatePropertyAll(
-        Colors.amber,
-      ),
-      padding: MaterialStatePropertyAll(
-        EdgeInsets.symmetric(vertical: 20, horizontal: 24),
-      ),
-      alignment: Alignment.center,
-    ),
-    onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const CreatePostScreen(),
-        ),
-      );
-    },
-    icon: Icon(
-      LucideIcons.plus,
-      color: colorScheme.inversePrimary,
-    ),
-    label: Text(
-      'Post',
-      style: textTheme.displayMedium!.copyWith(
-        color: colorScheme.inversePrimary,
-      ),
-    ),
-  );
 }
