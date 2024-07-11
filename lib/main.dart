@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Capstone Project',
-      routes: AppRoute.routes,
+      getPages: AppRoute.routes,
       theme: appTheme,
       home: const LayoutPage(),
     );

@@ -1,5 +1,6 @@
 import 'package:capstone_project_mobile/pages/forum/create_post_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class FloatingPostButton extends StatelessWidget {
@@ -21,12 +22,7 @@ class FloatingPostButton extends StatelessWidget {
         alignment: Alignment.center,
       ),
       onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const CreatePostScreen(),
-          ),
-        );
+        Get.to(const CreatePostScreen());
       },
       icon: Icon(
         LucideIcons.plus,

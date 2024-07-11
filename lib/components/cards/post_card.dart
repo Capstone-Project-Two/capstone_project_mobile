@@ -1,13 +1,12 @@
 import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
 import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
-import 'package:capstone_project_mobile/constants/route_constants.dart';
 import 'package:capstone_project_mobile/core/controller/post_controller.dart';
 import 'package:capstone_project_mobile/core/model/error_response.dart';
 import 'package:capstone_project_mobile/core/model/post.dart';
+import 'package:capstone_project_mobile/pages/forum/comment/comment_page.dart';
 import 'package:capstone_project_mobile/pages/forum/post_detail_screen.dart';
 import 'package:capstone_project_mobile/utils/image_helper.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -34,12 +33,14 @@ class _PostCardState extends State<PostCard> {
     return GestureDetector(
       onTap: () {
         if (!widget.isCurrentPost) {
-          Navigator.push(
-            context,
-            CupertinoPageRoute(
-              builder: (context) => PostDetailScreen(postId: widget.post.id),
-            ),
-          ).then((value) => Navigator.maybePop(context));
+          Get.to(PostDetailScreen(postId: widget.post.id));
+          // Get.off(Post)
+          // Navigator.push(
+          //   context,
+          //   CupertinoPageRoute(
+          //     builder: (context) => PostDetailScreen(postId: widget.post.id),
+          //   ),
+          // ).then((value) => Navigator.maybePop(context));
         }
       },
       child: Container(
@@ -176,10 +177,11 @@ class _PostCardState extends State<PostCard> {
                           color: colorScheme.tertiary,
                         ),
                         onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            RouteConstant.commentPage.name,
-                          );
+                          // Navigator.pushNamed(
+                          //   context,
+                          //   RouteConstant.commentPage.name,
+                          // );
+                          Get.to(const CommentPage());
                         },
                       )
                     ],
