@@ -1,9 +1,9 @@
 import 'package:capstone_project_mobile/components/cards/post_card.dart';
+import 'package:capstone_project_mobile/core/controller/post_controller.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/core/model/post.dart';
-import 'package:capstone_project_mobile/core/services/get_service.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class PostDetailScreen extends StatefulWidget {
   final String postId;
@@ -14,12 +14,7 @@ class PostDetailScreen extends StatefulWidget {
 }
 
 class _PostDetailScreenState extends State<PostDetailScreen> {
-  late Future<Post> futurePost;
-  @override
-  void initState() {
-    super.initState();
-    futurePost = GetService.fetchOnePost(widget.postId);
-  }
+  final PostController postController = Get.put(PostController());
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +24,7 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
       ),
       body: SingleChildScrollView(
         child: FutureBuilder(
-          future: futurePost,
+          future: postController.handleGetOnePost(widget.postId),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var post = snapshot.data!;

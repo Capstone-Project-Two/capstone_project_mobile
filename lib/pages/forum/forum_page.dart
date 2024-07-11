@@ -35,7 +35,7 @@ class _ForumPageState extends State<ForumPage> {
             if (snapshot.hasData) {
               var posts = snapshot.data!;
               return ListView.builder(
-                itemCount: postController.getPosts.length,
+                itemCount: postController.getAllPosts.length,
                 itemBuilder: (ctx, index) {
                   return PostCard(
                     post: posts[index],
