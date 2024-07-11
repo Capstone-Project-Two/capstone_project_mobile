@@ -1,18 +1,18 @@
 class ErrorResponse {
-  final int statusCode;
-  final String timeStamp;
-  final String path;
-  final String errorType;
-  final dynamic messages;
-  final dynamic validationMessage;
+  int? statusCode;
+  String? timeStamp;
+  String? path;
+  String? errorType;
+  List<dynamic>? messages;
+  List<dynamic>? validationMessages;
 
   ErrorResponse({
-    required this.statusCode,
-    required this.timeStamp,
-    required this.path,
-    required this.errorType,
-    required this.messages,
-    required this.validationMessage,
+    this.statusCode,
+    this.timeStamp,
+    this.path,
+    this.errorType,
+    this.messages,
+    this.validationMessages,
   });
 
   factory ErrorResponse.fromJson(Map<String, dynamic> json) {
@@ -29,7 +29,7 @@ class ErrorResponse {
           path: path,
           errorType: errorType,
           messages: json['messages'],
-          validationMessage: json['validationMessages'],
+          validationMessages: json['validationMessages'],
         ),
       _ => throw const FormatException('Failed to load error')
     };

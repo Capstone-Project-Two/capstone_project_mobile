@@ -1,10 +1,10 @@
 import 'package:capstone_project_mobile/components/cards/booking_card.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/model/appointment.dart';
-import 'package:capstone_project_mobile/services/get_service.dart';
-import 'package:capstone_project_mobile/shared/empty_screen.dart';
+import 'package:capstone_project_mobile/providers/appointment_provider.dart';
+import 'package:capstone_project_mobile/shared/error_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class BookingListPage extends StatefulWidget {
   const BookingListPage({super.key});
@@ -14,56 +14,66 @@ class BookingListPage extends StatefulWidget {
 }
 
 class _BookingListPageState extends State<BookingListPage> {
-  late Future<List<Appointment>> futureAppointments;
-
-  @override
-  void initState() {
-    super.initState();
-    futureAppointments = GetService.fetchAppointments();
-  }
-
-  Future handleRefresh() async {
-    setState(() {
-      futureAppointments = GetService.fetchAppointments();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MyAppBar(
+      appBar: const MyAppBar(
         title: 'All Bookings',
       ),
-      body: RefreshIndicator(
-        onRefresh: handleRefresh,
-        child: FutureBuilder(
-          future: futureAppointments,
-          builder: (context, snapshot) {
-            if (snapshot.data!.isEmpty) {
-              return const EmptyScreen(
-                title: 'You havent book any appointment.',
-              );
-            }
-            if (snapshot.hasData) {
-              var appointments = snapshot.data!;
-              return ListView.builder(
-                itemCount: appointments.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    padding: const EdgeInsets.only(bottom: 16),
-                    child: BookingCard(
-                      appointment: appointments[index],
-                    ),
-                  );
-                },
+      body: Consumer<AppointmentProvider>(
+        builder: (context, appointmentProvider, child) {
+          return RefreshIndicator(
+            onRefresh: appointmentProvider.handleGetAllAppointments,
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Padding(
                 padding: const EdgeInsets.all(16),
-              );
-            } else if (snapshot.hasError) {
-              return Text(snapshot.error.toString());
-            }
-            return const LoadingScreen();
-          },
-        ),
+                child: Column(
+                  children: [
+                    FutureBuilder(
+                      future: appointmentProvider.handleGetAllAppointments(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          var appointments = snapshot.data!;
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount:
+                                appointmentProvider.getAllAppointments.length,
+                            itemBuilder: (ctx, index) {
+                              return Container(
+                                padding: const EdgeInsets.only(bottom: 16),
+                                child: BookingCard(
+                                  appointment: appointments[index],
+                                ),
+                              );
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          return Padding(
+                            padding: const EdgeInsets.all(25.0),
+                            child: ErrorScreen(
+                              onTryAgain: () async {
+                                await appointmentProvider
+                                    .handleGetAllAppointments();
+                              },
+                              errorObject: snapshot.error,
+                            ),
+                          );
+                        }
+                        return const LoadingScreen();
+                      },
+                    ),
+                    if (appointmentProvider.getAllAppointments.length < 3) ...[
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.5),
+                    ]
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
