@@ -1,5 +1,6 @@
 import 'package:capstone_project_mobile/constants/route_constants.dart';
 import 'package:capstone_project_mobile/core/bindings/post_binding.dart';
+import 'package:capstone_project_mobile/core/bindings/therapist_binding.dart';
 import 'package:capstone_project_mobile/pages/forum/comment/comment_page.dart';
 import 'package:capstone_project_mobile/pages/forum/forum_page.dart';
 import 'package:capstone_project_mobile/pages/home/home_page.dart';
@@ -39,9 +40,9 @@ class AppRoute {
       binding: PostBinding(),
     ),
     GetPage(
-      name: RouteConstant.therapistsPage.name,
-      page: () => const TherapistsPage(),
-    ),
+        name: RouteConstant.therapistsPage.name,
+        page: () => const TherapistsPage(),
+        binding: TherapistBinding()),
     GetPage(
       name: RouteConstant.resourcePage.name,
       page: () => const ResourcePage(),

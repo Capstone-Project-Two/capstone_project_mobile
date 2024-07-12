@@ -42,6 +42,7 @@ class HttpService {
 
   static const headers = <String, String>{
     'Content-Type': 'application/json',
+    'ngrok-skip-browser-warning': '69420',
   };
 
   get url => Uri.http(baseApiUrl, path, query);
