@@ -1,4 +1,4 @@
-import 'package:capstone_project_mobile/model/base_model.dart';
+import 'package:capstone_project_mobile/core/model/base_model.dart';
 
 class ParentComment extends BaseModel {
   final String content;

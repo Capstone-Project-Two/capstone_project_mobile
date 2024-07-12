@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:capstone_project_mobile/model/error_response_model.dart';
+import 'package:capstone_project_mobile/core/model/error_response.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 

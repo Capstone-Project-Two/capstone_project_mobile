@@ -4,13 +4,13 @@ import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
 import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/components/inputs/my_text_field.dart';
+import 'package:capstone_project_mobile/core/controller/post_controller.dart';
+import 'package:capstone_project_mobile/core/model/error_response.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/model/error_response_model.dart';
-import 'package:capstone_project_mobile/providers/post_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:provider/provider.dart';
 
 class CreatePostScreen extends StatefulWidget {
   const CreatePostScreen({super.key});
@@ -135,7 +135,7 @@ class PostButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PostProvider postProvider = context.read<PostProvider>();
+    final PostController postController = Get.put(PostController());
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     TextTheme textTheme = Theme.of(context).textTheme;
     return ElevatedButton(
@@ -143,7 +143,7 @@ class PostButton extends StatelessWidget {
         backgroundColor: MaterialStateProperty.all(colorScheme.primary),
       ),
       onPressed: () async {
-        await postProvider
+        await postController
             .handleCreatePost(body: bodyController.text, postImages: postImages)
             .then((value) {
           // Provider.of<PostProvider>(context, listen: false).getAllPosts();

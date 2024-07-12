@@ -1,18 +1,26 @@
+import 'dart:async';
 import 'dart:io';
 
-import 'package:capstone_project_mobile/model/dto/create_post.dart';
-import 'package:capstone_project_mobile/model/post_model.dart';
-import 'package:capstone_project_mobile/services/get_service.dart';
-import 'package:capstone_project_mobile/services/post_service.dart';
-import 'package:flutter/material.dart';
+import 'package:capstone_project_mobile/core/model/dto/create_post.dart';
+import 'package:capstone_project_mobile/core/model/post.dart';
+import 'package:capstone_project_mobile/core/services/get_service.dart';
+import 'package:capstone_project_mobile/core/services/post_service.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class PostProvider extends ChangeNotifier {
+class PostController extends GetxController {
   List<Post> _allPosts = [];
+
+  // int counter = 0;
+
+  // void increment() {
+  //   counter++;
+  //   update();
+  // }
 
   void setAllPosts(List<Post> newPosts) {
     _allPosts = newPosts;
-    notifyListeners();
+    update();
   }
 
   List<Post> get getAllPosts => _allPosts;
@@ -21,13 +29,13 @@ class PostProvider extends ChangeNotifier {
   Post get getOnePost => _onePost;
   void setOnePost(Post newPost) {
     _onePost = newPost;
-    notifyListeners();
+    update();
   }
 
   int _likeCount = 0;
   void setLikeCount(int newLikeCount) {
     _likeCount = newLikeCount;
-    notifyListeners();
+    update();
   }
 
   int get getLikeCount => _likeCount;

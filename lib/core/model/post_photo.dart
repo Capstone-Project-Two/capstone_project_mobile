@@ -1,4 +1,4 @@
-import 'package:capstone_project_mobile/model/base_model.dart';
+import 'package:capstone_project_mobile/core/model/base_model.dart';
 
 class PostPhoto extends BaseModel {
   final String filename;

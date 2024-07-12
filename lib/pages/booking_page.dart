@@ -1,10 +1,10 @@
 import 'package:capstone_project_mobile/components/cards/therapist_card.dart';
 import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
+import 'package:capstone_project_mobile/core/model/therapist.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/model/dto/create_appointment.dart';
-import 'package:capstone_project_mobile/model/therapist_model.dart';
+import 'package:capstone_project_mobile/core/model/dto/create_appointment.dart';
 import 'package:capstone_project_mobile/pages/layout_page.dart';
-import 'package:capstone_project_mobile/services/post_service.dart';
+import 'package:capstone_project_mobile/core/services/post_service.dart';
 import 'package:capstone_project_mobile/shared/success_screen.dart';
 import 'package:flutter/material.dart';
 
