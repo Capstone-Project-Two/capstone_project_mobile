@@ -3,6 +3,7 @@ import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/core/model/therapist.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_appointment.dart';
+import 'package:capstone_project_mobile/pages/booking/booking_list_page.dart';
 import 'package:capstone_project_mobile/pages/layout_page.dart';
 import 'package:capstone_project_mobile/core/services/post_service.dart';
 import 'package:capstone_project_mobile/shared/success_screen.dart';
@@ -66,11 +67,7 @@ class _BookingPageState extends State<BookingPage> {
                 nextBtn: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const LayoutPage(
-                        selectedIndex: 2,
-                      ),
-                    ),
+                    MaterialPageRoute(builder: (context) => BookingListPage()),
                   );
                 },
               ),

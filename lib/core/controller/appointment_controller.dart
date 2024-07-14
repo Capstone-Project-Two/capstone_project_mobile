@@ -4,13 +4,20 @@ import 'package:get/get.dart';
 
 class AppointmentController extends GetxController {
   List<Appointment> _allAppointments = [];
+  late Appointment _singleAppointment;
 
   void setAllAppointments(List<Appointment> newAppointments) {
     _allAppointments = newAppointments;
     update();
   }
 
+  void setSingleAppointment(Appointment newAppointment) {
+    _singleAppointment = newAppointment;
+    update();
+  }
+
   List<Appointment> get getAllAppointments => _allAppointments;
+  Appointment get getSingleAppointment => _singleAppointment;
 
   Future<List<Appointment>> handleGetAllAppointments() async {
     List<Appointment> appointments = await GetService.fetchAppointments()
@@ -20,5 +27,16 @@ class AppointmentController extends GetxController {
     setAllAppointments(appointments);
 
     return _allAppointments;
+  }
+
+  Future<Appointment> handleGetSingleAppointment(String appointmentId) async {
+    Appointment appointment =
+        await GetService.fetchOneAppointment(appointmentId)
+            .then((value) => value)
+            .catchError((err) => throw err);
+
+    setSingleAppointment(appointment);
+
+    return _singleAppointment;
   }
 }

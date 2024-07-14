@@ -105,7 +105,7 @@ class GetService {
     return patientComments;
   }
 
-    static Future<List<Appointment>> fetchAppointments() async {
+  static Future<List<Appointment>> fetchAppointments() async {
     List<Appointment> appointments = [];
     HttpService httpService = HttpService(path: ApiRoute.appointments.name);
     var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
@@ -119,5 +119,17 @@ class GetService {
     }
 
     return appointments;
+  }
+
+  static Future<Appointment> fetchOneAppointment(String appointmentId) async {
+    HttpService httpService =
+        HttpService(path: '${ApiRoute.appointments.name}/$appointmentId');
+    var HttpResponse(:httpRes, :jsonData) = await httpService.httpGet();
+
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      return Appointment.fromJson(jsonData['data']);
+    } else {
+      throw jsonData;
+    }
   }
 }

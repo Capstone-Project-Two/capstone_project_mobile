@@ -6,14 +6,9 @@ import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BookingListPage extends StatefulWidget {
-  const BookingListPage({super.key});
+class BookingListPage extends StatelessWidget {
+  BookingListPage({super.key});
 
-  @override
-  State<BookingListPage> createState() => _BookingListPageState();
-}
-
-class _BookingListPageState extends State<BookingListPage> {
   final AppointmentController appointmentController =
       Get.put(AppointmentController());
 
@@ -45,6 +40,7 @@ class _BookingListPageState extends State<BookingListPage> {
                             return Container(
                               padding: const EdgeInsets.only(bottom: 16),
                               child: BookingCard(
+                                isNavigate: true,
                                 appointment: appointments[index],
                               ),
                             );
