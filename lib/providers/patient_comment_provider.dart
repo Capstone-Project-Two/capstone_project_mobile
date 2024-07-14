@@ -65,15 +65,17 @@ class PatientCommentProvider extends ChangeNotifier {
     required String postId,
     String? parentId,
   }) async {
+    // Variable to hold existing comments from comment list
     List allComments = [];
 
+    // Fetch parent comments
     List<ParentComment> parentComments = await GetService.fetchCommentByPost(
       postId: postId,
       parentId: parentId,
     ).catchError(
       (err) => throw err,
     );
-
+    // If request to load more replies
     if (parentId == null) {
       // allComments.addAll(parentComments);
       for (ParentComment cmt in parentComments) {
@@ -84,11 +86,14 @@ class PatientCommentProvider extends ChangeNotifier {
           }
         }
       }
-
+      // Update comment list
       setAllComments(allComments);
     } else {
+      // if Comment List is not empty
       for (ParentComment cmt in _allComments) {
+        // Add existing comments from list
         allComments.add(cmt);
+        // Find child comments from comment list then add it `allComments`
         for (ChildComment childCmt in cmt.children!) {
           // print(childCmt.content);
           allComments.add(childCmt);
@@ -101,6 +106,7 @@ class PatientCommentProvider extends ChangeNotifier {
           }
         }
       }
+      // Update comment list
       setAllComments(allComments);
     }
 
