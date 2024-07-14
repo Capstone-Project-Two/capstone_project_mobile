@@ -44,7 +44,7 @@ class _TherapistsPageState extends State<TherapistsPage> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const BookingListPage()));
+                            builder: (context) => BookingListPage()));
                   },
                   child: Text(
                     'View All Bookings',
