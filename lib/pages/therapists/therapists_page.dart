@@ -1,6 +1,7 @@
 import 'package:capstone_project_mobile/components/cards/therapist_card.dart';
 import 'package:capstone_project_mobile/core/controller/therapist_controller.dart';
 import 'package:capstone_project_mobile/pages/booking/booking_list_page.dart';
+import 'package:capstone_project_mobile/pages/profile/coins_payment_page.dart';
 import 'package:capstone_project_mobile/shared/error_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
@@ -30,29 +31,62 @@ class _TherapistsPageState extends State<TherapistsPage> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              ElevatedButton(
-                  style: ButtonStyle(
-                      padding:
-                          const MaterialStatePropertyAll(EdgeInsets.all(16)),
-                      shape: MaterialStatePropertyAll<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      )),
-                      backgroundColor:
-                          MaterialStatePropertyAll(colorScheme.primary)),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BookingListPage()));
-                  },
-                  child: Text(
-                    'View All Bookings',
-                    style: TextStyle(
-                        color: colorScheme.inversePrimary,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold),
-                  )),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            padding: const MaterialStatePropertyAll(
+                                EdgeInsets.all(16)),
+                            shape: MaterialStatePropertyAll<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            )),
+                            backgroundColor:
+                                MaterialStatePropertyAll(colorScheme.primary)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BookingListPage()));
+                        },
+                        child: Text(
+                          'Bookings',
+                          style: TextStyle(
+                              color: colorScheme.inversePrimary,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  ),
+                  const SizedBox(width: 24),
+                  Expanded(
+                    child: ElevatedButton(
+                        style: ButtonStyle(
+                            padding: const MaterialStatePropertyAll(
+                                EdgeInsets.all(16)),
+                            shape: MaterialStatePropertyAll<
+                                RoundedRectangleBorder>(RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            )),
+                            backgroundColor:
+                                MaterialStatePropertyAll(colorScheme.primary)),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const CoinsPaymentPage()));
+                        },
+                        child: Text(
+                          'Coins',
+                          style: TextStyle(
+                              color: colorScheme.inversePrimary,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold),
+                        )),
+                  ),
+                ],
+              ),
               const SizedBox(height: 16),
               FutureBuilder(
                 future: therapistController.handleGetAllTherapists(),

@@ -1,0 +1,188 @@
+import 'package:capstone_project_mobile/components/cards/coin_card.dart';
+import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
+import 'package:flutter/material.dart';
+import 'package:lucide_icons/lucide_icons.dart';
+
+class CoinsPaymentPage extends StatelessWidget {
+  const CoinsPaymentPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+    return Scaffold(
+      appBar: const MyAppBar(title: 'Coins and Payment'),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(26),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  gradient: LinearGradient(
+                    colors: [
+                      Color.fromRGBO(
+                          colorScheme.secondary.red,
+                          colorScheme.secondary.green,
+                          colorScheme.secondary.blue,
+                          0.3),
+                      Color.fromRGBO(
+                          colorScheme.primary.red,
+                          colorScheme.primary.green,
+                          colorScheme.primary.blue,
+                          0.3),
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+                child: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Your coins',
+                      style: TextStyle(
+                          fontSize: 28, color: Color.fromRGBO(0, 46, 110, 1)),
+                    ),
+                    SizedBox(height: 14),
+                    Text(
+                      '45',
+                      style: TextStyle(
+                          fontSize: 26,
+                          color: Color.fromRGBO(0, 46, 110, 1),
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              GestureDetector(
+                onTap: () {
+                  showModalBottomSheet<void>(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return _bottomModal(context);
+                    },
+                  );
+                },
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16),
+                    gradient: LinearGradient(
+                      colors: [colorScheme.secondary, colorScheme.primary],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                    ),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        width: 200,
+                        child: Text(
+                          'What is Coins and Payment?',
+                          style: TextStyle(
+                              height: 1.25,
+                              fontSize: 16,
+                              overflow: TextOverflow.clip,
+                              color: colorScheme.inversePrimary,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      Icon(
+                        size: 28,
+                        LucideIcons.chevronDown,
+                        color: colorScheme.inversePrimary,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const Text(
+                'Coin Store',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(height: 16),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: 4,
+                itemBuilder: (context, index) => const Padding(
+                  padding: EdgeInsets.only(bottom: 12),
+                  child: CoinCard(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _bottomModal(BuildContext context) {
+  ColorScheme colorScheme = Theme.of(context).colorScheme;
+  return Container(
+    height: 300,
+    decoration: BoxDecoration(
+      color: colorScheme.background,
+      borderRadius: const BorderRadius.only(
+        topLeft: Radius.circular(30.0),
+        topRight: Radius.circular(30.0),
+      ),
+    ),
+    child: ListView(
+      children: [
+        Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+              color: const Color.fromRGBO(243, 248, 254, 1),
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(30.0),
+                topRight: Radius.circular(30.0),
+              ),
+              border: Border(bottom: BorderSide(color: colorScheme.tertiary))),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              'What is Coins and Payment?',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  color: colorScheme.tertiary,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+        ),
+        Container(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            children: [
+              Text(
+                ' You can earn virtual coins through various payment methods. Use these coins to make secure and easy transactions within the app.',
+                overflow: TextOverflow.fade,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: colorScheme.tertiary, fontSize: 18),
+              ),
+              const SizedBox(height: 26),
+              Text(
+                'Collect coins by purchasing them directly or through promotions and rewards.',
+                overflow: TextOverflow.fade,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: colorScheme.tertiary, fontSize: 18),
+              )
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
