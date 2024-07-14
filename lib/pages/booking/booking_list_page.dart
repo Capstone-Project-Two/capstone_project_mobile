@@ -19,7 +19,9 @@ class BookingListPage extends StatelessWidget {
           title: 'All Bookings',
         ),
         body: RefreshIndicator(
-          onRefresh: appointmentController.handleGetAllAppointments,
+          onRefresh: () async {
+            await appointmentController.handleGetAllAppointments();
+          },
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: Padding(
@@ -62,7 +64,7 @@ class BookingListPage extends StatelessWidget {
                     },
                   ),
                   if (appointmentController.getAllAppointments.length < 3) ...[
-                    SizedBox(height: MediaQuery.of(context).size.height * 0.5),
+                    SizedBox(height: MediaQuery.of(context).size.height),
                   ]
                 ],
               ),
