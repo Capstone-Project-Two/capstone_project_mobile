@@ -110,11 +110,11 @@ class PatientCommentProvider extends ChangeNotifier {
       setAllComments(allComments);
     }
 
-    if (parentId != null) {
-      for (var cmt in allComments) {
-        print(cmt.content);
-      }
-    }
+    // if (parentId != null) {
+    //   for (var cmt in allComments) {
+    //     // print(cmt.content);
+    //   }
+    // }
     return _allComments;
   }
 }
