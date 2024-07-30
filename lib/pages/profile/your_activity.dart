@@ -1,4 +1,5 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
+import 'package:capstone_project_mobile/pages/booking/booking_list_page.dart';
 import 'package:capstone_project_mobile/pages/profile/coins_payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -66,7 +67,7 @@ class YourActivity extends StatelessWidget {
             context,
             'Booking',
             LucideIcons.ticket,
-            (BuildContext context) => const CoinsPaymentPage(),
+            (BuildContext context) => BookingListPage(),
           ),
           _buildbutton(
             context,

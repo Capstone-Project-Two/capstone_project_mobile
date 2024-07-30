@@ -122,9 +122,6 @@ class _TherapistsPageState extends State<TherapistsPage> {
                   return const LoadingScreen();
                 },
               ),
-              if (therapistController.getAllTherapists.length < 3) ...[
-                SizedBox(height: MediaQuery.of(context).size.height * 0.5),
-              ]
             ],
           ),
         ),

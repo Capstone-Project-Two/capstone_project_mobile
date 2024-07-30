@@ -63,9 +63,6 @@ class BookingListPage extends StatelessWidget {
                       return const LoadingScreen();
                     },
                   ),
-                  if (appointmentController.getAllAppointments.length < 3) ...[
-                    SizedBox(height: MediaQuery.of(context).size.height),
-                  ]
                 ],
               ),
             ),
