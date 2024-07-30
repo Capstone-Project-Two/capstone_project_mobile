@@ -5,7 +5,10 @@ import 'package:flutter/material.dart';
 class StartMonitorPage extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  StartMonitorPage({super.key});
+  StartMonitorPage({
+    super.key,
+ 
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +87,7 @@ class StartMonitorPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => MonitorQuestionsPage()),
+                        builder: (context) => const MonitorQuestionsPage()),
                   );
                 },
                 style: ElevatedButton.styleFrom(

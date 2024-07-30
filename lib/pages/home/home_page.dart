@@ -39,8 +39,7 @@ class HomePage extends StatelessWidget {
         );
       },
       child: Container(
-        width: 348,
-        height: 400,
+        width: double.infinity,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(15),
@@ -64,11 +63,15 @@ class HomePage extends StatelessWidget {
                   children: [
                     const Text(
                       'Find Your Activities',
-                      style: TextStyle(color: Colors.black, fontSize: 20),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(height: 10),
                     const Text(
                       'Understand which activity is suitable for your lifestyle',
+                      overflow: TextOverflow.visible,
                       style: TextStyle(color: Colors.black, fontSize: 16),
                     ),
                     const SizedBox(height: 10),

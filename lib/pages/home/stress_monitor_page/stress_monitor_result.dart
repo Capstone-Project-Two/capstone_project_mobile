@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 
 class MonitorResultPage extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final int totalScore;
 
-  MonitorResultPage({super.key});
+  MonitorResultPage({super.key, required this.totalScore});
 
   @override
   Widget build(BuildContext context) {
@@ -212,14 +213,14 @@ class MonitorResultPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(
+                      Padding(
+                        padding: const EdgeInsets.only(
                           left: 20,
                           right: 20,
                         ),
                         child: Row(
                           children: [
-                            Text(
+                            const Text(
                               'Total Score  :',
                               style: TextStyle(
                                 color: Colors.black,
@@ -228,10 +229,10 @@ class MonitorResultPage extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            Spacer(),
+                          const  Spacer(),
                             Text(
-                              '13/40',
-                              style: TextStyle(
+                              '$totalScore / 40',
+                              style: const TextStyle(
                                 color: Colors.green,
                                 overflow: TextOverflow.visible,
                                 fontSize: 20,
@@ -242,8 +243,8 @@ class MonitorResultPage extends StatelessWidget {
                         ),
                       ),
                       const Divider(
-                        height: 2.0, // Adjust line thickness
-                        color: Colors.grey, // Adjust line color
+                        height: 2.0,
+                        color: Colors.grey,
                       ),
                       Padding(
                         padding: const EdgeInsets.only(

@@ -5,6 +5,7 @@ class AnswerButton extends StatelessWidget {
   final String text;
   final bool isSelected;
   final VoidCallback onPressed;
+  final int score; // Added score parameter
 
   const AnswerButton({
     super.key,
@@ -12,6 +13,7 @@ class AnswerButton extends StatelessWidget {
     required this.text,
     required this.isSelected,
     required this.onPressed,
+    required this.score, // Added score parameter
   });
 
   @override
@@ -76,57 +78,48 @@ class AnswerButton extends StatelessWidget {
   }
 }
 
-class AnswerChoices extends StatefulWidget {
-  const AnswerChoices({super.key});
+class AnswerChoices extends StatelessWidget {
+  final int? selectedAnswer;
+  final void Function(int, int) onAnswerSelected;
 
-  @override
-  State<AnswerChoices> createState() => _AnswerChoicesState();
-}
-
-class _AnswerChoicesState extends State<AnswerChoices> {
-  int _selectedIndex = -1;
-
-  void _onButtonPressed(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  const AnswerChoices({
+    super.key,
+    required this.selectedAnswer,
+    required this.onAnswerSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
-        AnswerButton(
-          number: '0.',
-          text: 'Never',
-          isSelected: _selectedIndex == 0,
-          onPressed: () => _onButtonPressed(0),
-        ),
-        AnswerButton(
-          number: '1.',
-          text: 'Almost Never',
-          isSelected: _selectedIndex == 1,
-          onPressed: () => _onButtonPressed(1),
-        ),
-        AnswerButton(
-          number: '2.',
-          text: 'Sometimes',
-          isSelected: _selectedIndex == 2,
-          onPressed: () => _onButtonPressed(2),
-        ),
-        AnswerButton(
-          number: '3.',
-          text: 'Fairly Often',
-          isSelected: _selectedIndex == 3,
-          onPressed: () => _onButtonPressed(3),
-        ),
-        AnswerButton(
-          number: '4.',
-          text: 'Very Often',
-          isSelected: _selectedIndex == 4,
-          onPressed: () => _onButtonPressed(4),
-        ),
-      ],
+      children: List.generate(5, (index) {
+        final answerText = _getAnswerText(index);
+        final score = index + 1; // Score calculation logic
+
+        return AnswerButton(
+          number: index.toString(),
+          text: answerText,
+          isSelected: selectedAnswer == index,
+          onPressed: () => onAnswerSelected(index, score),
+          score: score,
+        );
+      }),
     );
+  }
+
+  String _getAnswerText(int index) {
+    switch (index) {
+      case 0:
+        return 'Never';
+      case 1:
+        return 'Almost Never';
+      case 2:
+        return 'Sometimes';
+      case 3:
+        return 'Fairly Often';
+      case 4:
+        return 'Very Often';
+      default:
+        return '';
+    }
   }
 }
