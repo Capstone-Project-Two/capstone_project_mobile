@@ -1,4 +1,5 @@
 import 'package:capstone_project_mobile/pages/home/find_activity_page/find_activity_page.dart';
+import 'package:capstone_project_mobile/pages/home/stress_monitor_page/start_stress_monitor.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -102,10 +103,10 @@ class HomePage extends StatelessWidget {
         width: double.infinity,
         child: ElevatedButton(
           onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => CarouselWithLinks()),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => StartMonitorPage()),
+            );
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.transparent,
