@@ -6,15 +6,17 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final bool actionsEnabled;
   final bool actionsSearchEnabled;
-
   final bool leadingEnabled;
+  final bool applogoEnabled;
 
-  const MyAppBar(
-      {super.key,
-      required this.title,
-      this.actionsEnabled = false,
-      this.actionsSearchEnabled = false,
-      this.leadingEnabled = true});
+  const MyAppBar({
+    super.key,
+    required this.title,
+    this.actionsEnabled = false,
+    this.actionsSearchEnabled = false,
+    this.leadingEnabled = true,
+    this.applogoEnabled = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -56,15 +58,30 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
               //   // padding: const EdgeInsets.only(
               //   //     top: 10.0, left: 10.0), // Adjust as needed
               //   child:
+              Row(
+            children: [
+              if (applogoEnabled)
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: ClipOval(
+                    child: Image.asset(
+                      "lib/assets/images/chantek_logo.png",
+                      width: 35,
+                      height: 35,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
               Text(
-            title,
-            style: TextStyle(
-              color: Theme.of(context).colorScheme.onPrimary,
-              fontSize: 22,
-              fontFamily: 'Kantumruy Pro', // Specify your font family
-              fontWeight: FontWeight.w700, // Use FontWeight.w700 for bold
-              // ),
-            ),
+                title,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontSize: 22,
+                  fontFamily: 'Kantumruy Pro',
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
           ),
           flexibleSpace: Container(
             decoration: BoxDecoration(

@@ -1,22 +1,23 @@
-import 'package:flutter/material.dart';
-import 'package:capstone_project_mobile/components/buttons/stress_answer_button.dart';
+import 'package:capstone_project_mobile/components/buttons/mind_checkup_answer_button.dart';
+import 'package:capstone_project_mobile/core/model/mind_checkup.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/pages/home/stress_monitor_page/start_stress_monitor.dart';
-import 'package:capstone_project_mobile/pages/home/stress_monitor_page/stress_monitor_result.dart';
-import 'package:capstone_project_mobile/core/model/stress_monitor_question.dart';
+import 'package:capstone_project_mobile/pages/home/mind_checkup_page/mind_checkup_result.dart';
+import 'package:capstone_project_mobile/pages/home/mind_checkup_page/start_mind_checkup.dart';
+import 'package:flutter/material.dart';
 
-class MonitorQuestionsPage extends StatefulWidget {
-  const MonitorQuestionsPage({super.key});
+class MindCheckupQuestionsPage extends StatefulWidget {
+  const MindCheckupQuestionsPage({super.key});
 
   @override
-  State<MonitorQuestionsPage> createState() => _MonitorQuestionsPageState();
+  State<MindCheckupQuestionsPage> createState() =>
+      _MindCheckupQuestionsPageState();
 }
 
-class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
+class _MindCheckupQuestionsPageState extends State<MindCheckupQuestionsPage> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   int _currentQuestionIndex = 0;
   final List<int?> _selectedAnswers =
-      List.generate(stressquestions.length, (index) => null);
+      List.generate(mindchekquestions.length, (index) => null);
   String? _errorMessage;
 
   void _goToNextQuestion() {
@@ -26,17 +27,16 @@ class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
       });
       return;
     }
-    if (_currentQuestionIndex < stressquestions.length - 1) {
+    if (_currentQuestionIndex < mindchekquestions.length - 1) {
       setState(() {
         _currentQuestionIndex++;
         _errorMessage = null;
       });
     } else {
-      final totalScore = _calculateTotalScore(); // Calculate total score
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MonitorResultPage(totalScore: totalScore),
+          builder: (context) => MindCheckupResultPage(),
         ),
       );
     }
@@ -51,39 +51,28 @@ class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
     } else {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => StartMonitorPage()),
+        MaterialPageRoute(builder: (context) => StartMindCheckupPage()),
       );
       _errorMessage = null;
     }
   }
 
-  void _updateAnswer(int index, int score) {
+  void _updateAnswer(int index) {
     setState(() {
       _selectedAnswers[_currentQuestionIndex] = index;
       _errorMessage = null;
     });
   }
 
-  int _calculateTotalScore() {
-    int totalScore = 0;
-    for (int i = 0; i < stressquestions.length; i++) {
-      final answerIndex = _selectedAnswers[i];
-      if (answerIndex != null) {
-        totalScore += answerIndex + 1; // Score is index + 1
-      }
-    }
-    return totalScore;
-  }
-
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final question = stressquestions[_currentQuestionIndex];
+    final question = mindchekquestions[_currentQuestionIndex];
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: colorScheme.surface,
       appBar: const MyAppBar(
-        title: "Stress Monitor",
+        title: "Mind Checkup",
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -122,9 +111,10 @@ class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
               ],
             ),
             const SizedBox(height: 10),
-            StressAnswerChoices(
+            MindCheckupAnswerChoices(
               selectedAnswer: _selectedAnswers[_currentQuestionIndex],
               onAnswerSelected: _updateAnswer,
+              answers: question.answers,
             ),
             if (_errorMessage != null)
               Padding(

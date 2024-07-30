@@ -3,11 +3,10 @@ import 'package:capstone_project_mobile/pages/home/find_activity_page/find_activ
 import 'package:capstone_project_mobile/pages/layout_page.dart';
 import 'package:flutter/material.dart';
 
-class MonitorResultPage extends StatelessWidget {
+class MindCheckupResultPage extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final int totalScore;
 
-  MonitorResultPage({super.key, required this.totalScore});
+  MindCheckupResultPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,7 @@ class MonitorResultPage extends StatelessWidget {
       key: _scaffoldKey,
       backgroundColor: colorScheme.surface,
       appBar: const MyAppBar(
-        title: "Stress Monitor Result",
+        title: "Mind Checkup Result",
       ),
       body: _buildBody(context),
     );
@@ -74,7 +73,7 @@ class MonitorResultPage extends StatelessWidget {
               textAlign: TextAlign.justify,
               style: TextStyle(
                   overflow: TextOverflow.visible,
-                  color: Colors.grey,
+                  color: Colors.black,
                   fontSize: 16,
                   fontWeight: FontWeight.w400),
             ),
@@ -86,7 +85,7 @@ class MonitorResultPage extends StatelessWidget {
               textAlign: TextAlign.justify,
               style: TextStyle(
                   overflow: TextOverflow.visible,
-                  color: Colors.grey,
+                  color: Colors.black,
                   fontSize: 16,
                   fontWeight: FontWeight.w400),
             ),
@@ -214,15 +213,15 @@ class MonitorResultPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
+                      const Padding(
+                        padding: EdgeInsets.only(
                           left: 20,
                           right: 20,
                         ),
                         child: Row(
                           children: [
-                            const Text(
-                              'Total Score  :',
+                            Text(
+                              'Result  :',
                               style: TextStyle(
                                 color: Colors.black,
                                 overflow: TextOverflow.visible,
@@ -230,10 +229,10 @@ class MonitorResultPage extends StatelessWidget {
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
-                            const Spacer(),
+                            Spacer(),
                             Text(
-                              '$totalScore / 50',
-                              style: const TextStyle(
+                              '57%',
+                              style: TextStyle(
                                 color: Colors.green,
                                 overflow: TextOverflow.visible,
                                 fontSize: 20,
@@ -255,7 +254,7 @@ class MonitorResultPage extends StatelessWidget {
                         child: Row(
                           children: [
                             const Text(
-                              'Stress Level :',
+                              'Scale   :',
                               style: TextStyle(
                                 color: Colors.black,
                                 overflow: TextOverflow.visible,
@@ -265,7 +264,7 @@ class MonitorResultPage extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              'Moderate Stress',
+                              'Yes',
                               style: TextStyle(
                                 color: colorScheme.primary,
                                 overflow: TextOverflow.visible,

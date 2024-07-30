@@ -34,6 +34,7 @@ class _LayoutPageState extends State<LayoutPage> {
       appBar: MyAppBar(
         title: AppRoute.appTitle[_selectedIndex!],
         actionsEnabled: true,
+        applogoEnabled: true,
       ),
       body: FutureBuilder(
         future: rootBundle.loadString('.env'),

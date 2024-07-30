@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class AnswerButton extends StatelessWidget {
+class StressAnswerButton extends StatelessWidget {
   final String number;
   final String text;
   final bool isSelected;
   final VoidCallback onPressed;
   final int score; // Added score parameter
 
-  const AnswerButton({
+  const StressAnswerButton({
     super.key,
     required this.number,
     required this.text,
@@ -78,11 +78,11 @@ class AnswerButton extends StatelessWidget {
   }
 }
 
-class AnswerChoices extends StatelessWidget {
+class StressAnswerChoices extends StatelessWidget {
   final int? selectedAnswer;
   final void Function(int, int) onAnswerSelected;
 
-  const AnswerChoices({
+  const StressAnswerChoices({
     super.key,
     required this.selectedAnswer,
     required this.onAnswerSelected,
@@ -95,7 +95,7 @@ class AnswerChoices extends StatelessWidget {
         final answerText = _getAnswerText(index);
         final score = index + 1; // Score calculation logic
 
-        return AnswerButton(
+        return StressAnswerButton(
           number: index.toString(),
           text: answerText,
           isSelected: selectedAnswer == index,

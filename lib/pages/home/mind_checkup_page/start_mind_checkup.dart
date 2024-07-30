@@ -1,11 +1,11 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/pages/home/stress_monitor_page/stress_monitor_questions.dart';
+import 'package:capstone_project_mobile/pages/home/mind_checkup_page/mind_checkup_questions.dart';
 import 'package:flutter/material.dart';
 
-class StartMonitorPage extends StatelessWidget {
+class StartMindCheckupPage extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  StartMonitorPage({
+  StartMindCheckupPage({
     super.key,
   });
 
@@ -17,7 +17,7 @@ class StartMonitorPage extends StatelessWidget {
         key: _scaffoldKey,
         backgroundColor: colorScheme.surface,
         appBar: const MyAppBar(
-          title: "Stress Monitor",
+          title: "Mind Checkup",
         ),
         body: _buildBody(context));
   }
@@ -33,7 +33,7 @@ class StartMonitorPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Text(
-              'What is Stress Monitor?',
+              'What is Mind Checkup?',
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
@@ -86,7 +86,7 @@ class StartMonitorPage extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const MonitorQuestionsPage()),
+                        builder: (context) => const MindCheckupQuestionsPage()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
