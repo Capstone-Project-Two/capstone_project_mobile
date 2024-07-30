@@ -1,5 +1,6 @@
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
 import 'package:capstone_project_mobile/core/model/appointment.dart';
+import 'package:capstone_project_mobile/core/model/credit_package.dart';
 import 'package:capstone_project_mobile/core/model/patient.dart';
 import 'package:capstone_project_mobile/core/model/patient_comment_model.dart';
 import 'package:capstone_project_mobile/core/model/post.dart';
@@ -119,6 +120,21 @@ class GetService {
     }
 
     return appointments;
+  }
+
+  static Future<List<CreditPackage>> fetchCreditPackages() async {
+    List<CreditPackage> creditPackages = [];
+    HttpService httpService = HttpService(path: ApiRoute.creditPackages.name);
+    var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
+
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      for (var eachCreditPackage in jsonData['data']) {
+        creditPackages.add(CreditPackage.fromJson(eachCreditPackage));
+      }
+    } else {
+      throw jsonData;
+    }
+    return creditPackages;
   }
 
   static Future<Appointment> fetchOneAppointment(String appointmentId) async {

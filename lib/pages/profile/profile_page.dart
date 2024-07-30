@@ -151,8 +151,7 @@ class ProfilePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const CoinsPaymentPage()),
+                    MaterialPageRoute(builder: (context) => CoinsPaymentPage()),
                   );
                 },
                 style: ElevatedButton.styleFrom(

@@ -75,7 +75,7 @@ class _TherapistsPageState extends State<TherapistsPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const CoinsPaymentPage()));
+                                      CoinsPaymentPage()));
                         },
                         child: Text(
                           'Coins',
