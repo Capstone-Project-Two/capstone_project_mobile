@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/email_field.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/forget_password.dart';
