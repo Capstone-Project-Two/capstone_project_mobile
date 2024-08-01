@@ -1,3 +1,4 @@
+import 'package:capstone_project_mobile/constants/env_constants.dart';
 import 'package:capstone_project_mobile/constants/route_constants.dart';
 import 'package:capstone_project_mobile/core/bindings/post_binding.dart';
 import 'package:capstone_project_mobile/core/bindings/therapist_binding.dart';
@@ -21,7 +22,7 @@ class AppRoute {
   ];
 
   static final appTitle = [
-    'Home',
+    'Welcome, $appName!',
     'Forum',
     'Therapists',
     'Resources',

@@ -169,10 +169,14 @@ class YourActivity extends StatelessWidget {
           children: [
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.15,
-              child: Icon(
-                icon,
-                size: 24,
-                color: colorScheme.primary,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: 
+                Icon(
+                  icon,
+                  size: 24,
+                  color: colorScheme.primary,
+                ),
               ),
             ),
             SizedBox(
