@@ -5,7 +5,8 @@ enum ApiRoute {
   posts("posts"),
   likePosts("like-posts"),
   patientComments("patient-comments"),
-  creditPackages("credits");
+  creditPackages("credits"),
+  stripe("stripe");
 
   final String name;
 
