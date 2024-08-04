@@ -2,7 +2,7 @@
 
 import 'package:capstone_project_mobile/core/controller/auth_controller.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
-import 'package:capstone_project_mobile/pages/layout_page.dart';
+import 'package:capstone_project_mobile/layouts/layout_page.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/email_field.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/forget_password.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/login_bottom_appbar.dart';

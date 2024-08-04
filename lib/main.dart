@@ -1,4 +1,4 @@
-import 'package:capstone_project_mobile/pages/layout_page.dart';
+import 'package:capstone_project_mobile/layouts/layout_page.dart';
 import 'package:capstone_project_mobile/routes/app_route.dart';
 import 'package:capstone_project_mobile/theme/app_theme.dart';
 import 'package:flutter/material.dart';
