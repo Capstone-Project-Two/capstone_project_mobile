@@ -7,11 +7,13 @@ import 'package:flutter/material.dart';
 class LoginBottomAppBar extends StatelessWidget {
   final VoidCallback onLoginPhone;
   final VoidCallback onTherapistSignUp;
+  final VoidCallback onRegister;
 
   const LoginBottomAppBar({
     super.key,
     required this.onLoginPhone,
     required this.onTherapistSignUp,
+    required this.onRegister,
   });
 
   @override
@@ -41,6 +43,11 @@ class LoginBottomAppBar extends StatelessWidget {
               const SignUpText(),
               const SizedBox(height: 10),
               TherapistSignUp(onTherapistSignUp: onTherapistSignUp),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: onRegister,
+                child: const Text('Register'),
+              ),
             ],
           ),
         ),
