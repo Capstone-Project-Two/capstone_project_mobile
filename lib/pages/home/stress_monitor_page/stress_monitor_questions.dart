@@ -25,6 +25,8 @@ class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
   bool loading = false;
 
   void _goToNextQuestion() async {
+    final totalScore = _calculateTotalScore();
+
     if (_selectedAnswers[_currentQuestionIndex] == null) {
       setState(() {
         _errorMessage = 'Please select an answer.';
@@ -42,8 +44,6 @@ class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
         _errorMessage = null;
         loading = true;
       });
-
-      final totalScore = _calculateTotalScore();
 
       try {
         await PostService.sendTotalScore(SaveTotalScore(
@@ -93,7 +93,7 @@ class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
     }
   }
 
-  void _updateAnswer(int index, int score) {
+  void _updateAnswer(int index) {
     setState(() {
       _selectedAnswers[_currentQuestionIndex] = index;
       _errorMessage = null;
@@ -102,14 +102,49 @@ class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
 
   int _calculateTotalScore() {
     int totalScore = 0;
+
     for (int i = 0; i < stressquestions.length; i++) {
       final answerIndex = _selectedAnswers[i];
       if (answerIndex != null) {
-        totalScore += answerIndex; // Score is index + 1
+        if (i == 3 || i == 4 || i == 6 || i == 7) {
+          totalScore += (4 - answerIndex); // Reversed scoring
+        } else {
+          totalScore += answerIndex; // Normal score
+        }
       }
     }
+
     return totalScore;
   }
+
+  // int _calculateTotalScore() {
+  //   int totalScore = 0;
+
+  //   for (int i = 0; i < stressquestions.length; i++) {
+  //     final answerIndex = _selectedAnswers[i];
+  //     if (answerIndex != null) {
+  //       if (i == 4 || i == 5 || i == 7 || i == 8) {
+  //         // Ensure that answerIndex is within the expected range
+  //         if (answerIndex >= 0 && answerIndex <= 4) {
+  //           totalScore += (4 - answerIndex); // Apply reversed scoring
+  //         } else {
+  //           // Handle unexpected answerIndex values
+  //           print("Unexpected answerIndex: $answerIndex at question index $i");
+  //         }
+  //       } else {
+  //         // Normal scoring
+  //         if (answerIndex >= 0 && answerIndex <= 4) {
+  //           totalScore += answerIndex; // Apply normal scoring
+  //         } else {
+  //           // Handle unexpected answerIndex values
+  //           print("Unexpected answerIndex: $answerIndex at question index $i");
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   return totalScore;
+  // }
 
   @override
   Widget build(BuildContext context) {
