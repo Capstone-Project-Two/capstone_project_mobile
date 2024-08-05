@@ -16,6 +16,8 @@ class PostService {
         'patient': body.patient,
         'therapist': body.therapist,
         'scheduleDate': body.scheduleDate,
+        'start_time': body.startTime,
+        'end_time': body.endTime,
       },
     );
 
