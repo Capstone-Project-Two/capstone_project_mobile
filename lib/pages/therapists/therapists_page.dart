@@ -75,7 +75,7 @@ class _TherapistsPageState extends State<TherapistsPage> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      const CoinsPaymentPage()));
+                                      CoinsPaymentPage()));
                         },
                         child: Text(
                           'Coins',
@@ -122,9 +122,6 @@ class _TherapistsPageState extends State<TherapistsPage> {
                   return const LoadingScreen();
                 },
               ),
-              if (therapistController.getAllTherapists.length < 3) ...[
-                SizedBox(height: MediaQuery.of(context).size.height * 0.5),
-              ]
             ],
           ),
         ),

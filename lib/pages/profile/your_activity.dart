@@ -1,4 +1,5 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
+import 'package:capstone_project_mobile/pages/booking/booking_list_page.dart';
 import 'package:capstone_project_mobile/pages/profile/coins_payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -30,25 +31,25 @@ class YourActivity extends StatelessWidget {
             context,
             'Stress Records',
             LucideIcons.activity,
-            (BuildContext context) => const CoinsPaymentPage(),
+            (BuildContext context) => CoinsPaymentPage(),
           ),
           _buildbutton(
             context,
             'Saved Activity',
             LucideIcons.bike,
-            (BuildContext context) => const CoinsPaymentPage(),
+            (BuildContext context) => CoinsPaymentPage(),
           ),
           _buildbutton(
             context,
             'Saved Resource',
             LucideIcons.library,
-            (BuildContext context) => const CoinsPaymentPage(),
+            (BuildContext context) => CoinsPaymentPage(),
           ),
           _buildbutton(
             context,
             'Coin and Payment',
             LucideIcons.helpingHand,
-            (BuildContext context) => const CoinsPaymentPage(),
+            (BuildContext context) => CoinsPaymentPage(),
           ),
           Container(
             padding: const EdgeInsets.all(15),
@@ -66,13 +67,13 @@ class YourActivity extends StatelessWidget {
             context,
             'Booking',
             LucideIcons.ticket,
-            (BuildContext context) => const CoinsPaymentPage(),
+            (BuildContext context) => BookingListPage(),
           ),
           _buildbutton(
             context,
             'Session History',
             LucideIcons.bookCopy,
-            (BuildContext context) => const CoinsPaymentPage(),
+            (BuildContext context) => CoinsPaymentPage(),
           ),
           Container(
             padding: const EdgeInsets.all(15),
@@ -90,19 +91,19 @@ class YourActivity extends StatelessWidget {
             context,
             'Post History',
             LucideIcons.history,
-            (BuildContext context) => const CoinsPaymentPage(),
+            (BuildContext context) => CoinsPaymentPage(),
           ),
           _buildbutton(
             context,
             'Save Posts',
             LucideIcons.bookmark,
-            (BuildContext context) => const CoinsPaymentPage(),
+            (BuildContext context) => CoinsPaymentPage(),
           ),
           _buildbutton(
             context,
             'Liked Posts',
             LucideIcons.heart,
-            (BuildContext context) => const CoinsPaymentPage(),
+            (BuildContext context) => CoinsPaymentPage(),
           ),
           Container(
             padding: const EdgeInsets.all(15),
@@ -120,13 +121,13 @@ class YourActivity extends StatelessWidget {
             context,
             'Terms and Agreement',
             LucideIcons.scale,
-            (BuildContext context) => const CoinsPaymentPage(),
+            (BuildContext context) => CoinsPaymentPage(),
           ),
           _buildbutton(
             context,
             'Help and Service',
             LucideIcons.fileText,
-            (BuildContext context) => const CoinsPaymentPage(),
+            (BuildContext context) => CoinsPaymentPage(),
           ),
         ],
       ),
