@@ -176,11 +176,13 @@ Widget _scheduleSection(Appointment appointment, ColorScheme colorScheme,
           titleStyle,
           descriptionStyle),
       const SizedBox(height: 16),
-      _descriptionRow("Time", "1-3 PM", colorScheme, headingStyle, titleStyle,
+      _descriptionRow(
+          "Time",
+          "${appointment.startTime} - ${appointment.endTime}",
+          colorScheme,
+          headingStyle,
+          titleStyle,
           descriptionStyle),
-      const SizedBox(height: 16),
-      _descriptionRow("Fee", "Paid Booking Price", colorScheme, headingStyle,
-          titleStyle, descriptionStyle),
     ],
   );
 }
