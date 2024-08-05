@@ -18,7 +18,9 @@ class CoinCard extends StatelessWidget {
       onTap: () async {
         await StripeService.instance
             .makePayment(CreatePaymentIntent(
-                amount: creditPackage.price, currency: 'usd'))
+                amount: creditPackage.price,
+                currency: 'usd',
+                credits: creditPackage.points))
             .then((_) {
           Navigator.push(
               context,
