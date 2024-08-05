@@ -9,11 +9,9 @@ class PaymentMethod extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       appBar: MyAppBar(title: 'Payment Method'),
-      body: Center(
-
-      ),
+      body: Center(),
     );
   }
 }

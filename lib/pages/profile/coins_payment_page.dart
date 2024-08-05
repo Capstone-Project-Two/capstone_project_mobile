@@ -55,7 +55,7 @@ class CoinsPaymentPage extends StatelessWidget {
                     ),
                     SizedBox(height: 14),
                     Text(
-                      '45',
+                      '65',
                       style: TextStyle(
                           fontSize: 26,
                           color: Color.fromRGBO(0, 46, 110, 1),
@@ -148,8 +148,11 @@ class CoinsPaymentPage extends StatelessWidget {
                       itemCount: creditPackages.length,
                       itemBuilder: (context, index) {
                         CreditPackage creditPackage = creditPackages[index];
-                        return CoinCard(
-                          creditPackage: creditPackage,
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: CoinCard(
+                            creditPackage: creditPackage,
+                          ),
                         );
                       },
                     );

@@ -9,7 +9,7 @@ import 'package:get/route_manager.dart';
 
 Future main() async {
   await dotenv.load(fileName: '.env');
-  await _setup();
+await _setup();
   runApp(
     const MyApp(),
   );

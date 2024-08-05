@@ -2,6 +2,7 @@
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_payment_intent.dart';
 import 'package:capstone_project_mobile/core/services/http_service.dart';
+import 'package:capstone_project_mobile/theme/base_app_colors.dart';
 import 'package:capstone_project_mobile/utils/api_helper.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 
@@ -15,7 +16,7 @@ class StripeService {
       int amountInCents = convertFromDollarToCent(body.amount);
 
       HttpService httpService =
-          HttpService(path: '${ApiRoute.stripe.name}/create-payment-intent');
+          HttpService(path: '${ApiRoute.stripe.name}/payment-intent');
       var HttpResponse(:httpRes, :jsonData) = await httpService.httpPost(
         body: {
           'amount': amountInCents,
@@ -24,14 +25,27 @@ class StripeService {
       );
       if (ApiHelper.isOk(httpRes.statusCode)) {
         String? paymentIntentClientSecret = jsonData['data']['client_secret'];
+        String paymentIntentId = jsonData['data']['id'];
         if (paymentIntentClientSecret == null) return;
         await Stripe.instance.initPaymentSheet(
             paymentSheetParameters: SetupPaymentSheetParameters(
           paymentIntentClientSecret: paymentIntentClientSecret,
           merchantDisplayName: 'ChanTek Application',
+          appearance: PaymentSheetAppearance(
+            colors: PaymentSheetAppearanceColors(
+                primary: BaseAppColors.secondaryColor,
+                primaryText: BaseAppColors.tertiaryColor,
+                secondaryText: BaseAppColors.tertiaryColor,
+                componentBackground: BaseAppColors.inversePrimaryColor,
+                placeholderText: BaseAppColors.tertiaryColor,
+                componentText: BaseAppColors.tertiaryColor,
+                background: BaseAppColors.inversePrimaryColor),
+          ),
         ));
         await _processPayment(
-            amount: amountInCents, patientId: '63686861790123456789abcd');
+            amount: amountInCents,
+            patientId: '63686861790123456789abcd',
+            paymentIntentId: paymentIntentId);
       } else {
         throw jsonData;
       }
@@ -46,10 +60,14 @@ class StripeService {
   }
 
   Future<void> _processPayment(
-      {required int amount, required String patientId}) async {
+      {required int amount,
+      required String patientId,
+      required String paymentIntentId}) async {
     try {
+      // Present the payment sheet
       await Stripe.instance.presentPaymentSheet();
 
+      //Create a transaction to our database
       print('Payment successful!');
     } on StripeException catch (e) {
       print('Stripe error: ${e.error.localizedMessage}');

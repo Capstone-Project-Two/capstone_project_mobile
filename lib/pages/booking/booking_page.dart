@@ -109,136 +109,139 @@ class _BookingPageState extends State<BookingPage> {
     );
     return Scaffold(
       appBar: const MyAppBar(title: 'Book Appointment'),
-      body: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Apppointment with',
-              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
-            ),
-            const SizedBox(height: 16),
-            TherapistCard(therapist: widget.therapist),
-            const SizedBox(height: 16),
-            const Text(
-              'Information',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 16),
-            _textField(
-                hintText:
-                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                label: 'Notes',
-                controller: _notesController),
-            const SizedBox(height: 16),
-            _textField(
-                hintText: 'Insomnia, Stress, Tired...',
-                label: 'Symptoms',
-                controller: _symtomsController),
-            const SizedBox(height: 16),
-            const Text(
-              'Schedule',
-              style: TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _dateController,
-              readOnly: true,
-              decoration: InputDecoration(
-                suffixIcon: const Icon(Icons.calendar_month),
-                label: RichText(
-                  text: const TextSpan(
-                      text: 'Schedule Date',
-                      style: TextStyle(
-                          color: Color.fromARGB(255, 70, 70, 70), fontSize: 18),
-                      children: [
-                        TextSpan(
-                            text: ' *', style: TextStyle(color: Colors.red))
-                      ]),
-                ),
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                hintText: 'YYYY/MM/DD',
-                hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Apppointment with',
+                style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
               ),
-              onTap: () {
-                _selectDate();
-              },
-            ),
-            const SizedBox(height: 24),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Session Price:', style: primaryTextStyle),
-                Spacer(),
-                Flexible(
-                  child: Text(
-                    '2 Coins/hrs',
-                    textAlign: TextAlign.end,
-                    overflow: TextOverflow.visible,
-                    style: secondaryTextStyle,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Total:', style: primaryTextStyle),
-                Spacer(),
-                Flexible(
-                  child: Text(
-                    '4 Coins',
-                    textAlign: TextAlign.end,
-                    overflow: TextOverflow.visible,
-                    style: secondaryTextStyle,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text('Booking Price:', style: primaryTextStyle),
-                Spacer(),
-                Flexible(
-                  child: Text(
-                    '2 Coins',
-                    textAlign: TextAlign.end,
-                    overflow: TextOverflow.visible,
-                    style: secondaryTextStyle,
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    onPressed: handleBooking,
-                    style: textButtonStyle,
-                    child: const Text('Book Appointment',
+              const SizedBox(height: 16),
+              TherapistCard(therapist: widget.therapist),
+              const SizedBox(height: 16),
+              const Text(
+                'Information',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 16),
+              _textField(
+                  hintText:
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                  label: 'Notes',
+                  controller: _notesController),
+              const SizedBox(height: 16),
+              _textField(
+                  hintText: 'Insomnia, Stress, Tired...',
+                  label: 'Symptoms',
+                  controller: _symtomsController),
+              const SizedBox(height: 16),
+              const Text(
+                'Schedule',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _dateController,
+                readOnly: true,
+                decoration: InputDecoration(
+                  suffixIcon: const Icon(Icons.calendar_month),
+                  label: RichText(
+                    text: const TextSpan(
+                        text: 'Schedule Date',
                         style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 20)),
+                            color: Color.fromARGB(255, 70, 70, 70),
+                            fontSize: 18),
+                        children: [
+                          TextSpan(
+                              text: ' *', style: TextStyle(color: Colors.red))
+                        ]),
+                  ),
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  hintText: 'YYYY/MM/DD',
+                  hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-              ],
-            ),
-          ],
+                onTap: () {
+                  _selectDate();
+                },
+              ),
+              const SizedBox(height: 24),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Session Price:', style: primaryTextStyle),
+                  Spacer(),
+                  Flexible(
+                    child: Text(
+                      '2 Coins/hrs',
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.visible,
+                      style: secondaryTextStyle,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Total:', style: primaryTextStyle),
+                  Spacer(),
+                  Flexible(
+                    child: Text(
+                      '4 Coins',
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.visible,
+                      style: secondaryTextStyle,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Booking Price:', style: primaryTextStyle),
+                  Spacer(),
+                  Flexible(
+                    child: Text(
+                      '2 Coins',
+                      textAlign: TextAlign.end,
+                      overflow: TextOverflow.visible,
+                      style: secondaryTextStyle,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      onPressed: handleBooking,
+                      style: textButtonStyle,
+                      child: const Text('Book Appointment',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 20)),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
