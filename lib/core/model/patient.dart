@@ -27,7 +27,6 @@ class Patient extends BaseModel {
   });
 
   factory Patient.fromJson(Map<String, dynamic> json) {
-    print(json);
     return switch (json) {
       {
         'username': String username,
