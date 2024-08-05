@@ -140,7 +140,7 @@ class PostButton extends StatelessWidget {
     TextTheme textTheme = Theme.of(context).textTheme;
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: WidgetStateProperty.all(colorScheme.primary),
+        backgroundColor: MaterialStateProperty.all(colorScheme.primary),
       ),
       onPressed: () async {
         await postController
