@@ -92,4 +92,22 @@ class PostService {
       throw jsonData;
     }
   }
+
+  static Future mindCheckUp(answersMap) async {
+    HttpService httpService = HttpService(path: ApiRoute.mindCheckUp.name);
+
+    Map<String, dynamic> finalAnswersMap = {
+    'patient': '66b11f2be684dc5b4b649201', // Change patient object id
+    ...answersMap, // Spread the existing attributes
+  };
+
+    var HttpResponse(:httpRes, :jsonData) = await httpService.httpPost(
+        body: finalAnswersMap);
+
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      return httpRes;
+    } else {
+      throw jsonData;
+    }
+  }
 }

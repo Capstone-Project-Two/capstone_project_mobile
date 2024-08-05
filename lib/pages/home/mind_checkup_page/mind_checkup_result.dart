@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 
 class MindCheckupResultPage extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final List<String?> selectedAnswers;
+  // final List<String> selectedAnswers;
+  final Map<String, String> selectedAnswers;
 
   MindCheckupResultPage({super.key, required this.selectedAnswers});
 
@@ -301,3 +302,45 @@ class MindCheckupResultPage extends StatelessWidget {
     );
   }
 }
+
+
+
+// import 'package:flutter/material.dart';
+
+// class MindCheckupResultPage extends StatelessWidget {
+//   final Map<String, String> selectedAnswers;
+
+//   const MindCheckupResultPage({Key? key, required this.selectedAnswers}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Mind Checkup Results'),
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Text(
+//               'Thank you for completing the mind checkup. Here are your results:',
+//               style: Theme.of(context).textTheme.headline6,
+//             ),
+//             const SizedBox(height: 20),
+//             Expanded(
+//               child: ListView(
+//                 children: selectedAnswers.entries.map((entry) {
+//                   return ListTile(
+//                     title: Text(entry.key),
+//                     subtitle: Text(entry.value),
+//                   );
+//                 }).toList(),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
