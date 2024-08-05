@@ -175,6 +175,8 @@ class MonitorResultPage extends StatelessWidget {
   }
 
   Widget _buildResultCard(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     String result;
     Color resultColor;
     if (totalScore >= 0 && totalScore <= 13) {
@@ -246,8 +248,8 @@ class MonitorResultPage extends StatelessWidget {
                             const Spacer(),
                             Text(
                               '$totalScore / 40',
-                              style: const TextStyle(
-                                color: Colors.green,
+                              style: TextStyle(
+                                color: colorScheme.primary,
                                 overflow: TextOverflow.visible,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,

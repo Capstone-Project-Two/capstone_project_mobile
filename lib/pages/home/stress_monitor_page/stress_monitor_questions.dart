@@ -1,3 +1,6 @@
+import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
+import 'package:capstone_project_mobile/core/model/dto/create_total_score.dart';
+import 'package:capstone_project_mobile/core/services/post_service.dart';
 import 'package:flutter/material.dart';
 import 'package:capstone_project_mobile/components/buttons/stress_answer_button.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
@@ -19,26 +22,59 @@ class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
       List.generate(stressquestions.length, (index) => null);
   String? _errorMessage;
 
-  void _goToNextQuestion() {
+  bool loading = false;
+
+  void _goToNextQuestion() async {
     if (_selectedAnswers[_currentQuestionIndex] == null) {
       setState(() {
         _errorMessage = 'Please select an answer.';
       });
       return;
     }
+
     if (_currentQuestionIndex < stressquestions.length - 1) {
       setState(() {
         _currentQuestionIndex++;
         _errorMessage = null;
       });
     } else {
-      final totalScore = _calculateTotalScore(); // Calculate total score
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MonitorResultPage(totalScore: totalScore),
-        ),
-      );
+      setState(() {
+        _errorMessage = null;
+        loading = true;
+      });
+
+      final totalScore = _calculateTotalScore();
+
+      try {
+        await PostService.sendTotalScore(SaveTotalScore(
+          totalScore: totalScore,
+          patient: '63686861790123456789abcd',
+        ));
+        // Navigate only if the widget is still mounted
+        if (mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MonitorResultPage(totalScore: totalScore),
+            ),
+          );
+        }
+      } catch (err) {
+        // Show error dialog only if the widget is still mounted
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(text: err.toString()),
+          );
+        }
+      } finally {
+        // Always reset the loading state
+        if (mounted) {
+          setState(() {
+            loading = false;
+          });
+        }
+      }
     }
   }
 
