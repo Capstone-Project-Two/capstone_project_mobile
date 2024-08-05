@@ -36,7 +36,10 @@ class _MindCheckupQuestionsPageState extends State<MindCheckupQuestionsPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MindCheckupResultPage(),
+          builder: (context) => MindCheckupResultPage(
+            selectedAnswers:
+                _getAllSelectedAnswers(), // Pass all selected answers
+          ),
         ),
       );
     }
@@ -55,6 +58,19 @@ class _MindCheckupQuestionsPageState extends State<MindCheckupQuestionsPage> {
       );
       _errorMessage = null;
     }
+  }
+
+  List<String?> _getAllSelectedAnswers() {
+    return _selectedAnswers.asMap().entries.map((entry) {
+      final questionIndex = entry.key;
+      final selectedIndex = entry.value;
+      if (selectedIndex != null &&
+          selectedIndex >= 0 &&
+          selectedIndex < mindchekquestions[questionIndex].answers.length) {
+        return mindchekquestions[questionIndex].answers[selectedIndex];
+      }
+      return null; 
+    }).toList();
   }
 
   void _updateAnswer(int index) {

@@ -175,8 +175,21 @@ class MonitorResultPage extends StatelessWidget {
   }
 
   Widget _buildResultCard(BuildContext context) {
-    ColorScheme colorScheme = Theme.of(context).colorScheme;
-
+    String result;
+    Color resultColor;
+    if (totalScore >= 0 && totalScore <= 13) {
+      result = 'Low Stress';
+      resultColor = Colors.green;
+    } else if (totalScore >= 14 && totalScore <= 26) {
+      result = 'Moderate Stress';
+      resultColor = Colors.orange;
+    } else if (totalScore >= 27 && totalScore <= 40) {
+      result = 'High Stress';
+      resultColor = Colors.red;
+    } else {
+      result = 'Invalid Score';
+      resultColor = Colors.grey;
+    }
     return ElevatedButton(
       onPressed: () {},
       style: ElevatedButton.styleFrom(
@@ -232,7 +245,7 @@ class MonitorResultPage extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              '$totalScore / 50',
+                              '$totalScore / 40',
                               style: const TextStyle(
                                 color: Colors.green,
                                 overflow: TextOverflow.visible,
@@ -265,9 +278,10 @@ class MonitorResultPage extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              'Moderate Stress',
+                              result,
+                              textAlign: TextAlign.end,
                               style: TextStyle(
-                                color: colorScheme.primary,
+                                color: resultColor,
                                 overflow: TextOverflow.visible,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w400,

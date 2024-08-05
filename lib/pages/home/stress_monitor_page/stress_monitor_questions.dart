@@ -69,7 +69,7 @@ class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
     for (int i = 0; i < stressquestions.length; i++) {
       final answerIndex = _selectedAnswers[i];
       if (answerIndex != null) {
-        totalScore += answerIndex + 1; // Score is index + 1
+        totalScore += answerIndex; // Score is index + 1
       }
     }
     return totalScore;
