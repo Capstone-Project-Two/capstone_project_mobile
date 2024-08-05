@@ -31,9 +31,6 @@ jobs:
       - name: Building assets
         run: flutter build bundle
 
-      - name: Building App
-        run: flutter build appbundle
-
   build-ios:
     runs-on: macos-latest
     steps:
