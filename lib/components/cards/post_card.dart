@@ -55,7 +55,7 @@ class _PostCardState extends State<PostCard> {
                 Row(
                   children: [
                     // profile
-                    ProfilePictureCard(imgPath: imgPath),
+                    ProfilePictureCard(imgPath: widget.post.patient.profileImg),
 
                     const SizedBox(
                       width: 12,
