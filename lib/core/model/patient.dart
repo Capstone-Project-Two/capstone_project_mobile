@@ -5,6 +5,7 @@ class Patient extends BaseModel {
   final String username;
   final String phoneNumber;
   final String gender;
+  final double credits;
   final bool isBanned;
   final List<dynamic> roles;
 
@@ -13,6 +14,7 @@ class Patient extends BaseModel {
     required this.username,
     required this.phoneNumber,
     required this.gender,
+    required this.credits,
     required this.isBanned,
     required this.roles,
     required super.id,
@@ -27,6 +29,7 @@ class Patient extends BaseModel {
         'username': String username,
         'phone_number': String phoneNumber,
         'gender': String gender,
+        'credits': double credits,
         'is_banned': bool isBanned,
         'roles': List<dynamic> roles,
         '_id': String id,
@@ -38,6 +41,7 @@ class Patient extends BaseModel {
           gender: gender,
           isBanned: isBanned,
           phoneNumber: phoneNumber,
+          credits: credits,
           username: username,
           roles: roles,
           id: id,
