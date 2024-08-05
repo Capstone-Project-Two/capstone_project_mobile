@@ -2,6 +2,7 @@
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_payment_intent.dart';
 import 'package:capstone_project_mobile/core/services/http_service.dart';
+import 'package:capstone_project_mobile/core/services/patch_service.dart';
 import 'package:capstone_project_mobile/theme/base_app_colors.dart';
 import 'package:capstone_project_mobile/utils/api_helper.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -45,7 +46,8 @@ class StripeService {
         await _processPayment(
             amount: amountInCents,
             patientId: '63686861790123456789abcd',
-            paymentIntentId: paymentIntentId);
+            paymentIntentId: paymentIntentId,
+            credits: body.amount);
       } else {
         throw jsonData;
       }
@@ -62,12 +64,17 @@ class StripeService {
   Future<void> _processPayment(
       {required int amount,
       required String patientId,
-      required String paymentIntentId}) async {
+      required String paymentIntentId,
+      required int credits}) async {
     try {
       // Present the payment sheet
       await Stripe.instance.presentPaymentSheet();
 
       //Create a transaction to our database
+
+      //Update user's balance
+      await PatchService.updatePatientCredit(patientId, credits);
+
       print('Payment successful!');
     } on StripeException catch (e) {
       print('Stripe error: ${e.error.localizedMessage}');

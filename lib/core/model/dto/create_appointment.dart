@@ -5,7 +5,8 @@ class CreateAppointment {
   final String therapist;
   final String scheduleDate;
   final String startTime;
-  final String endTime;
+  final String? endTime;
+  final int duration;
 
   CreateAppointment({
     required this.note,
@@ -14,7 +15,8 @@ class CreateAppointment {
     required this.patient,
     required this.scheduleDate,
     required this.startTime,
-    required this.endTime,
+    this.endTime,
+    required this.duration,
   });
 
   String get getNote => note;
@@ -23,5 +25,6 @@ class CreateAppointment {
   String get getTherapist => therapist;
   String get getScheduleDate => scheduleDate;
   String get getStartTime => startTime;
-  String get getEndTime => endTime;
+  String? get getEndTime => endTime;
+  int? get getDuration => duration;
 }
