@@ -1,22 +1,26 @@
 import 'package:capstone_project_mobile/core/model/base_model.dart';
 
 class Patient extends BaseModel {
-  final String email;
   final String username;
   final String phoneNumber;
   final String gender;
-  final double credits;
+  final int credits;
   final bool isBanned;
   final List<dynamic> roles;
+  final int stressMonitorCount;
+  final int mindCheckupCount;
+  final String profileImg;
 
   Patient({
-    required this.email,
     required this.username,
     required this.phoneNumber,
     required this.gender,
     required this.credits,
     required this.isBanned,
     required this.roles,
+    required this.mindCheckupCount,
+    required this.stressMonitorCount,
+    required this.profileImg,
     required super.id,
     required super.createdAt,
     required super.updatedAt,
@@ -25,19 +29,23 @@ class Patient extends BaseModel {
   factory Patient.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
-        'email': String email,
         'username': String username,
         'phone_number': String phoneNumber,
         'gender': String gender,
-        'credits': double credits,
+        'credits': int credits,
         'is_banned': bool isBanned,
         'roles': List<dynamic> roles,
         '_id': String id,
         'createdAt': String createdAt,
         'updatedAt': String updatedAt,
+        'stress_monitor_count': int stressMonitorCount,
+        'mind_checkup_count': int mindCheckupCount,
+        'profile_img': String profileImg,
       } =>
         Patient(
-          email: email,
+          profileImg: profileImg,
+          mindCheckupCount: mindCheckupCount,
+          stressMonitorCount: stressMonitorCount,
           gender: gender,
           isBanned: isBanned,
           phoneNumber: phoneNumber,

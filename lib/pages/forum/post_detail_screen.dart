@@ -1,6 +1,5 @@
 import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/post_card.dart';
-import 'package:capstone_project_mobile/components/lists/comments_list.dart';
 import 'package:capstone_project_mobile/constants/route_constants.dart';
 import 'package:capstone_project_mobile/core/controller/post_controller.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
@@ -49,9 +48,13 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                     post: post,
                     isCurrentPost: post.id == widget.postId,
                   ),
-                  CommentsList(
-                    postId: widget.postId,
+                  const SizedBox(
+                    height: 8,
                   ),
+                  const Text('Comment list here (WIP)'),
+                  // CommentsList(
+                  //   postId: widget.postId,
+                  // ),
                 ],
               ),
             ),
