@@ -9,6 +9,8 @@ class PostService {
   static Future createAppointment(CreateAppointment body) async {
     HttpService httpService = HttpService(path: ApiRoute.appointments.name);
 
+    print(body.endTime.toString());
+
     var HttpResponse(:httpRes, :jsonData) = await httpService.httpPost(
       body: {
         'note': body.note,
@@ -16,6 +18,8 @@ class PostService {
         'patient': body.patient,
         'therapist': body.therapist,
         'scheduleDate': body.scheduleDate,
+        'start_time': body.startTime,
+        'end_time': body.endTime,
       },
     );
 

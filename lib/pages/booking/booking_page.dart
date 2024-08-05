@@ -18,6 +18,16 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
+  String formatTimeWithoutAmPm(TimeOfDay time) {
+    final hour = time.hourOfPeriod
+        .toString()
+        .padLeft(2, '0'); // Use hourOfPeriod for 12-hour format without AM/PM
+    final minute = time.minute
+        .toString()
+        .padLeft(2, '0'); // Pad minutes with leading zero if needed
+    return '$hour:$minute';
+  }
+
   final bool isDisabled = false;
 
   final TextEditingController _notesController = TextEditingController();
@@ -44,7 +54,9 @@ class _BookingPageState extends State<BookingPage> {
               symptoms: _symtomsController.text,
               therapist: widget.therapist.id,
               patient: '63686861790123456789abcd',
-              scheduleDate: _dateController.text))
+              scheduleDate: _dateController.text,
+              startTime: formatTimeWithoutAmPm(startTime),
+              endTime: formatTimeWithoutAmPm(endTime)))
           .then(
         (value) {
           Navigator.push(
@@ -91,6 +103,9 @@ class _BookingPageState extends State<BookingPage> {
       return res;
     }
   }
+
+  TimeOfDay startTime = TimeOfDay.now();
+  TimeOfDay endTime = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
@@ -173,6 +188,24 @@ class _BookingPageState extends State<BookingPage> {
                   _selectDate();
                 },
               ),
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  _buildTimePick("Start time", "Start time", true, startTime,
+                      (x) {
+                    setState(() {
+                      startTime = x;
+                    });
+                  }),
+                  const SizedBox(width: 16),
+                  _buildTimePick("End time", "End time", true, endTime, (x) {
+                    setState(() {
+                      endTime = x;
+                    });
+                  }),
+                ],
+              ),
+              const SizedBox(height: 10),
               const SizedBox(height: 24),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -247,6 +280,34 @@ class _BookingPageState extends State<BookingPage> {
     );
   }
 
+  Widget _buildTimePick(String title, String hintText, bool ifPickedTime,
+      TimeOfDay currentTime, Function(TimeOfDay) onTimePicked) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            title,
+            style: TextStyle(fontSize: 16),
+          ),
+          const SizedBox(height: 8),
+          GestureDetector(
+            onTap: () {
+              selectedTime(context, ifPickedTime, currentTime, onTimePicked);
+            },
+            child: Container(
+                padding: const EdgeInsets.all(16),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(16)),
+                child: Text(currentTime.format(context))),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _textField({required hintText, required label, required controller}) {
     return TextField(
       controller: controller,
@@ -283,6 +344,17 @@ class _BookingPageState extends State<BookingPage> {
       setState(() {
         _dateController.text = picked.toString().split(" ")[0];
       });
+    }
+  }
+
+  Future selectedTime(BuildContext context, bool ifPickedTime,
+      TimeOfDay initialTime, Function(TimeOfDay) onTimePicked) async {
+    var pickedTime = await showTimePicker(
+        context: context,
+        initialTime: initialTime,
+        initialEntryMode: TimePickerEntryMode.input);
+    if (pickedTime != null) {
+      onTimePicked(pickedTime);
     }
   }
 }
