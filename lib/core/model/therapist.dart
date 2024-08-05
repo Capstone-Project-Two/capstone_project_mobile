@@ -7,6 +7,7 @@ class Therapist extends BaseModel {
   final String bio;
   final String email;
   final String phoneNumber;
+  final int hourlyRate;
   final String gender;
   final List<dynamic> specializations;
   final List<dynamic> roles;
@@ -18,6 +19,7 @@ class Therapist extends BaseModel {
     required this.firstName,
     required this.lastName,
     required this.phoneNumber,
+    required this.hourlyRate,
     required this.gender,
     required this.bio,
     required this.isDeleted,
@@ -36,6 +38,7 @@ class Therapist extends BaseModel {
         'email': String email,
         'username': String username,
         'phone_number': String phoneNumber,
+        'hourly_rate': int hourlyRate,
         'gender': String gender,
         'bio': String bio,
         'is_deleted': bool isDeleted,
@@ -53,6 +56,7 @@ class Therapist extends BaseModel {
           gender: gender,
           isDeleted: isDeleted,
           phoneNumber: phoneNumber,
+          hourlyRate: hourlyRate,
           specializations: specializations,
           username: username,
           roles: roles,

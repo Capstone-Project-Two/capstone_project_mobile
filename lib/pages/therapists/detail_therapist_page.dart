@@ -118,6 +118,7 @@ class _DetailTherapistPageState extends State<DetailTherapistPage> {
               const Text('Specializations:', style: primaryTextStyle),
               const Spacer(),
               Flexible(
+                flex: 2,
                 child: Wrap(
                     direction: Axis.horizontal,
                     children: List.generate(therapist.specializations.length,
@@ -134,15 +135,16 @@ class _DetailTherapistPageState extends State<DetailTherapistPage> {
             ],
           ),
           const SizedBox(height: 16),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Experience:', style: primaryTextStyle),
-              Spacer(),
+              const Text('Gender:', style: primaryTextStyle),
+              const Spacer(),
               Flexible(
+                flex: 2,
                 child: Text(
-                  '5 years',
+                  therapist.gender == 'male' ? 'Male' : 'Female',
                   textAlign: TextAlign.end,
                   overflow: TextOverflow.visible,
                   style: secondaryTextStyle,
@@ -151,15 +153,16 @@ class _DetailTherapistPageState extends State<DetailTherapistPage> {
             ],
           ),
           const SizedBox(height: 16),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Social:', style: primaryTextStyle),
-              Spacer(),
+              const Text('Username:', style: primaryTextStyle),
+              const Spacer(),
               Flexible(
+                flex: 2,
                 child: Text(
-                  'AlexaGrey (Facebook)',
+                  '@${therapist.username}',
                   textAlign: TextAlign.end,
                   overflow: TextOverflow.visible,
                   style: secondaryTextStyle,
@@ -168,15 +171,32 @@ class _DetailTherapistPageState extends State<DetailTherapistPage> {
             ],
           ),
           const SizedBox(height: 16),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Session Price:', style: primaryTextStyle),
-              Spacer(),
+              const Text('Phone Number:', style: primaryTextStyle),
+              const Spacer(),
               Flexible(
                 child: Text(
-                  '2 Coins/hr',
+                  therapist.phoneNumber,
+                  textAlign: TextAlign.end,
+                  overflow: TextOverflow.visible,
+                  style: secondaryTextStyle,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Session Price:', style: primaryTextStyle),
+              const Spacer(),
+              Flexible(
+                child: Text(
+                  '${therapist.hourlyRate} Coins/hr',
                   textAlign: TextAlign.end,
                   overflow: TextOverflow.visible,
                   style: secondaryTextStyle,

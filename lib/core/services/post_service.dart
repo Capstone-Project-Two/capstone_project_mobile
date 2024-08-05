@@ -19,6 +19,7 @@ class PostService {
         'scheduleDate': body.scheduleDate,
         'start_time': body.startTime,
         'end_time': body.endTime,
+        'duration': body.duration
       },
     );
 

@@ -8,6 +8,7 @@ import 'package:capstone_project_mobile/pages/layout_page.dart';
 import 'package:capstone_project_mobile/core/services/post_service.dart';
 import 'package:capstone_project_mobile/shared/success_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BookingPage extends StatefulWidget {
   const BookingPage({super.key, required this.therapist});
@@ -18,8 +19,14 @@ class BookingPage extends StatefulWidget {
 }
 
 class _BookingPageState extends State<BookingPage> {
-  String formatTimeWithoutAmPm(TimeOfDay time) {
-    final hour = time.hourOfPeriod
+  @override
+  void initState() {
+    super.initState();
+    _updateEndTime();
+  }
+
+  String formatTimeWithoutAmPm(TimeOfDay? time) {
+    final hour = time!.hourOfPeriod
         .toString()
         .padLeft(2, '0'); // Use hourOfPeriod for 12-hour format without AM/PM
     final minute = time.minute
@@ -32,6 +39,8 @@ class _BookingPageState extends State<BookingPage> {
 
   final TextEditingController _notesController = TextEditingController();
   final TextEditingController _symtomsController = TextEditingController();
+  final TextEditingController _durationController =
+      TextEditingController(text: '1');
 
   final TextEditingController _dateController = TextEditingController();
   bool loading = false;
@@ -49,15 +58,17 @@ class _BookingPageState extends State<BookingPage> {
           builder: (context) =>
               const ErrorDialog(text: 'Please input the required fields.'));
     } else {
-      var res = await PostService.createAppointment(CreateAppointment(
-              note: _notesController.text,
-              symptoms: _symtomsController.text,
-              therapist: widget.therapist.id,
-              patient: '63686861790123456789abcd',
-              scheduleDate: _dateController.text,
-              startTime: formatTimeWithoutAmPm(startTime),
-              endTime: formatTimeWithoutAmPm(endTime)))
-          .then(
+      var res = await PostService.createAppointment(
+        CreateAppointment(
+            note: _notesController.text,
+            symptoms: _symtomsController.text,
+            therapist: widget.therapist.id,
+            patient: '63686861790123456789abcd',
+            scheduleDate: _dateController.text,
+            startTime: formatTimeWithoutAmPm(startTime),
+            endTime: formatTimeWithoutAmPm(endTime),
+            duration: int.parse(_durationController.text)),
+      ).then(
         (value) {
           Navigator.push(
             context,
@@ -93,7 +104,7 @@ class _BookingPageState extends State<BookingPage> {
       ).catchError((err) {
         showDialog(
           context: context,
-          builder: (context) => ErrorDialog(text: err.toString()),
+          builder: (context) => ErrorDialog(text: err['messages'][0]),
         );
       }).whenComplete(
         () => setState(() {
@@ -105,7 +116,41 @@ class _BookingPageState extends State<BookingPage> {
   }
 
   TimeOfDay startTime = TimeOfDay.now();
-  TimeOfDay endTime = TimeOfDay.now();
+  TimeOfDay? endTime;
+
+  void _updateEndTime() {
+    String durationText = _durationController.text;
+
+    if (durationText.isEmpty || durationText == '0') {
+      durationText = '1';
+    }
+
+    final int value = int.parse(durationText);
+    Duration duration;
+
+    duration = Duration(hours: value);
+
+    final endTime24 = _addDurationToTime(startTime, duration);
+    setState(() {
+      endTime = endTime24;
+    });
+  }
+
+  TimeOfDay _addDurationToTime(TimeOfDay time, Duration duration) {
+    final now = DateTime.now();
+    final startDateTime = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      time.hour,
+      time.minute,
+    );
+    final endDateTime = startDateTime.add(duration);
+    return TimeOfDay(
+      hour: endDateTime.hour,
+      minute: endDateTime.minute,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -189,33 +234,57 @@ class _BookingPageState extends State<BookingPage> {
                 },
               ),
               const SizedBox(height: 16),
+              TextField(
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                onChanged: (value) {
+                  if (int.parse(_durationController.text) == 0 ||
+                      _durationController.text.isEmpty) {
+                    _durationController.text = '1';
+                  }
+                  _updateEndTime();
+                },
+                keyboardType: TextInputType.number,
+                controller: _durationController,
+                maxLength: 1,
+                decoration: InputDecoration(
+                  label: RichText(
+                    text: const TextSpan(
+                        text: 'Duration (Hour)',
+                        style: TextStyle(
+                            color: Color.fromARGB(255, 70, 70, 70),
+                            fontSize: 18),
+                        children: [
+                          TextSpan(
+                              text: ' *', style: TextStyle(color: Colors.red))
+                        ]),
+                  ),
+                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                  hintText: '1',
+                  hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+              ),
+              _buildTimePick("Start time", "Start time", true, startTime, (x) {
+                setState(() {
+                  startTime = x;
+                  _updateEndTime();
+                });
+              }),
+              const SizedBox(height: 16),
               Row(
-                children: [
-                  _buildTimePick("Start time", "Start time", true, startTime,
-                      (x) {
-                    setState(() {
-                      startTime = x;
-                    });
-                  }),
-                  const SizedBox(width: 16),
-                  _buildTimePick("End time", "End time", true, endTime, (x) {
-                    setState(() {
-                      endTime = x;
-                    });
-                  }),
-                ],
-              ),
-              const SizedBox(height: 10),
-              const SizedBox(height: 24),
-              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Session Price:', style: primaryTextStyle),
-                  Spacer(),
+                  const Text('Session Price:', style: primaryTextStyle),
+                  const Spacer(),
                   Flexible(
                     child: Text(
-                      '2 Coins/hrs',
+                      '${widget.therapist.hourlyRate} Coins/hrs',
                       textAlign: TextAlign.end,
                       overflow: TextOverflow.visible,
                       style: secondaryTextStyle,
@@ -224,32 +293,15 @@ class _BookingPageState extends State<BookingPage> {
                 ],
               ),
               const SizedBox(height: 16),
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Total:', style: primaryTextStyle),
-                  Spacer(),
+                  const Text('Total:', style: primaryTextStyle),
+                  const Spacer(),
                   Flexible(
                     child: Text(
-                      '4 Coins',
-                      textAlign: TextAlign.end,
-                      overflow: TextOverflow.visible,
-                      style: secondaryTextStyle,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Booking Price:', style: primaryTextStyle),
-                  Spacer(),
-                  Flexible(
-                    child: Text(
-                      '2 Coins',
+                      '${widget.therapist.hourlyRate * int.parse(_durationController.text)} Coins',
                       textAlign: TextAlign.end,
                       overflow: TextOverflow.visible,
                       style: secondaryTextStyle,
@@ -282,29 +334,28 @@ class _BookingPageState extends State<BookingPage> {
 
   Widget _buildTimePick(String title, String hintText, bool ifPickedTime,
       TimeOfDay currentTime, Function(TimeOfDay) onTimePicked) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 16),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontSize: 16),
+        ),
+        const SizedBox(height: 8),
+        GestureDetector(
+          onTap: () {
+            selectedTime(context, ifPickedTime, currentTime, onTimePicked);
+          },
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            width: double.infinity,
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(16)),
+            child: Text(currentTime.format(context)),
           ),
-          const SizedBox(height: 8),
-          GestureDetector(
-            onTap: () {
-              selectedTime(context, ifPickedTime, currentTime, onTimePicked);
-            },
-            child: Container(
-                padding: const EdgeInsets.all(16),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black),
-                    borderRadius: BorderRadius.circular(16)),
-                child: Text(currentTime.format(context))),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
