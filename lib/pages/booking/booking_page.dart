@@ -288,7 +288,7 @@ class _BookingPageState extends State<BookingPage> {
         children: [
           Text(
             title,
-            style: TextStyle(fontSize: 16),
+            style: const TextStyle(fontSize: 16),
           ),
           const SizedBox(height: 8),
           GestureDetector(
