@@ -6,8 +6,8 @@ import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BookingListPage extends StatelessWidget {
-  BookingListPage({super.key});
+class SessionHistory extends StatelessWidget {
+  SessionHistory({super.key});
 
   final AppointmentController appointmentController =
       Get.put(AppointmentController());
@@ -16,11 +16,11 @@ class BookingListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const MyAppBar(
-          title: 'All Bookings',
+          title: 'Session History',
         ),
         body: RefreshIndicator(
           onRefresh: () async {
-            await appointmentController.fetchAllAppointments();
+            await appointmentController.fetchCompletedAppointments();
           },
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
@@ -29,7 +29,7 @@ class BookingListPage extends StatelessWidget {
               child: Column(
                 children: [
                   FutureBuilder(
-                    future: appointmentController.getAllAppointments(),
+                    future: appointmentController.getCompletedAppointments(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         var appointments = snapshot.data!;
@@ -54,7 +54,7 @@ class BookingListPage extends StatelessWidget {
                           child: ErrorScreen(
                             onTryAgain: () async {
                               await appointmentController
-                                  .fetchAllAppointments();
+                                  .fetchCompletedAppointments();
                             },
                             errorObject: snapshot.error,
                           ),
