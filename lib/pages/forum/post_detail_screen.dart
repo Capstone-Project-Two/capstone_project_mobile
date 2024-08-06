@@ -1,6 +1,8 @@
 import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/post_card.dart';
+import 'package:capstone_project_mobile/components/lists/comments_list.dart';
 import 'package:capstone_project_mobile/constants/route_constants.dart';
+import 'package:capstone_project_mobile/core/controller/patient_comment_controller.dart';
 import 'package:capstone_project_mobile/core/controller/post_controller.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/shared/error_screen.dart';
@@ -19,10 +21,14 @@ class PostDetailScreen extends StatefulWidget {
 
 class _PostDetailScreenState extends State<PostDetailScreen> {
   final PostController postController = Get.put(PostController());
+  final PatientCommentController patientCommentController =
+      Get.put(PatientCommentController());
 
   @override
   Widget build(BuildContext context) {
     postController.handleGetOnePost(widget.postId);
+    patientCommentController.handleGetAllParentComments(postId: widget.postId);
+
     return Scaffold(
       appBar: const MyAppBar(
         title: 'Detailed Post',
@@ -54,10 +60,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   const SizedBox(
                     height: 8,
                   ),
-                  const Text('Comment list here (WIP)'),
-                  // CommentsList(
-                  //   postId: widget.postId,
-                  // ),
+                  CommentsList(
+                    postId: widget.postId,
+                  ),
                 ],
               ),
             ),

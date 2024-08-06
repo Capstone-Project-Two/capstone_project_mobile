@@ -26,20 +26,8 @@ class _CommentsListState extends State<CommentsList> {
       Get.put(PatientCommentController());
   @override
   Widget build(BuildContext context) {
-    // return MaterialButton(
-    //   onPressed: () async {
-    //     await postController.handleGetAllComments(
-    //       postId: widget.postId,
-    //       parentId: widget.parentId,
-    //     );
-    //   },
-    //   child: const Text('try again'),
-    // );
     return FutureBuilder(
-      future: patientCommentController.handleGetAllComments(
-        postId: widget.postId,
-        parentId: widget.parentId,
-      ),
+      future: patientCommentController.getAllComments.value,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           var comments = snapshot.data!;
@@ -67,9 +55,8 @@ class _CommentsListState extends State<CommentsList> {
             padding: const EdgeInsets.all(25.0),
             child: ErrorScreen(
               onTryAgain: () async {
-                await patientCommentController.handleGetAllPatientComments(
+                await patientCommentController.handleGetAllParentComments(
                   postId: widget.postId,
-                  parentId: widget.parentId,
                 );
               },
               errorObject: snapshot.error,

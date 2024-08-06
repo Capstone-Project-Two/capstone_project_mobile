@@ -1,10 +1,8 @@
-import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
 import 'package:capstone_project_mobile/core/controller/patient_comment_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:lucide_icons/lucide_icons.dart';
 
 class CommentCard extends StatelessWidget {
   final dynamic comment;
@@ -17,7 +15,6 @@ class CommentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Container(
       padding: const EdgeInsets.all(25),
       decoration: BoxDecoration(
@@ -44,41 +41,6 @@ class CommentCard extends StatelessWidget {
               const SizedBox(
                 height: 16,
               ),
-              if (comment.replyCount > 0)
-                MyTextButton(
-                  text: comment.replyCount.toString(),
-                  icon: Icon(
-                    LucideIcons.messageCircle,
-                    color: colorScheme.tertiary,
-                  ),
-                  onTap: () async {
-                    await patientCommentController.handleGetAllComments(
-                      postId: comment.post,
-                      parentId: comment.id,
-                    );
-                  },
-                ),
-              // if (comment.replyCount > 0 && comment.children[0] is! String)
-              //   ...List.generate(
-              //     comment.children!.length,
-              //     (index) {
-              //       return CommentCard(
-              //         comment: comment.children![index],
-              //       );
-              //     },
-              //   ),
-              // if (patientCommentController.getAllChildComments.isNotEmpty &&
-              //     patientCommentProvider
-              //             .getAllChildComments[0].parentComment! ==
-              //         comment.id)
-              //   ...List.generate(
-              //     patientCommentController.getAllChildComments.length,
-              //     (index) {
-              //       ParentComment cmt =
-              //           patientCommentController.getAllChildComments[index];
-              //       return CommentCard(comment: cmt);
-              //     },
-              //   ),
             ],
           )
         ],
