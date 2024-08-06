@@ -1,5 +1,6 @@
 import 'package:capstone_project_mobile/components/buttons/floating_post_button.dart';
 import 'package:capstone_project_mobile/components/cards/post_card.dart';
+import 'package:capstone_project_mobile/shared/empty_screen.dart';
 import 'package:capstone_project_mobile/shared/error_screen.dart';
 import 'package:capstone_project_mobile/core/controller/post_controller.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
@@ -30,6 +31,11 @@ class _ForumPageState extends State<ForumPage> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 var posts = snapshot.data!;
+                if (posts.isEmpty) {
+                  return const EmptyScreen(
+                    text: 'No posts',
+                  );
+                }
                 return ListView.builder(
                   itemCount: posts.length,
                   itemBuilder: (ctx, index) {

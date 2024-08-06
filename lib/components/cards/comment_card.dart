@@ -1,11 +1,12 @@
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
 import 'package:capstone_project_mobile/core/controller/patient_comment_controller.dart';
+import 'package:capstone_project_mobile/core/model/patient_comment_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class CommentCard extends StatelessWidget {
-  final dynamic comment;
+  final ParentCommentV2 comment;
   CommentCard({
     super.key,
     required this.comment,
@@ -28,7 +29,7 @@ class CommentCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Profile header
-          _buildProfileHeader(),
+          _buildProfileHeader(profileImg: comment.patient.profileImg),
 
           const SizedBox(
             height: 16,
@@ -48,17 +49,15 @@ class CommentCard extends StatelessWidget {
     );
   }
 
-  Widget _buildProfileHeader() {
-    const profile =
-        'https://raw.githubusercontent.com/Capstone-Project-Two/assets/main/profiles-pics/profile_nine.png';
+  Widget _buildProfileHeader({required String profileImg}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         // Left side
         Row(
           children: [
-            const ProfilePictureCard(
-              imgPath: profile,
+            ProfilePictureCard(
+              imgPath: profileImg,
               size: 50,
             ),
             const SizedBox(
