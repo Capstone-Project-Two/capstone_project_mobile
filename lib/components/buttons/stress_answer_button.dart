@@ -5,7 +5,6 @@ class StressAnswerButton extends StatelessWidget {
   final String text;
   final bool isSelected;
   final VoidCallback onPressed;
-  final int score; // Added score parameter
 
   const StressAnswerButton({
     super.key,
@@ -13,7 +12,6 @@ class StressAnswerButton extends StatelessWidget {
     required this.text,
     required this.isSelected,
     required this.onPressed,
-    required this.score, // Added score parameter
   });
 
   @override
@@ -80,7 +78,7 @@ class StressAnswerButton extends StatelessWidget {
 
 class StressAnswerChoices extends StatelessWidget {
   final int? selectedAnswer;
-  final void Function(int, int) onAnswerSelected;
+  final void Function(int) onAnswerSelected;
 
   const StressAnswerChoices({
     super.key,
@@ -93,14 +91,12 @@ class StressAnswerChoices extends StatelessWidget {
     return Column(
       children: List.generate(5, (index) {
         final answerText = _getAnswerText(index);
-        final score = index + 1; // Score calculation logic
 
         return StressAnswerButton(
           number: index.toString(),
           text: answerText,
           isSelected: selectedAnswer == index,
-          onPressed: () => onAnswerSelected(index, score),
-          score: score,
+          onPressed: () => onAnswerSelected(index),
         );
       }),
     );
