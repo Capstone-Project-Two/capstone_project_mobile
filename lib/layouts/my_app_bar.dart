@@ -53,12 +53,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
           ],
           automaticallyImplyLeading: leadingEnabled,
           backgroundColor: colorScheme.primary,
-          title:
-              //  Padding(
-              //   // padding: const EdgeInsets.only(
-              //   //     top: 10.0, left: 10.0), // Adjust as needed
-              //   child:
-              Row(
+          title: Row(
             children: [
               if (applogoEnabled)
                 Padding(
@@ -72,13 +67,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget {
                     ),
                   ),
                 ),
-              Text(
-                title,
-                style: TextStyle(
-                  color: Theme.of(context).colorScheme.onPrimary,
-                  fontSize: 22,
-                  fontFamily: 'Kantumruy Pro',
-                  fontWeight: FontWeight.w700,
+              Flexible(
+                child: Text(
+                  title,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontSize: 22,
+                    fontFamily: 'Kantumruy Pro',
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],
