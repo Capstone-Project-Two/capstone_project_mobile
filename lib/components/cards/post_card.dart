@@ -4,7 +4,6 @@ import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/core/controller/post_controller.dart';
 import 'package:capstone_project_mobile/core/model/error_response.dart';
 import 'package:capstone_project_mobile/core/model/post.dart';
-import 'package:capstone_project_mobile/pages/forum/comment/comment_page.dart';
 import 'package:capstone_project_mobile/pages/forum/post_detail_screen.dart';
 import 'package:capstone_project_mobile/utils/image_helper.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +32,7 @@ class _PostCardState extends State<PostCard> {
     return GestureDetector(
       onTap: () {
         if (!widget.isCurrentPost) {
-          Get.to(PostDetailScreen(postId: widget.post.id));
+          Get.to(() => PostDetailScreen(postId: widget.post.id));
           // Get.off(Post)
           // Navigator.push(
           //   context,
@@ -123,15 +122,25 @@ class _PostCardState extends State<PostCard> {
                     height: 12,
                   ),
 
-                  Column(
-                    children: [
-                      for (int i = 0; i < widget.post.postPhotos.length; i++)
-                        Image.network(
-                          imageReqHelper.getImage(
-                              filename: widget.post.postPhotos[i].filename),
-                        )
-                    ],
-                  ),
+                  if (widget.post.postPhotos.isNotEmpty)
+                    SizedBox(
+                      height: 250.0,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: widget.post.postPhotos.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.network(
+                              imageReqHelper.getImage(
+                                  filename:
+                                      widget.post.postPhotos[index].filename),
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
 
                   const SizedBox(
                     height: 12,
@@ -148,8 +157,7 @@ class _PostCardState extends State<PostCard> {
                             // var likeCount = snapshot.data!;
                             return GetBuilder<PostController>(
                               builder: (_) => LikeButton(
-                                likeCount:
-                                    postController.getLikeCount.toString(),
+                                likeCount: widget.post.likeCount.toString(),
                                 postId: widget.post.id,
                               ),
                             );
@@ -171,18 +179,13 @@ class _PostCardState extends State<PostCard> {
                       ),
                       // Comment button
                       MyTextButton(
-                        text: '${widget.post.commentCount} Comment',
+                        text:
+                            '${widget.post.commentCount} Comment${widget.post.commentCount > 0 ? 's' : ""} ',
                         icon: Icon(
                           LucideIcons.messageCircle,
                           color: colorScheme.tertiary,
                         ),
-                        onTap: () {
-                          // Navigator.pushNamed(
-                          //   context,
-                          //   RouteConstant.commentPage.name,
-                          // );
-                          Get.to(const CommentPage());
-                        },
+                        onTap: () {},
                       )
                     ],
                   )
@@ -215,7 +218,10 @@ class LikeButton extends StatelessWidget {
         color: colorScheme.tertiary,
       ),
       onTap: () async {
-        await postController.handleLikePost(postId).catchError((err) {
+        await postController.handleLikePost(postId).then((value) async {
+          await postController.handleGetAllPosts();
+          await postController.handleGetOnePost(postId);
+        }).catchError((err) {
           ErrorResponse errorResponse = ErrorResponse.fromJson(err);
           showDialog(
             context: context,

@@ -1,5 +1,4 @@
 import 'package:capstone_project_mobile/core/model/base_model.dart';
-import 'package:capstone_project_mobile/core/model/credential.dart';
 
 class Patient extends BaseModel {
   // final Credential credential;
@@ -8,10 +7,10 @@ class Patient extends BaseModel {
   final String gender;
   final String? refreshToken;
   final int credits;
-  final bool isBanned;
-  final List<dynamic> roles;
   final int stressMonitorCount;
   final int mindCheckupCount;
+  final bool isBanned;
+  final List<dynamic> roles;
   final String profileImg;
 
   Patient({
@@ -21,10 +20,10 @@ class Patient extends BaseModel {
     required this.gender,
     this.refreshToken,
     required this.credits,
-    required this.isBanned,
-    required this.roles,
     required this.mindCheckupCount,
     required this.stressMonitorCount,
+    required this.isBanned,
+    required this.roles,
     required this.profileImg,
     required super.id,
     required super.createdAt,
@@ -49,18 +48,18 @@ class Patient extends BaseModel {
       } =>
         Patient(
           // credential: Credential.fromJson(json['credential']),
-          profileImg: profileImg,
+          username: username,
+          phoneNumber: phoneNumber,
+          gender: gender,
+          credits: credits,
           mindCheckupCount: mindCheckupCount,
           stressMonitorCount: stressMonitorCount,
-          gender: gender,
           isBanned: isBanned,
-          phoneNumber: phoneNumber,
-          credits: credits,
-          username: username,
           roles: roles,
           id: id,
           createdAt: createdAt,
           updatedAt: updatedAt,
+          profileImg: profileImg,
         ),
       _ => throw const FormatException('Failed to load patient.'),
     };
