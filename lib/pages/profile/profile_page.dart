@@ -1,6 +1,8 @@
 import 'package:capstone_project_mobile/core/controller/auth_controller.dart';
+import 'package:capstone_project_mobile/layouts/layout_page.dart';
 import 'package:capstone_project_mobile/pages/profile/coins_payment_page.dart';
 import 'package:capstone_project_mobile/pages/profile/your_activity.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -285,6 +287,10 @@ class ProfilePage extends StatelessWidget {
         ? authController.user.value!.email
         : 'N/A';
 
+    final String password = authController.isLoggedIn.value
+        ? '********'
+        : 'N/A';
+
     return SizedBox(
       child: Column(
         children: [
@@ -474,25 +480,25 @@ class ProfilePage extends StatelessWidget {
                   ),
                   SizedBox(
                       width: MediaQuery.of(context).size.width * 0.7,
-                      child: const Padding(
-                        padding: EdgeInsets.only(left: 10),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            const Text(
                               'Password',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w500),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Text(
-                              '**********',
-                              style: TextStyle(
+                              password,
+                              style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400),
@@ -531,8 +537,11 @@ class ProfilePage extends StatelessWidget {
           Center(
             child: ElevatedButton(
               onPressed: () {
-                // Your onPressed function here
                 authController.logout();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LayoutPage()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: colorScheme.surface,
@@ -569,54 +578,6 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
           )
-
-          // ElevatedButton(
-          //   onPressed: () {
-          //     // Your onPressed function here
-          //   },
-          //   style: ElevatedButton.styleFrom(
-          //       backgroundColor: colorScheme.surface,
-          //       padding: EdgeInsets.zero, // Remove default padding
-          //       shape: RoundedRectangleBorder(
-          //         borderRadius: BorderRadius.circular(
-          //             0), // Customize the border radius if needed
-          //       ),
-          //       elevation: 0),
-          //   child: Container(
-          //     width: MediaQuery.of(context).size.width,
-          //     padding: const EdgeInsets.symmetric(vertical: 15),
-          //     child: Row(
-          //       children: [
-          //         SizedBox(
-          //           width: MediaQuery.of(context).size.width * 0.15,
-          //           child: Icon(
-          //             LucideIcons.logOut,
-          //             size: 24,
-          //             color: colorScheme.primary,
-          //           ),
-          //         ),
-          //         SizedBox(
-          //           width: MediaQuery.of(context).size.width * 0.85,
-          //           child: Padding(
-          //               padding: const EdgeInsets.only(left: 10),
-          //               child: TextButton(
-          //                 onPressed: () {
-          //                   authController.logout();
-          //                 },
-          //                 child: const Text(
-          //                   'Log out',
-          //                   style: TextStyle(
-          //                     color: Colors.black,
-          //                     fontSize: 20,
-          //                     fontWeight: FontWeight.w500,
-          //                   ),
-          //                 ),
-          //               )),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );

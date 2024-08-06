@@ -7,16 +7,14 @@ import 'package:get/get.dart';
 class AuthController extends GetxController {
   var isLoggedIn = false.obs;
   var isLoading = false.obs;
-  var userToken = ''.obs;
   var user = Rxn<LoggedInUser>();
 
   void register(String email, String password) async {
     isLoading(true);
 
     try {
-      final response = await LoginService.register(email, password);
-      userToken.value = response['token'];
-      isLoggedIn(true);
+      // final response = await LoginService.register(email, password);
+      // isLoggedIn(true);
     } catch (e) {
       Get.snackbar('Error', 'Failed to register');
     } finally {
@@ -37,12 +35,14 @@ class AuthController extends GetxController {
       String patientId = response['patient']['_id'];
       String patientUsername = response['patient']['username'];
       String patientEmail = response['patient']['credential']['email'];
+      String patientPassword = response['patient']['credential']['password'];
       int patientCredits = response['patient']['credits'];
 
       user.value = LoggedInUser(
           id: patientId,
           username: patientUsername,
           email: patientEmail,
+          password: patientPassword,
           credits: patientCredits);
 
       isLoggedIn.value = true;
