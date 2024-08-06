@@ -39,16 +39,14 @@ class _ForumPageState extends State<ForumPage> {
               );
             }
             if (snapshot.hasError) {
-              print(snapshot.error);
-              return const Padding(
-                padding: EdgeInsets.all(25.0),
-                child: Text('sda'),
-                // child: ErrorScreen(
-                //   onTryAgain: () async {
-                //     await postController.handleGetAllPosts();
-                //   },
-                //   errorObject: snapshot.error,
-                // ),
+              return Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: ErrorScreen(
+                  onTryAgain: () async {
+                    await postController.handleGetAllPosts();
+                  },
+                  errorObject: snapshot.error,
+                ),
               );
             }
             return const LoadingScreen();
