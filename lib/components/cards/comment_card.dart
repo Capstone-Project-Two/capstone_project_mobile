@@ -1,6 +1,6 @@
 import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
-import 'package:capstone_project_mobile/core/controller/patient_comment_provider.dart';
+import 'package:capstone_project_mobile/core/controller/patient_comment_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';

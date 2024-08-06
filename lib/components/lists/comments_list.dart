@@ -1,5 +1,5 @@
 import 'package:capstone_project_mobile/components/cards/comment_card.dart';
-import 'package:capstone_project_mobile/core/controller/patient_comment_provider.dart';
+import 'package:capstone_project_mobile/core/controller/patient_comment_controller.dart';
 import 'package:capstone_project_mobile/shared/empty_screen.dart';
 import 'package:capstone_project_mobile/shared/error_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
