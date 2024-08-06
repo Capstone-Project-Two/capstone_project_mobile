@@ -5,9 +5,12 @@ import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/layouts/layout_page.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/email_field.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/forget_password.dart';
-import 'package:capstone_project_mobile/pages/login/widgets/login_bottom_appbar.dart';
+import 'package:capstone_project_mobile/pages/login/widgets/google_login.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/password_field.dart';
+import 'package:capstone_project_mobile/pages/login/widgets/phone_login.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/sign_in_button.dart';
+import 'package:capstone_project_mobile/pages/login/widgets/sign_up_button.dart';
+import 'package:capstone_project_mobile/pages/login/widgets/thearapist_sign_up_button.dart';
 import 'package:capstone_project_mobile/pages/therapist_sign_up/input_information_page.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/cupertino.dart';
@@ -53,6 +56,13 @@ class LoginEmailState extends State<LoginEmail> {
     );
   }
 
+  void _navigateToTherapistSignUp() {
+    Navigator.push(
+      context,
+      CupertinoPageRoute(builder: (context) => BecomeTherapistPage1()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,19 +87,13 @@ class LoginEmailState extends State<LoginEmail> {
             onSignIn: _signIn,
             emailController: _emailController,
             passwordController: _passwordController,
+            onLoginPhone: _loginPhone,
+            onRegister: _navigateToRegister,
+            onTherapistSignUp: _navigateToTherapistSignUp,
           );
         }
       }),
-      bottomNavigationBar: LoginBottomAppBar(
-        onLoginPhone: _loginPhone,
-        onTherapistSignUp: () {
-          Navigator.push(
-            context,
-            CupertinoPageRoute(builder: (context) => BecomeTherapistPage1()),
-          );
-        },
-        onRegister: _navigateToRegister,
-      ),
+      // bottomNavigationBar: const LoginBottomAppBar(),
     );
   }
 }
@@ -161,6 +165,9 @@ class LoginBody extends StatelessWidget {
   final VoidCallback onSignIn;
   final TextEditingController emailController;
   final TextEditingController passwordController;
+  final VoidCallback onLoginPhone;
+  final VoidCallback onRegister;
+  final VoidCallback onTherapistSignUp;
 
   const LoginBody({
     super.key,
@@ -169,6 +176,9 @@ class LoginBody extends StatelessWidget {
     required this.onSignIn,
     required this.emailController,
     required this.passwordController,
+    required this.onLoginPhone,
+    required this.onRegister,
+    required this.onTherapistSignUp,
   });
 
   @override
@@ -190,6 +200,21 @@ class LoginBody extends StatelessWidget {
           const ForgotPasswordButton(),
           const SizedBox(height: 20),
           SignInButton(onSignIn: onSignIn),
+          const SizedBox(height: 140),
+          const Text(
+            "Sign in with",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+            ),
+          ),
+          const SizedBox(height: 10),
+          PhoneSignInButton(onLoginPhone: onLoginPhone),
+          const SizedBox(height: 10),
+          const GoogleSignInButton(),
+          const SizedBox(height: 20),
+          SignUpText(onPressed: onRegister),
+          TherapistSignUp(onTherapistSignUp: onTherapistSignUp),
         ],
       ),
     );
