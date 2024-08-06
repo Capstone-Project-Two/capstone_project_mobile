@@ -9,21 +9,13 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PostController extends GetxController {
-  List<Post> _allPosts = [];
+  final _allPosts = Future<List<Post>>.value([]).obs;
 
-  // int counter = 0;
-
-  // void increment() {
-  //   counter++;
-  //   update();
-  // }
-
-  void setAllPosts(List<Post> newPosts) {
-    _allPosts = newPosts;
-    update();
+  void setAllPosts(var newPosts) {
+    _allPosts.value = Future.value(newPosts);
   }
 
-  List<Post> get getAllPosts => _allPosts;
+  Rx<Future<List<Post>>> get getAllPosts => _allPosts;
 
   late Post _onePost;
   Post get getOnePost => _onePost;
@@ -40,14 +32,12 @@ class PostController extends GetxController {
 
   int get getLikeCount => _likeCount;
 
-  Future<List<Post>> handleGetAllPosts() async {
+  Future<void> handleGetAllPosts() async {
     List<Post> posts = await GetService.fetchPosts()
         .then((value) => value)
         .catchError((err) => throw err);
 
     setAllPosts(posts);
-
-    return _allPosts;
   }
 
   Future<Post> handleGetOnePost(String postId) async {
@@ -84,6 +74,8 @@ class PostController extends GetxController {
     ).catchError((err) {
       throw err;
     });
+
+    await handleGetAllPosts();
 
     return res;
   }

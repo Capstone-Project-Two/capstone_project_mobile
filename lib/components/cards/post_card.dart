@@ -33,7 +33,7 @@ class _PostCardState extends State<PostCard> {
     return GestureDetector(
       onTap: () {
         if (!widget.isCurrentPost) {
-          Get.to(PostDetailScreen(postId: widget.post.id));
+          Get.to(() => PostDetailScreen(postId: widget.post.id));
           // Get.off(Post)
           // Navigator.push(
           //   context,

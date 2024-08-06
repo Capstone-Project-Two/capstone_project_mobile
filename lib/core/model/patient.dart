@@ -1,5 +1,4 @@
 import 'package:capstone_project_mobile/core/model/base_model.dart';
-import 'package:capstone_project_mobile/core/model/credential.dart';
 
 class Patient extends BaseModel {
   // final Credential credential;
