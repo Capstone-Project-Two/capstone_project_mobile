@@ -111,7 +111,7 @@ class ProfilePage extends StatelessWidget {
                           height: 10,
                         ),
                         Text(
-                          'Your Coins: 45',
+                          'Your Coins: 65',
                           style: TextStyle(
                               color: Color.fromRGBO(0, 47, 110, 1),
                               fontSize: 16,
@@ -151,8 +151,7 @@ class ProfilePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const CoinsPaymentPage()),
+                    MaterialPageRoute(builder: (context) => CoinsPaymentPage()),
                   );
                 },
                 style: ElevatedButton.styleFrom(

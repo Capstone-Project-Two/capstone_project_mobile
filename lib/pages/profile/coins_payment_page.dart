@@ -1,10 +1,16 @@
 import 'package:capstone_project_mobile/components/cards/coin_card.dart';
+import 'package:capstone_project_mobile/core/controller/credit_package_controller.dart';
+import 'package:capstone_project_mobile/core/model/credit_package.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class CoinsPaymentPage extends StatelessWidget {
-  const CoinsPaymentPage({super.key});
+  final CreditPackageController creditPackageController =
+      Get.put(CreditPackageController());
+
+  CoinsPaymentPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +55,7 @@ class CoinsPaymentPage extends StatelessWidget {
                     ),
                     SizedBox(height: 14),
                     Text(
-                      '45',
+                      '65',
                       style: TextStyle(
                           fontSize: 26,
                           color: Color.fromRGBO(0, 46, 110, 1),
@@ -111,14 +117,49 @@ class CoinsPaymentPage extends StatelessWidget {
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 16),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 4,
-                itemBuilder: (context, index) => const Padding(
-                  padding: EdgeInsets.only(bottom: 12),
-                  child: CoinCard(),
-                ),
+              FutureBuilder<List<CreditPackage>>(
+                future:
+                    creditPackageController.getCreditPackages(), // Fetch data
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('An error occurred!'),
+                          const SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              creditPackageController.fetchAllCreditPackages();
+                            },
+                            child: const Text('Retry'),
+                          ),
+                        ],
+                      ),
+                    );
+                  } else if (snapshot.hasData) {
+                    final creditPackages = snapshot.data!;
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(0),
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: creditPackages.length,
+                      itemBuilder: (context, index) {
+                        CreditPackage creditPackage = creditPackages[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: CoinCard(
+                            creditPackage: creditPackage,
+                          ),
+                        );
+                      },
+                    );
+                  } else {
+                    return const Center(child: Text('No data available'));
+                  }
+                },
               ),
             ],
           ),

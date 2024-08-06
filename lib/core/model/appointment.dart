@@ -6,6 +6,10 @@ class Appointment extends BaseModel {
   final String note;
   final String symptoms;
   final String scheduleDate;
+  final String startTime;
+  final String endTime;
+  final int duration;
+  final double sessionPrice;
   final String status;
   final Patient patient;
   final Therapist therapist;
@@ -17,9 +21,13 @@ class Appointment extends BaseModel {
     required this.note,
     required this.symptoms,
     required this.scheduleDate,
+    required this.startTime,
+    required this.endTime,
     required this.status,
     required this.patient,
     required this.therapist,
+    required this.duration,
+    required this.sessionPrice,
   });
 
   factory Appointment.fromJson(Map<String, dynamic> json) {
@@ -31,6 +39,10 @@ class Appointment extends BaseModel {
         'note': String note,
         'symptoms': String symtoms,
         'scheduleDate': String scheduleDate,
+        'start_time': String startTime,
+        'end_time': String endTime,
+        'duration': int duration,
+        'session_price': double sessionPrice,
         'status': String status,
       } =>
         Appointment(
@@ -40,6 +52,10 @@ class Appointment extends BaseModel {
             note: note,
             symptoms: symtoms,
             scheduleDate: scheduleDate,
+            startTime: startTime,
+            endTime: endTime,
+            duration: duration,
+            sessionPrice: sessionPrice,
             status: status,
             patient: Patient.fromJson(json['patient']),
             therapist: Therapist.fromJson(json['therapist'])),

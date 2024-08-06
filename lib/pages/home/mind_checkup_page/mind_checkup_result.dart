@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 
 class MindCheckupResultPage extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final List<String?> selectedAnswers;
 
-  MindCheckupResultPage({super.key});
+  MindCheckupResultPage({super.key, required this.selectedAnswers});
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +90,20 @@ class MindCheckupResultPage extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w400),
             ),
+            //get answer
+            // SizedBox(
+            //   height: 200,
+            //   child: ListView.builder(
+            //     itemCount: selectedAnswers.length,
+            //     itemBuilder: (context, index) {
+            //       return ListTile(
+            //         title: Text('Question ${index + 1}'),
+            //         subtitle:
+            //             Text(selectedAnswers[index] ?? 'No answer selected'),
+            //       );
+            //     },
+            //   ),
+            // ),
             const SizedBox(
               height: 20,
             ),

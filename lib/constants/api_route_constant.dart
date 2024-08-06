@@ -5,7 +5,10 @@ enum ApiRoute {
   appointments("appointments"),
   posts("posts"),
   likePosts("like-posts"),
-  patientComments("patient-comments");
+  patientComments("patient-comments"),
+  creditPackages("credits"),
+  stripe("stripe"),
+  stressMonitor("stress-monitor");
 
   final String name;
 
