@@ -1,9 +1,12 @@
 import 'package:capstone_project_mobile/core/model/base_model.dart';
+import 'package:capstone_project_mobile/core/model/credential.dart';
 
 class Patient extends BaseModel {
+  final Credential credential;
   final String username;
   final String phoneNumber;
   final String gender;
+  final String? refreshToken;
   final int credits;
   final bool isBanned;
   final List<dynamic> roles;
@@ -12,9 +15,11 @@ class Patient extends BaseModel {
   final String profileImg;
 
   Patient({
+    required this.credential,
     required this.username,
     required this.phoneNumber,
     required this.gender,
+    this.refreshToken,
     required this.credits,
     required this.isBanned,
     required this.roles,
@@ -43,6 +48,7 @@ class Patient extends BaseModel {
         'profile_img': String profileImg,
       } =>
         Patient(
+          credential: Credential.fromJson(json['credential']),
           profileImg: profileImg,
           mindCheckupCount: mindCheckupCount,
           stressMonitorCount: stressMonitorCount,

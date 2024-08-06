@@ -1,4 +1,5 @@
 enum ApiRoute {
+  auth("auth"),
   patients("patients"),
   therapists("therapists"),
   appointments("appointments"),
@@ -6,7 +7,8 @@ enum ApiRoute {
   likePosts("like-posts"),
   patientComments("patient-comments"),
   creditPackages("credits"),
-  stripe("stripe");
+  stripe("stripe"),
+  stressMonitor("stress-monitor");
 
   final String name;
 

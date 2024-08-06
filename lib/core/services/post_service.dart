@@ -1,6 +1,7 @@
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_appointment.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_post.dart';
+import 'package:capstone_project_mobile/core/model/dto/create_total_score.dart';
 import 'package:capstone_project_mobile/core/services/http_service.dart';
 import 'package:capstone_project_mobile/utils/api_helper.dart';
 import 'package:http/http.dart';
@@ -20,6 +21,7 @@ class PostService {
         'duration': body.duration
       },
     );
+    
 
     if (ApiHelper.isOk(httpRes.statusCode)) {
       return httpRes;
@@ -86,6 +88,22 @@ class PostService {
       },
     );
 
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      return httpRes;
+    } else {
+      throw jsonData;
+    }
+  }
+
+  static Future sendTotalScore(SaveTotalScore body) async {
+    final httpService = HttpService(path: ApiRoute.stressMonitor.name);
+
+    var HttpResponse(:httpRes, :jsonData) = await httpService.httpPost(
+      body: {
+        'total_score': body.getTotalScore,
+        'patient': body.getPatient,
+      },
+    );
     if (ApiHelper.isOk(httpRes.statusCode)) {
       return httpRes;
     } else {

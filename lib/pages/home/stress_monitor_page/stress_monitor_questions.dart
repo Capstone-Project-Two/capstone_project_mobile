@@ -1,3 +1,6 @@
+import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
+import 'package:capstone_project_mobile/core/model/dto/create_total_score.dart';
+import 'package:capstone_project_mobile/core/services/post_service.dart';
 import 'package:flutter/material.dart';
 import 'package:capstone_project_mobile/components/buttons/stress_answer_button.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
@@ -19,26 +22,59 @@ class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
       List.generate(stressquestions.length, (index) => null);
   String? _errorMessage;
 
-  void _goToNextQuestion() {
+  bool loading = false;
+
+  void _goToNextQuestion() async {
+    final totalScore = _calculateTotalScore();
+
     if (_selectedAnswers[_currentQuestionIndex] == null) {
       setState(() {
         _errorMessage = 'Please select an answer.';
       });
       return;
     }
+
     if (_currentQuestionIndex < stressquestions.length - 1) {
       setState(() {
         _currentQuestionIndex++;
         _errorMessage = null;
       });
     } else {
-      final totalScore = _calculateTotalScore(); // Calculate total score
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MonitorResultPage(totalScore: totalScore),
-        ),
-      );
+      setState(() {
+        _errorMessage = null;
+        loading = true;
+      });
+
+      try {
+        await PostService.sendTotalScore(SaveTotalScore(
+          totalScore: totalScore,
+          patient: '63686861790123456789abcd',
+        ));
+        // Navigate only if the widget is still mounted
+        if (mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MonitorResultPage(totalScore: totalScore),
+            ),
+          );
+        }
+      } catch (err) {
+        // Show error dialog only if the widget is still mounted
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(text: err.toString()),
+          );
+        }
+      } finally {
+        // Always reset the loading state
+        if (mounted) {
+          setState(() {
+            loading = false;
+          });
+        }
+      }
     }
   }
 
@@ -57,7 +93,7 @@ class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
     }
   }
 
-  void _updateAnswer(int index, int score) {
+  void _updateAnswer(int index) {
     setState(() {
       _selectedAnswers[_currentQuestionIndex] = index;
       _errorMessage = null;
@@ -66,14 +102,49 @@ class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
 
   int _calculateTotalScore() {
     int totalScore = 0;
+
     for (int i = 0; i < stressquestions.length; i++) {
       final answerIndex = _selectedAnswers[i];
       if (answerIndex != null) {
-        totalScore += answerIndex; // Score is index + 1
+        if (i == 3 || i == 4 || i == 6 || i == 7) {
+          totalScore += (4 - answerIndex); // Reversed scoring
+        } else {
+          totalScore += answerIndex; // Normal score
+        }
       }
     }
+
     return totalScore;
   }
+
+  // int _calculateTotalScore() {
+  //   int totalScore = 0;
+
+  //   for (int i = 0; i < stressquestions.length; i++) {
+  //     final answerIndex = _selectedAnswers[i];
+  //     if (answerIndex != null) {
+  //       if (i == 4 || i == 5 || i == 7 || i == 8) {
+  //         // Ensure that answerIndex is within the expected range
+  //         if (answerIndex >= 0 && answerIndex <= 4) {
+  //           totalScore += (4 - answerIndex); // Apply reversed scoring
+  //         } else {
+  //           // Handle unexpected answerIndex values
+  //           print("Unexpected answerIndex: $answerIndex at question index $i");
+  //         }
+  //       } else {
+  //         // Normal scoring
+  //         if (answerIndex >= 0 && answerIndex <= 4) {
+  //           totalScore += answerIndex; // Apply normal scoring
+  //         } else {
+  //           // Handle unexpected answerIndex values
+  //           print("Unexpected answerIndex: $answerIndex at question index $i");
+  //         }
+  //       }
+  //     }
+  //   }
+
+  //   return totalScore;
+  // }
 
   @override
   Widget build(BuildContext context) {

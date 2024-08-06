@@ -1,6 +1,6 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/pages/home/find_activity_page/find_activity_page.dart';
-import 'package:capstone_project_mobile/pages/layout_page.dart';
+import 'package:capstone_project_mobile/layouts/layout_page.dart';
 import 'package:flutter/material.dart';
 
 class MonitorResultPage extends StatelessWidget {
@@ -175,6 +175,8 @@ class MonitorResultPage extends StatelessWidget {
   }
 
   Widget _buildResultCard(BuildContext context) {
+    ColorScheme colorScheme = Theme.of(context).colorScheme;
+
     String result;
     Color resultColor;
     if (totalScore >= 0 && totalScore <= 13) {
@@ -246,8 +248,8 @@ class MonitorResultPage extends StatelessWidget {
                             const Spacer(),
                             Text(
                               '$totalScore / 40',
-                              style: const TextStyle(
-                                color: Colors.green,
+                              style: TextStyle(
+                                color: colorScheme.primary,
                                 overflow: TextOverflow.visible,
                                 fontSize: 20,
                                 fontWeight: FontWeight.w500,
