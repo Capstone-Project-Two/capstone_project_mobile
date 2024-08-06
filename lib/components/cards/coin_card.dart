@@ -20,7 +20,8 @@ class CoinCard extends StatelessWidget {
             .makePayment(CreatePaymentIntent(
                 amount: creditPackage.price,
                 currency: 'usd',
-                credits: creditPackage.points))
+                credits: creditPackage.points,
+                patientId: '63686861790123456789abcd'))
             .then((_) {
           Navigator.push(
               context,

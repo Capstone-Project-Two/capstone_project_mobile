@@ -116,6 +116,23 @@ class GetService {
     return appointments;
   }
 
+  static Future<List<Appointment>> fetchAppointmentsWithQuery(
+      Map<String, dynamic> query) async {
+    List<Appointment> appointments = [];
+    HttpService httpService =
+        HttpService(path: ApiRoute.appointments.name, query: query);
+    var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
+
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      for (var eachAppointment in jsonData['data']) {
+        appointments.add(Appointment.fromJson(eachAppointment));
+      }
+    } else {
+      throw jsonData;
+    }
+    return appointments;
+  }
+
   static Future<List<CreditPackage>> fetchCreditPackages() async {
     List<CreditPackage> creditPackages = [];
     HttpService httpService = HttpService(path: ApiRoute.creditPackages.name);

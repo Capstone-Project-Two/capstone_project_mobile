@@ -22,6 +22,8 @@ class StripeService {
         body: {
           'amount': amountInCents,
           'currency': body.currency,
+          'patientId': body.patientId,
+          'credits': body.credits
         },
       );
       if (ApiHelper.isOk(httpRes.statusCode)) {
