@@ -61,7 +61,11 @@ class LoginEmailState extends State<LoginEmail> {
         if (_authController.isLoading.value) {
           return const LoadingScreen();
         } else if (_authController.isLoggedIn.value) {
-          return const LayoutPage();
+          // return const LayoutPage();
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Get.offAll(() => const LayoutPage());
+          });
+          return const SizedBox.shrink();
         } else {
           return LoginBody(
             obscureText: _obscureText,
