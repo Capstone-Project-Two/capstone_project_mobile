@@ -117,35 +117,6 @@ class _MonitorQuestionsPageState extends State<MonitorQuestionsPage> {
     return totalScore;
   }
 
-  // int _calculateTotalScore() {
-  //   int totalScore = 0;
-
-  //   for (int i = 0; i < stressquestions.length; i++) {
-  //     final answerIndex = _selectedAnswers[i];
-  //     if (answerIndex != null) {
-  //       if (i == 4 || i == 5 || i == 7 || i == 8) {
-  //         // Ensure that answerIndex is within the expected range
-  //         if (answerIndex >= 0 && answerIndex <= 4) {
-  //           totalScore += (4 - answerIndex); // Apply reversed scoring
-  //         } else {
-  //           // Handle unexpected answerIndex values
-  //           print("Unexpected answerIndex: $answerIndex at question index $i");
-  //         }
-  //       } else {
-  //         // Normal scoring
-  //         if (answerIndex >= 0 && answerIndex <= 4) {
-  //           totalScore += answerIndex; // Apply normal scoring
-  //         } else {
-  //           // Handle unexpected answerIndex values
-  //           print("Unexpected answerIndex: $answerIndex at question index $i");
-  //         }
-  //       }
-  //     }
-  //   }
-
-  //   return totalScore;
-  // }
-
   @override
   Widget build(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;

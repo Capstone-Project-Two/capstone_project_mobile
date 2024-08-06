@@ -81,6 +81,7 @@ class _PostCardState extends State<PostCard> {
                               DateTime.parse(widget.post.createdAt).toLocal()),
                           style: textTheme.bodyLarge,
                         ),
+                        Text(widget.post.stressResult.toString()),
                       ],
                     ),
                   ],

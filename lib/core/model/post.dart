@@ -8,7 +8,8 @@ class Post extends BaseModel {
   final int commentCount;
   final Patient patient;
   final List<PostPhoto> postPhotos;
-
+  final bool stressResult;
+  
   Post({
     required super.id,
     required super.createdAt,
@@ -18,6 +19,7 @@ class Post extends BaseModel {
     required this.commentCount,
     required this.patient,
     required this.postPhotos,
+    required this.stressResult
   });
 
   factory Post.fromJson(Map<String, dynamic> json) {
@@ -36,6 +38,7 @@ class Post extends BaseModel {
         'body': String body,
         'like_count': int likeCount,
         'comment_count': int commentCount,
+        'stress_result': bool stressResult,
       } =>
         Post(
           body: body,
@@ -46,6 +49,7 @@ class Post extends BaseModel {
           patient: Patient.fromJson(json['patient']),
           postPhotos: listPhotos,
           commentCount: commentCount,
+          stressResult:stressResult
         ),
       _ => throw const FormatException('Failed to load post'),
     };

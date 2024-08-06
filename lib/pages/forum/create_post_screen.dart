@@ -127,6 +127,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 class PostButton extends StatelessWidget {
   final List<XFile> postImages;
   final TextEditingController bodyController;
+
   const PostButton({
     super.key,
     required this.postImages,
@@ -136,12 +137,15 @@ class PostButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostController postController = Get.put(PostController());
+
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     TextTheme textTheme = Theme.of(context).textTheme;
+
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(colorScheme.primary),
       ),
+
       onPressed: () async {
         await postController
             .handleCreatePost(body: bodyController.text, postImages: postImages)
@@ -177,7 +181,6 @@ class PostButton extends StatelessWidget {
           //     ),
           //   ),
           // );
-
           Navigator.of(context).pop();
         }).catchError((err) {
           ErrorResponse errorResponse = ErrorResponse.fromJson(err);
@@ -189,6 +192,31 @@ class PostButton extends StatelessWidget {
           );
         });
       },
+
+      // onPressed: () async {
+      //   // try {
+      //   // Create the post and get the resulting Post object
+      //   final Post newPost = await postController.handleCreatePost(
+      //     body: bodyController.text,
+      //     postImages: postImages,
+      //   );
+
+      //   // Extract the post ID
+      //   final postId = newPost.id;
+
+      //   // Retrieve the post and check its stressResult
+      //   final Post getPost = await postController.handleGetOnePost(postId);
+      //   // final bool result = getPost.stressResult;
+      //   if (getPost.stressResult == true) {
+      //     showDialog(
+      //       context: context,
+      //       builder: (context) => const StressDialog(),
+      //     );
+      //   } else {
+      //     Navigator.of(context).pop();
+      //   }
+      // },
+
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 16),
