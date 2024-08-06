@@ -8,9 +8,8 @@ import 'package:capstone_project_mobile/pages/profile/profile_page.dart';
 import 'package:capstone_project_mobile/pages/resource/resource_page.dart';
 import 'package:capstone_project_mobile/pages/therapists/therapists_page.dart';
 import 'package:get/get.dart';
-import 'package:get/route_manager.dart';
 
-class AppRoute {
+class AppRoute {  
   static final appPages = [
     const HomePage(),
     const ForumPage(),
@@ -21,7 +20,7 @@ class AppRoute {
   ];
 
   static final appTitle = [
-    'Welcome, Alixz!',
+    'Welcome to Chhantek!',
     'Forum',
     'Therapists',
     'Resources',

@@ -22,6 +22,7 @@ class PostService {
         'duration': body.duration
       },
     );
+    
 
     if (ApiHelper.isOk(httpRes.statusCode)) {
       return httpRes;

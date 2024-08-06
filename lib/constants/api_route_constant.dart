@@ -1,4 +1,5 @@
 enum ApiRoute {
+  auth("auth"),
   patients("patients"),
   therapists("therapists"),
   appointments("appointments"),
