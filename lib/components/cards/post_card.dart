@@ -8,6 +8,7 @@ import 'package:capstone_project_mobile/pages/forum/comment/comment_page.dart';
 import 'package:capstone_project_mobile/pages/forum/post_detail_screen.dart';
 import 'package:capstone_project_mobile/utils/image_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -123,15 +124,25 @@ class _PostCardState extends State<PostCard> {
                     height: 12,
                   ),
 
-                  Column(
-                    children: [
-                      for (int i = 0; i < widget.post.postPhotos.length; i++)
-                        Image.network(
-                          imageReqHelper.getImage(
-                              filename: widget.post.postPhotos[i].filename),
-                        )
-                    ],
-                  ),
+                  if (widget.post.postPhotos.isNotEmpty)
+                    SizedBox(
+                      height: 250.0,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: widget.post.postPhotos.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.network(
+                              imageReqHelper.getImage(
+                                  filename:
+                                      widget.post.postPhotos[index].filename),
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
 
                   const SizedBox(
                     height: 12,
