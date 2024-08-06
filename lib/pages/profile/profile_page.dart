@@ -2,7 +2,6 @@ import 'package:capstone_project_mobile/core/controller/auth_controller.dart';
 import 'package:capstone_project_mobile/layouts/layout_page.dart';
 import 'package:capstone_project_mobile/pages/profile/coins_payment_page.dart';
 import 'package:capstone_project_mobile/pages/profile/your_activity.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -287,9 +286,8 @@ class ProfilePage extends StatelessWidget {
         ? authController.user.value!.email
         : 'N/A';
 
-    final String password = authController.isLoggedIn.value
-        ? '********'
-        : 'N/A';
+    final String password =
+        authController.isLoggedIn.value ? '********' : 'N/A';
 
     return SizedBox(
       child: Column(
