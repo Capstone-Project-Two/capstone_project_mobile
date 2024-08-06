@@ -1,6 +1,6 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/pages/home/find_activity_page/find_activity_page.dart';
-import 'package:capstone_project_mobile/pages/layout_page.dart';
+import 'package:capstone_project_mobile/layouts/layout_page.dart';
 import 'package:flutter/material.dart';
 
 class MonitorResultPage extends StatelessWidget {
