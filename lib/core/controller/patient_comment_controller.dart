@@ -1,5 +1,7 @@
+import 'package:capstone_project_mobile/core/model/dto/create_comment_dto.dart';
 import 'package:capstone_project_mobile/core/model/patient_comment_model.dart';
 import 'package:capstone_project_mobile/core/services/get_service.dart';
+import 'package:capstone_project_mobile/core/services/post_service.dart';
 import 'package:get/get.dart';
 
 class PatientCommentController extends GetxController {
@@ -18,5 +20,16 @@ class PatientCommentController extends GetxController {
             .catchError((err) => throw err);
 
     setAllComments(parentComments);
+  }
+
+  Future<void> handleCreateComment(
+      {required CreateCommentDto createCommentDto}) async {
+    var res = await PostService.createComment(createCommentDto)
+        .then((value) => value)
+        .catchError((err) => throw err);
+
+    await handleGetAllParentComments(postId: createCommentDto.post);
+
+    return res;
   }
 }

@@ -26,48 +26,50 @@ class _CommentsListState extends State<CommentsList> {
       Get.put(PatientCommentController());
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: patientCommentController.getAllComments.value,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          var comments = snapshot.data!;
-          if (comments.isEmpty) {
-            return const Padding(
-              padding: EdgeInsets.all(25.0),
-              child: EmptyScreen(
-                text: 'Be the first one to comment',
+    return Obx(() {
+      return FutureBuilder(
+        future: patientCommentController.getAllComments.value,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            var comments = snapshot.data!;
+            if (comments.isEmpty) {
+              return const Padding(
+                padding: EdgeInsets.all(25.0),
+                child: EmptyScreen(
+                  text: 'Be the first one to comment',
+                ),
+              );
+            }
+            return Column(
+              children: List.generate(
+                comments.length,
+                (index) {
+                  return CommentCard(
+                    comment: comments[index],
+                  );
+                },
               ),
             );
           }
-          return Column(
-            children: List.generate(
-              comments.length,
-              (index) {
-                return CommentCard(
-                  comment: comments[index],
-                );
-              },
-            ),
+          if (snapshot.hasError) {
+            return Padding(
+              padding: const EdgeInsets.all(25.0),
+              child: ErrorScreen(
+                onTryAgain: () async {
+                  await patientCommentController.handleGetAllParentComments(
+                    postId: widget.postId,
+                  );
+                },
+                errorObject: snapshot.error,
+              ),
+            );
+          }
+          return const Padding(
+            padding: EdgeInsets.all(25),
+            child: LoadingScreen(),
           );
-        }
-        if (snapshot.hasError) {
-          return Padding(
-            padding: const EdgeInsets.all(25.0),
-            child: ErrorScreen(
-              onTryAgain: () async {
-                await patientCommentController.handleGetAllParentComments(
-                  postId: widget.postId,
-                );
-              },
-              errorObject: snapshot.error,
-            ),
-          );
-        }
-        return const Padding(
-          padding: EdgeInsets.all(25),
-          child: LoadingScreen(),
-        );
-      },
-    );
+        },
+      );
+    });
   }
 }
