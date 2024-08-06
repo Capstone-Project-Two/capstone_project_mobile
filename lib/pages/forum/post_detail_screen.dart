@@ -22,18 +22,21 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    postController.handleGetOnePost(widget.postId);
     return Scaffold(
       appBar: const MyAppBar(
         title: 'Detailed Post',
       ),
-      body: _buildBody(),
+      body: Obx(() {
+        return _buildBody();
+      }),
       bottomNavigationBar: _buildCommentButton(context),
     );
   }
 
   Widget _buildBody() {
     return FutureBuilder(
-      future: postController.handleGetOnePost(widget.postId),
+      future: postController.getOnePost.value,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           var post = snapshot.data!;

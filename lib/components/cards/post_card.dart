@@ -148,8 +148,7 @@ class _PostCardState extends State<PostCard> {
                             // var likeCount = snapshot.data!;
                             return GetBuilder<PostController>(
                               builder: (_) => LikeButton(
-                                likeCount:
-                                    postController.getLikeCount.toString(),
+                                likeCount: widget.post.likeCount.toString(),
                                 postId: widget.post.id,
                               ),
                             );
@@ -215,7 +214,10 @@ class LikeButton extends StatelessWidget {
         color: colorScheme.tertiary,
       ),
       onTap: () async {
-        await postController.handleLikePost(postId).catchError((err) {
+        await postController.handleLikePost(postId).then((value) async {
+          await postController.handleGetAllPosts();
+          await postController.handleGetOnePost(postId);
+        }).catchError((err) {
           ErrorResponse errorResponse = ErrorResponse.fromJson(err);
           showDialog(
             context: context,

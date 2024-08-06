@@ -17,20 +17,12 @@ class PostController extends GetxController {
 
   Rx<Future<List<Post>>> get getAllPosts => _allPosts;
 
-  late Post _onePost;
-  Post get getOnePost => _onePost;
-  void setOnePost(Post newPost) {
-    _onePost = newPost;
-    update();
-  }
+  final _onePost = Future<Post?>.value().obs;
 
-  int _likeCount = 0;
-  void setLikeCount(int newLikeCount) {
-    _likeCount = newLikeCount;
-    update();
+  Rx<Future<Post?>> get getOnePost => _onePost;
+  void setOnePost(var newPost) {
+    _onePost.value = Future.value(newPost);
   }
-
-  int get getLikeCount => _likeCount;
 
   Future<void> handleGetAllPosts() async {
     List<Post> posts = await GetService.fetchPosts()
@@ -40,14 +32,13 @@ class PostController extends GetxController {
     setAllPosts(posts);
   }
 
-  Future<Post> handleGetOnePost(String postId) async {
+  Future<void> handleGetOnePost(String postId) async {
     Post post = await GetService.fetchOnePost(postId)
         .then((value) => value)
         .catchError((err) {
       throw err;
     });
     setOnePost(post);
-    return post;
   }
 
   List<File> getAllPaths({List<XFile>? postImages}) {
@@ -82,8 +73,7 @@ class PostController extends GetxController {
 
   Future handleGetLikeCount(String postId) async {
     Post post = await GetService.fetchOnePost(postId);
-    setLikeCount(post.likeCount);
-    return _likeCount;
+    return post.likeCount;
   }
 
   Future handleLikePost(String postId) async {
@@ -91,8 +81,5 @@ class PostController extends GetxController {
       id: postId,
       patientId: '72706f6e670123456789abcd',
     ).catchError((err) => throw err);
-
-    Post post = await GetService.fetchOnePost(postId);
-    setLikeCount(post.likeCount);
   }
 }
