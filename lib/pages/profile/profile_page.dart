@@ -1,6 +1,8 @@
+import 'package:capstone_project_mobile/core/controller/auth_controller.dart';
 import 'package:capstone_project_mobile/pages/profile/coins_payment_page.dart';
 import 'package:capstone_project_mobile/pages/profile/your_activity.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -34,6 +36,11 @@ class ProfilePage extends StatelessWidget {
 
   Widget _buildProfileCard(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final AuthController authController = Get.put(AuthController());
+
+    final String username = authController.isLoggedIn.value
+        ? authController.user.value?.username ?? 'User'
+        : 'Guest';
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
@@ -90,27 +97,27 @@ class ProfilePage extends StatelessWidget {
                 const Spacer(),
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 2,
-                  child: const Column(
+                  child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Alixz',
-                          style: TextStyle(
+                          username,
+                          style: const TextStyle(
                               color: Color.fromRGBO(0, 47, 110, 1),
-                              fontSize: 32,
+                              fontSize: 20,
                               fontWeight: FontWeight.w600),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
-                        Divider(
+                        const Divider(
                           height: 2.0,
                           color: Color.fromRGBO(0, 47, 110, 1),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
-                        Text(
+                        const Text(
                           'Your Coins: 65',
                           style: TextStyle(
                               color: Color.fromRGBO(0, 47, 110, 1),
@@ -264,6 +271,11 @@ class ProfilePage extends StatelessWidget {
 
   Widget _buildEdited(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+    final AuthController authController = Get.put(AuthController());
+
+    final String username = authController.isLoggedIn.value
+        ? authController.user.value?.username ?? 'User'
+        : 'Guest';
 
     return SizedBox(
       child: Column(
@@ -298,25 +310,25 @@ class ProfilePage extends StatelessWidget {
                   ),
                   SizedBox(
                       width: MediaQuery.of(context).size.width * 0.7,
-                      child: const Padding(
-                        padding: EdgeInsets.only(left: 10),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 10),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
+                            const Text(
                               'Username',
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w500),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Text(
-                              'Alixz',
-                              style: TextStyle(
+                              username,
+                              style: const TextStyle(
                                   color: Colors.black,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w400),
