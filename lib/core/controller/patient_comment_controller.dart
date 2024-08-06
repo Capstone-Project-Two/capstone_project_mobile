@@ -32,4 +32,15 @@ class PatientCommentController extends GetxController {
 
     return res;
   }
+
+  Future<void> handleRemoveComment(
+      {required String commentId, required String postId}) async {
+    var res = await PostService.removeComment(commentId)
+        .then((value) => value)
+        .catchError((err) => throw err);
+
+    await handleGetAllParentComments(postId: postId);
+
+    return res;
+  }
 }

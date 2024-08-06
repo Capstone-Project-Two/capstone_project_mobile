@@ -7,6 +7,7 @@ enum ApiRoute {
   likePosts("like-posts"),
   patientComments("patient-comments"),
   newPatientComments("patient-comments/comments-new"),
+  removeComment("patient-comments/remove-comment"),
   creditPackages("credits"),
   stripe("stripe"),
   stressMonitor("stress-monitor");

@@ -127,4 +127,18 @@ class PostService {
       throw jsonData;
     }
   }
+
+  static Future removeComment(String commentId) async {
+    final httpService =
+        HttpService(path: "${ApiRoute.removeComment.name}/$commentId");
+
+    var HttpResponse(:jsonData, :httpRes) =
+        await httpService.httpPatch(body: {});
+
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      return httpRes;
+    } else {
+      throw jsonData;
+    }
+  }
 }

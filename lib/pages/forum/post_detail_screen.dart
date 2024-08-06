@@ -74,6 +74,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
           return RefreshIndicator(
             onRefresh: () async {
               await postController.handleGetOnePost(widget.postId);
+              await patientCommentController.handleGetAllParentComments(
+                  postId: widget.postId);
             },
             child: SingleChildScrollView(
               child: Column(

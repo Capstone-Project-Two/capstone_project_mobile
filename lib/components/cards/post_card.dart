@@ -4,11 +4,9 @@ import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/core/controller/post_controller.dart';
 import 'package:capstone_project_mobile/core/model/error_response.dart';
 import 'package:capstone_project_mobile/core/model/post.dart';
-import 'package:capstone_project_mobile/pages/forum/comment/comment_page.dart';
 import 'package:capstone_project_mobile/pages/forum/post_detail_screen.dart';
 import 'package:capstone_project_mobile/utils/image_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -181,18 +179,13 @@ class _PostCardState extends State<PostCard> {
                       ),
                       // Comment button
                       MyTextButton(
-                        text: '${widget.post.commentCount} Comment',
+                        text:
+                            '${widget.post.commentCount} Comment${widget.post.commentCount > 0 ? 's' : ""} ',
                         icon: Icon(
                           LucideIcons.messageCircle,
                           color: colorScheme.tertiary,
                         ),
-                        onTap: () {
-                          // Navigator.pushNamed(
-                          //   context,
-                          //   RouteConstant.commentPage.name,
-                          // );
-                          Get.to(const CommentPage());
-                        },
+                        onTap: () {},
                       )
                     ],
                   )
