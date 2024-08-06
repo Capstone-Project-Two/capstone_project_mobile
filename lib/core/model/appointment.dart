@@ -4,12 +4,13 @@ import 'package:capstone_project_mobile/core/model/therapist.dart';
 
 class Appointment extends BaseModel {
   final String note;
+  final String prescriptions;
   final String symptoms;
   final String scheduleDate;
   final String startTime;
   final String endTime;
   final int duration;
-  final double sessionPrice;
+  final int sessionPrice;
   final String status;
   final Patient patient;
   final Therapist therapist;
@@ -19,6 +20,7 @@ class Appointment extends BaseModel {
     required super.createdAt,
     required super.updatedAt,
     required this.note,
+    required this.prescriptions,
     required this.symptoms,
     required this.scheduleDate,
     required this.startTime,
@@ -37,12 +39,13 @@ class Appointment extends BaseModel {
         'createdAt': String createdAt,
         'updatedAt': String updatedAt,
         'note': String note,
+        'prescriptions': String prescriptions,
         'symptoms': String symtoms,
         'scheduleDate': String scheduleDate,
         'start_time': String startTime,
         'end_time': String endTime,
         'duration': int duration,
-        'session_price': double sessionPrice,
+        'session_price': int sessionPrice,
         'status': String status,
       } =>
         Appointment(
@@ -50,6 +53,7 @@ class Appointment extends BaseModel {
             createdAt: createdAt,
             updatedAt: updatedAt,
             note: note,
+            prescriptions: prescriptions,
             symptoms: symtoms,
             scheduleDate: scheduleDate,
             startTime: startTime,

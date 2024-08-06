@@ -11,7 +11,6 @@ class PostService {
 
     var HttpResponse(:httpRes, :jsonData) = await httpService.httpPost(
       body: {
-        'note': body.note,
         'symptoms': body.symptoms,
         'patient': body.patient,
         'therapist': body.therapist,

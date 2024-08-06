@@ -1,4 +1,5 @@
 import 'package:capstone_project_mobile/components/cards/booking_card.dart';
+import 'package:capstone_project_mobile/constants/status_constant.dart';
 import 'package:capstone_project_mobile/core/controller/appointment_controller.dart';
 import 'package:capstone_project_mobile/core/model/appointment.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
@@ -22,10 +23,10 @@ class BookingDetailPage extends StatelessWidget {
       appBar: const MyAppBar(title: 'Booking Detail'),
       body: RefreshIndicator(
         onRefresh: () async {
-          await appointmentController.handleGetSingleAppointment(bookingId);
+          await appointmentController.fetchOneAppointment(bookingId);
         },
         child: FutureBuilder(
-          future: appointmentController.handleGetSingleAppointment(bookingId),
+          future: appointmentController.getSingleAppointment(bookingId),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var appointment = snapshot.data!;
@@ -36,8 +37,7 @@ class BookingDetailPage extends StatelessWidget {
                 padding: const EdgeInsets.all(25.0),
                 child: ErrorScreen(
                   onTryAgain: () async {
-                    await appointmentController
-                        .handleGetSingleAppointment(bookingId);
+                    await appointmentController.getSingleAppointment(bookingId);
                   },
                   errorObject: snapshot.error,
                 ),
@@ -88,39 +88,97 @@ Widget _buildBody(Appointment appointment, BuildContext context) {
             color: colorScheme.tertiary,
           ),
           const SizedBox(height: 4),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Total', style: subHeadingStyle),
-              const Spacer(),
-              Flexible(
-                child: Text(
-                  "4 coins",
-                  textAlign: TextAlign.end,
-                  overflow: TextOverflow.visible,
-                  style: descriptionStyle,
-                ),
+          if (appointment.status == StatusConstant.completed.name) ...[
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 1,
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
+                  )
+                ],
+                borderRadius: BorderRadius.circular(16),
+                color: Theme.of(context).colorScheme.inversePrimary,
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Booking Price', style: subHeadingStyle),
-              const Spacer(),
-              Flexible(
-                child: Text(
-                  "2 coins",
-                  textAlign: TextAlign.end,
-                  overflow: TextOverflow.visible,
-                  style: descriptionStyle,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Notes from doctor',
+                    style: subHeadingStyle,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(appointment.note),
+                ],
               ),
-            ],
-          ),
+            ),
+            const SizedBox(height: 16),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 1,
+                    blurRadius: 10,
+                    offset: const Offset(0, 5),
+                  )
+                ],
+                borderRadius: BorderRadius.circular(16),
+                color: Theme.of(context).colorScheme.inversePrimary,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Prescriptions',
+                    style: subHeadingStyle,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(appointment.prescriptions),
+                ],
+              ),
+            ),
+          ] else ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Total', style: subHeadingStyle),
+                const Spacer(),
+                Flexible(
+                  child: Text(
+                    "4 coins",
+                    textAlign: TextAlign.end,
+                    overflow: TextOverflow.visible,
+                    style: descriptionStyle,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Booking Price', style: subHeadingStyle),
+                const Spacer(),
+                Flexible(
+                  child: Text(
+                    "2 coins",
+                    textAlign: TextAlign.end,
+                    overflow: TextOverflow.visible,
+                    style: descriptionStyle,
+                  ),
+                ),
+              ],
+            ),
+          ],
           SizedBox(height: MediaQuery.of(context).size.height * 0.15),
         ],
       ),

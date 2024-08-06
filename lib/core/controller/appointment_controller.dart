@@ -1,42 +1,57 @@
+import 'package:capstone_project_mobile/constants/status_constant.dart';
 import 'package:capstone_project_mobile/core/model/appointment.dart';
 import 'package:capstone_project_mobile/core/services/get_service.dart';
 import 'package:get/get.dart';
 
 class AppointmentController extends GetxController {
-  List<Appointment> _allAppointments = [];
-  late Appointment _singleAppointment;
+  final RxList<Appointment> allAppointments = <Appointment>[].obs;
+  final Rx<Appointment?> singleAppointment = Rx<Appointment?>(null);
+  RxBool loading = false.obs;
 
-  void setAllAppointments(List<Appointment> newAppointments) {
-    _allAppointments = newAppointments;
-    update();
+  Future<void> fetchAllAppointments() async {
+    loading.value = true;
+
+    allAppointments.value = await GetService.fetchAppointments().then((value) {
+      return value;
+    }).catchError((err) => throw err);
+
+    loading.value = false;
   }
 
-  void setSingleAppointment(Appointment newAppointment) {
-    _singleAppointment = newAppointment;
-    update();
+  Future<void> fetchCompletedAppointments() async {
+    loading.value = true;
+
+    allAppointments.value = await GetService.fetchAppointmentsWithQuery(
+        {'status': StatusConstant.completed.name}).then((value) {
+      return value;
+    }).catchError((err) => throw err);
+
+    loading.value = false;
   }
 
-  List<Appointment> get getAllAppointments => _allAppointments;
-  Appointment get getSingleAppointment => _singleAppointment;
+  Future<void> fetchOneAppointment(String appointmentId) async {
+    loading.value = true;
 
-  Future<List<Appointment>> handleGetAllAppointments() async {
-    List<Appointment> appointments = await GetService.fetchAppointments()
-        .then((value) => value)
-        .catchError((err) => throw err);
+    singleAppointment.value =
+        await GetService.fetchOneAppointment(appointmentId).then((value) {
+      return value;
+    }).catchError((err) => throw err);
 
-    setAllAppointments(appointments);
-
-    return _allAppointments;
+    loading.value = false;
   }
 
-  Future<Appointment> handleGetSingleAppointment(String appointmentId) async {
-    Appointment appointment =
-        await GetService.fetchOneAppointment(appointmentId)
-            .then((value) => value)
-            .catchError((err) => throw err);
+  Future<List<Appointment>> getAllAppointments() async {
+    await fetchAllAppointments();
+    return allAppointments;
+  }
 
-    setSingleAppointment(appointment);
+  Future<List<Appointment>> getCompletedAppointments() async {
+    await fetchCompletedAppointments();
+    return allAppointments;
+  }
 
-    return _singleAppointment;
+  Future<Appointment?> getSingleAppointment(String appointmentId) async {
+    await fetchOneAppointment(appointmentId);
+    return singleAppointment.value;
   }
 }
