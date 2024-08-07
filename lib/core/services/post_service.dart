@@ -145,7 +145,7 @@ class PostService {
     HttpService httpService = HttpService(path: ApiRoute.mindCheckUp.name);
 
     Map<String, dynamic> finalAnswersMap = {
-      'patient': '66b11f2be684dc5b4b649201', // Change patient object id
+      'patient': '63686861790123456789abcd', // Change patient object id
       ...answersMap, // Spread the existing attributes
     };
 
@@ -153,7 +153,7 @@ class PostService {
         await httpService.httpPost(body: finalAnswersMap);
 
     if (ApiHelper.isOk(httpRes.statusCode)) {
-      return httpRes;
+      return jsonData['data'];
     } else {
       throw jsonData;
     }

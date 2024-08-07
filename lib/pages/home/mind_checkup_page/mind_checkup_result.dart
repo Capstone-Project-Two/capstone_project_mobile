@@ -1,3 +1,4 @@
+import 'package:capstone_project_mobile/core/model/mind_checkup.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/pages/home/find_activity_page/find_activity_page.dart';
 import 'package:capstone_project_mobile/layouts/layout_page.dart';
@@ -7,8 +8,13 @@ class MindCheckupResultPage extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   // final List<String> selectedAnswers;
   final Map<String, String> selectedAnswers;
+  final CreateMindCheckup createMindCheckup;
 
-  MindCheckupResultPage({super.key, required this.selectedAnswers});
+  MindCheckupResultPage({
+    super.key,
+    required this.selectedAnswers,
+    required this.createMindCheckup,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +211,7 @@ class MindCheckupResultPage extends StatelessWidget {
       ),
       child: Container(
         width: double.infinity,
-        height: 150,
+        height: 59,
         decoration: const BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -229,39 +235,6 @@ class MindCheckupResultPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(
-                          left: 20,
-                          right: 20,
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Result  :',
-                              style: TextStyle(
-                                color: Colors.black,
-                                overflow: TextOverflow.visible,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Spacer(),
-                            Text(
-                              '57%',
-                              style: TextStyle(
-                                color: Colors.green,
-                                overflow: TextOverflow.visible,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Divider(
-                        height: 2.0,
-                        color: Colors.grey,
-                      ),
                       Padding(
                         padding: const EdgeInsets.only(
                           left: 20,
@@ -280,7 +253,7 @@ class MindCheckupResultPage extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              'Yes',
+                              createMindCheckup.result,
                               style: TextStyle(
                                 color: colorScheme.primary,
                                 overflow: TextOverflow.visible,
