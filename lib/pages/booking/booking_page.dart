@@ -37,7 +37,7 @@ class _BookingPageState extends State<BookingPage> {
 
   final bool isDisabled = false;
 
-  final TextEditingController _notesController = TextEditingController();
+  // final TextEditingController _notesController = TextEditingController();
   final TextEditingController _symtomsController = TextEditingController();
   final TextEditingController _durationController =
       TextEditingController(text: '1');
@@ -50,9 +50,7 @@ class _BookingPageState extends State<BookingPage> {
       loading = true;
     });
 
-    if (_notesController.text.isEmpty ||
-        _symtomsController.text.isEmpty ||
-        _dateController.text.isEmpty) {
+    if (_symtomsController.text.isEmpty || _dateController.text.isEmpty) {
       showDialog(
           context: context,
           builder: (context) =>
@@ -60,7 +58,6 @@ class _BookingPageState extends State<BookingPage> {
     } else {
       var res = await PostService.createAppointment(
         CreateAppointment(
-            note: _notesController.text,
             symptoms: _symtomsController.text,
             therapist: widget.therapist.id,
             patient: '63686861790123456789abcd',
@@ -96,7 +93,6 @@ class _BookingPageState extends State<BookingPage> {
               ),
             ),
           );
-          _notesController.clear();
           _symtomsController.clear();
           _dateController.clear();
           return value;
@@ -186,12 +182,6 @@ class _BookingPageState extends State<BookingPage> {
                 'Information',
                 style: TextStyle(fontSize: 16),
               ),
-              const SizedBox(height: 16),
-              _textField(
-                  hintText:
-                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-                  label: 'Notes',
-                  controller: _notesController),
               const SizedBox(height: 16),
               _textField(
                   hintText: 'Insomnia, Stress, Tired...',

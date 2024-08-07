@@ -89,13 +89,27 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             ),
 
             if (postImages.isNotEmpty)
-              Expanded(
+              SizedBox(
+                height: 250, // Set a height for the horizontal scrollable area
                 child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
                   itemCount: postImages.length,
-                  itemBuilder: (context, index) => Image.file(
-                    File(postImages[index].path),
-                    height: 200,
-                    width: 200,
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Stack(
+                      children: [
+                        Container(
+                          color: Colors.grey.shade200,
+                          child: Image.file(
+                            File(postImages[index].path),
+                            height: 250,
+                            width: 250,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        _buildTrashButton(context, imageIndex: index),
+                      ],
+                    ),
                   ),
                 ),
               )
@@ -118,6 +132,40 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               height: 20,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTrashButton(BuildContext context, {required int imageIndex}) {
+    return Positioned(
+      bottom: 12,
+      right: 12,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(9999),
+        child: Container(
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(9999),
+            border: Border.all(
+              width: 4,
+              color: Colors.red,
+            ),
+          ),
+          child: IconButton(
+            onPressed: () {
+              setState(() {
+                postImages.removeAt(imageIndex);
+              });
+            },
+            icon: const Icon(
+              LucideIcons.trash2,
+              color: Colors.red,
+              size: 20,
+            ),
+          ),
         ),
       ),
     );
@@ -149,37 +197,6 @@ class PostButton extends StatelessWidget {
         await postController
             .handleCreatePost(body: bodyController.text, postImages: postImages)
             .then((value) {
-          // Provider.of<PostProvider>(context, listen: false).getAllPosts();
-          // Navigator.pushReplacement(
-          //   context,
-          //   CupertinoPageRoute(
-          //     builder: (context) => SuccessScreen(
-          //       backBtn: () {
-          //         Navigator.pushReplacement(
-          //           context,
-          //           CupertinoPageRoute(
-          //             builder: (context) => const LayoutPage(
-          //               selectedIndex: 0,
-          //             ),
-          //           ),
-          //         );
-          //       },
-          //       nextBtn: () {
-          //         Navigator.pushReplacement(
-          //           context,
-          //           CupertinoPageRoute(
-          //             builder: (context) => const LayoutPage(
-          //               selectedIndex: 1,
-          //             ),
-          //           ),
-          //         );
-          //       },
-          //       successMsg: "Post Created Successfully",
-          //       backBtnTitle: "Go to home page",
-          //       nextBtnTitle: "View forum",
-          //     ),
-          //   ),
-          // );
           Navigator.of(context).pop();
         }).catchError((err) {
           ErrorResponse errorResponse = ErrorResponse.fromJson(err);

@@ -9,55 +9,36 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PostController extends GetxController {
-  List<Post> _allPosts = [];
+  final _allPosts = Future<List<Post>>.value([]).obs;
 
-  // int counter = 0;
-
-  // void increment() {
-  //   counter++;
-  //   update();
-  // }
-
-  void setAllPosts(List<Post> newPosts) {
-    _allPosts = newPosts;
-    update();
+  void setAllPosts(var newPosts) {
+    _allPosts.value = Future.value(newPosts);
   }
 
-  List<Post> get getAllPosts => _allPosts;
+  Rx<Future<List<Post>>> get getAllPosts => _allPosts;
 
-  late Post _onePost;
-  Post get getOnePost => _onePost;
-  void setOnePost(Post newPost) {
-    _onePost = newPost;
-    update();
+  final _onePost = Future<Post?>.value().obs;
+
+  Rx<Future<Post?>> get getOnePost => _onePost;
+  void setOnePost(var newPost) {
+    _onePost.value = Future.value(newPost);
   }
 
-  int _likeCount = 0;
-  void setLikeCount(int newLikeCount) {
-    _likeCount = newLikeCount;
-    update();
-  }
-
-  int get getLikeCount => _likeCount;
-
-  Future<List<Post>> handleGetAllPosts() async {
+  Future<void> handleGetAllPosts() async {
     List<Post> posts = await GetService.fetchPosts()
         .then((value) => value)
         .catchError((err) => throw err);
 
     setAllPosts(posts);
-
-    return _allPosts;
   }
 
-  Future<Post> handleGetOnePost(String postId) async {
+  Future<void> handleGetOnePost(String postId) async {
     Post post = await GetService.fetchOnePost(postId)
         .then((value) => value)
         .catchError((err) {
       throw err;
     });
     setOnePost(post);
-    return post;
   }
 
   List<File> getAllPaths({List<XFile>? postImages}) {
@@ -85,13 +66,14 @@ class PostController extends GetxController {
       throw err;
     });
 
+    await handleGetAllPosts();
+
     return res;
   }
 
   Future handleGetLikeCount(String postId) async {
     Post post = await GetService.fetchOnePost(postId);
-    setLikeCount(post.likeCount);
-    return _likeCount;
+    return post.likeCount;
   }
 
   Future handleLikePost(String postId) async {
@@ -99,8 +81,5 @@ class PostController extends GetxController {
       id: postId,
       patientId: '72706f6e670123456789abcd',
     ).catchError((err) => throw err);
-
-    Post post = await GetService.fetchOnePost(postId);
-    setLikeCount(post.likeCount);
   }
 }

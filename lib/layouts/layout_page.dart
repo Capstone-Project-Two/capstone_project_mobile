@@ -42,7 +42,8 @@ class _LayoutPageState extends State<LayoutPage> {
                 ? 'Welcome, ${authController.user.value?.username}!'
                 : AppRoute.appTitle[_selectedIndex!])
             : AppRoute.appTitle[_selectedIndex!],
-        actionsEnabled: true,
+        // actionsEnabled: true,
+        actionsEnabled: authController.isLoggedIn.value ? false : true,
         applogoEnabled: true,
       ),
       body: FutureBuilder(

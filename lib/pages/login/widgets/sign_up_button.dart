@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class SignUpText extends StatelessWidget {
-  const SignUpText({super.key});
+  final VoidCallback onPressed;
+
+  const SignUpText({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -9,10 +11,8 @@ class SignUpText extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         const Text("Don’t have an account? "),
-        GestureDetector(
-          onTap: () {
-            // Handle sign up
-          },
+        TextButton(
+          onPressed: onPressed,
           child: const Text(
             'Sign Up',
             style: TextStyle(

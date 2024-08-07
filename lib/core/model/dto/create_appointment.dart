@@ -1,5 +1,5 @@
 class CreateAppointment {
-  final String note;
+  final String? note;
   final String symptoms;
   final String patient;
   final String therapist;
@@ -9,7 +9,7 @@ class CreateAppointment {
   final int duration;
 
   CreateAppointment({
-    required this.note,
+    this.note,
     required this.symptoms,
     required this.therapist,
     required this.patient,
@@ -19,7 +19,7 @@ class CreateAppointment {
     required this.duration,
   });
 
-  String get getNote => note;
+  String? get getNote => note;
   String get getSymtoms => symptoms;
   String get getPatient => patient;
   String get getTherapist => therapist;

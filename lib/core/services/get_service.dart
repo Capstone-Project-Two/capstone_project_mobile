@@ -81,23 +81,17 @@ class GetService {
     }
   }
 
-  static Future<List<ParentComment>> fetchCommentByPost({
-    required String postId,
-    String? parentId,
-  }) async {
-    List<ParentComment> patientComments = [];
+  static Future<List<ParentCommentV2>> fetchCommentByPostV2(
+      {required String postId}) async {
+    List<ParentCommentV2> patientComments = [];
     HttpService httpService = HttpService(
-      path: ApiRoute.patientComments.name,
-      query: {
-        "post": postId,
-        "parent": parentId,
-      },
+      path: "${ApiRoute.newPatientComments.name}/$postId",
     );
     var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
 
     if (ApiHelper.isOk(httpRes.statusCode)) {
       for (var eachComment in jsonData['data']) {
-        patientComments.add(ParentComment.fromJson(eachComment));
+        patientComments.add(ParentCommentV2.fromJson(eachComment));
       }
     } else {
       throw jsonData;
@@ -119,6 +113,23 @@ class GetService {
       throw jsonData;
     }
 
+    return appointments;
+  }
+
+  static Future<List<Appointment>> fetchAppointmentsWithQuery(
+      Map<String, dynamic> query) async {
+    List<Appointment> appointments = [];
+    HttpService httpService =
+        HttpService(path: ApiRoute.appointments.name, query: query);
+    var HttpResponse(:jsonData, :httpRes) = await httpService.httpGet();
+
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      for (var eachAppointment in jsonData['data']) {
+        appointments.add(Appointment.fromJson(eachAppointment));
+      }
+    } else {
+      throw jsonData;
+    }
     return appointments;
   }
 

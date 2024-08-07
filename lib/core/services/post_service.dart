@@ -1,7 +1,9 @@
+
 import 'dart:io';
 
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_appointment.dart';
+import 'package:capstone_project_mobile/core/model/dto/create_comment_dto.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_post.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_therapist_singup.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_total_score.dart';
@@ -15,7 +17,6 @@ class PostService {
 
     var HttpResponse(:httpRes, :jsonData) = await httpService.httpPost(
       body: {
-        'note': body.note,
         'symptoms': body.symptoms,
         'patient': body.patient,
         'therapist': body.therapist,
@@ -139,6 +140,20 @@ class PostService {
       },
       files: [],
     );
+       if (ApiHelper.isOk(httpRes.statusCode)) {
+      return httpRes;
+    } else {
+      throw jsonData;
+    }
+  }
+  static Future createComment(CreateCommentDto createCommentDto) async {
+    final httpService = HttpService(path: ApiRoute.patientComments.name);
+
+    var HttpResponse(:jsonData, :httpRes) = await httpService.httpPost(body: {
+      'content': createCommentDto.content,
+      'patient': createCommentDto.patient,
+      'post': createCommentDto.post,
+    });
 
     if (ApiHelper.isOk(httpRes.statusCode)) {
       return httpRes;
@@ -164,6 +179,19 @@ class PostService {
 
     if (ApiHelper.isOk(response.statusCode)) {
       return response;
+        } else {
+      throw jsonData;
+    }
+  }
+  static Future removeComment(String commentId) async {
+    final httpService =
+        HttpService(path: "${ApiRoute.removeComment.name}/$commentId");
+
+    var HttpResponse(:jsonData, :httpRes) =
+        await httpService.httpPatch(body: {});
+
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      return httpRes;
     } else {
       throw jsonData;
     }
