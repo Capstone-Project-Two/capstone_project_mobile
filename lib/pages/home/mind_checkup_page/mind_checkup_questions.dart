@@ -1,9 +1,14 @@
-import 'package:capstone_project_mobile/components/buttons/mind_checkup_answer_button.dart';
+// import 'dart:convert';
 import 'package:capstone_project_mobile/core/model/mind_checkup.dart';
+import 'package:capstone_project_mobile/core/services/post_service.dart';
+import 'package:flutter/material.dart';
+// import 'package:http/http.dart' as http;
+import 'package:capstone_project_mobile/components/buttons/mind_checkup_answer_button.dart';
+import 'package:capstone_project_mobile/core/model/mind_checkup_question.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/pages/home/mind_checkup_page/mind_checkup_result.dart';
 import 'package:capstone_project_mobile/pages/home/mind_checkup_page/start_mind_checkup.dart';
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MindCheckupQuestionsPage extends StatefulWidget {
   const MindCheckupQuestionsPage({super.key});
@@ -20,7 +25,25 @@ class _MindCheckupQuestionsPageState extends State<MindCheckupQuestionsPage> {
       List.generate(mindchekquestions.length, (index) => null);
   String? _errorMessage;
 
-  void _goToNextQuestion() {
+  // Future<void> _postAnswers(Map<String, String> answers) async {
+  //   final response = await http.post(
+  //     Uri.parse(apiUrl),
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: jsonEncode(answers),
+  //   );
+
+  //   if (response.statusCode == 200) {
+  //     // Handle successful response
+  //     print('Data posted successfully');
+  //   } else {
+  //     // Handle error response
+  //     print('Failed to post data: ${response.statusCode}');
+  //   }
+  // }
+
+  void _goToNextQuestion() async {
     if (_selectedAnswers[_currentQuestionIndex] == null) {
       setState(() {
         _errorMessage = 'Please select an answer.';
@@ -33,15 +56,15 @@ class _MindCheckupQuestionsPageState extends State<MindCheckupQuestionsPage> {
         _errorMessage = null;
       });
     } else {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MindCheckupResultPage(
-            selectedAnswers:
-                _getAllSelectedAnswers(), // Pass all selected answers
-          ),
-        ),
-      );
+      final answersMap = _getAllSelectedAnswers();
+      // ignore: avoid_print
+      var createMindCheckup =
+          await PostService.mindCheckUp(answersMap).then((value) {
+        CreateMindCheckup res = CreateMindCheckup.fromJson(value);
+        return res;
+      });
+      Get.to(() => MindCheckupResultPage(
+          selectedAnswers: answersMap, createMindCheckup: createMindCheckup));
     }
   }
 
@@ -60,17 +83,21 @@ class _MindCheckupQuestionsPageState extends State<MindCheckupQuestionsPage> {
     }
   }
 
-  List<String?> _getAllSelectedAnswers() {
-    return _selectedAnswers.asMap().entries.map((entry) {
-      final questionIndex = entry.key;
-      final selectedIndex = entry.value;
+  Map<String, String> _getAllSelectedAnswers() {
+    final selectedAnswersMap = <String, String>{};
+
+    for (int i = 0; i < mindchekquestions.length; i++) {
+      final question = mindchekquestions[i];
+      final selectedIndex = _selectedAnswers[i];
+
       if (selectedIndex != null &&
           selectedIndex >= 0 &&
-          selectedIndex < mindchekquestions[questionIndex].answers.length) {
-        return mindchekquestions[questionIndex].answers[selectedIndex];
+          selectedIndex < question.answers.length) {
+        selectedAnswersMap[question.key] = question.answers[selectedIndex];
       }
-      return null; 
-    }).toList();
+    }
+
+    return selectedAnswersMap;
   }
 
   void _updateAnswer(int index) {

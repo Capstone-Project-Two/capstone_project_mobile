@@ -10,7 +10,8 @@ enum ApiRoute {
   removeComment("patient-comments/remove-comment"),
   creditPackages("credits"),
   stripe("stripe"),
-  stressMonitor("stress-monitor");
+  stressMonitor("stress-monitor"),
+  mindCheckUp("mind-checkup");
 
   final String name;
 
