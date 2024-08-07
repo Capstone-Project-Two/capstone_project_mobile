@@ -1,7 +1,10 @@
-import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/post_card.dart';
-import 'package:capstone_project_mobile/constants/route_constants.dart';
+import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
+import 'package:capstone_project_mobile/components/lists/comments_list.dart';
+import 'package:capstone_project_mobile/core/controller/patient_comment_controller.dart';
 import 'package:capstone_project_mobile/core/controller/post_controller.dart';
+import 'package:capstone_project_mobile/core/model/dto/create_comment_dto.dart';
+import 'package:capstone_project_mobile/core/model/error_response.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/shared/error_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
@@ -18,28 +21,61 @@ class PostDetailScreen extends StatefulWidget {
 }
 
 class _PostDetailScreenState extends State<PostDetailScreen> {
+  final TextEditingController textEditingController = TextEditingController();
   final PostController postController = Get.put(PostController());
+  final PatientCommentController patientCommentController =
+      Get.put(PatientCommentController());
 
   @override
   Widget build(BuildContext context) {
+    postController.handleGetOnePost(widget.postId);
+    patientCommentController.handleGetAllParentComments(postId: widget.postId);
+
     return Scaffold(
       appBar: const MyAppBar(
         title: 'Detailed Post',
       ),
-      body: _buildBody(),
-      bottomNavigationBar: _buildCommentButton(context),
+      body: Obx(() {
+        return _buildBody();
+      }),
+      bottomNavigationBar: _buildCommentButton(context,
+          textEditingController: textEditingController,
+          onSubmitted: (text) async {
+        await patientCommentController
+            .handleCreateComment(
+          createCommentDto: CreateCommentDto(
+            content: text,
+            patient: '63686861790123456789abcd',
+            post: widget.postId,
+          ),
+        )
+            .then((value) async {
+          await postController.handleGetOnePost(widget.postId);
+          textEditingController.clear();
+        }).catchError((err) {
+          ErrorResponse errorResponse = ErrorResponse.fromJson(err);
+          showDialog(
+            context: context,
+            builder: (context) => ErrorDialog(
+              text: errorResponse.validationMessages.toString(),
+            ),
+          );
+        });
+      }),
     );
   }
 
   Widget _buildBody() {
     return FutureBuilder(
-      future: postController.handleGetOnePost(widget.postId),
+      future: postController.getOnePost.value,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           var post = snapshot.data!;
           return RefreshIndicator(
             onRefresh: () async {
               await postController.handleGetOnePost(widget.postId);
+              await patientCommentController.handleGetAllParentComments(
+                  postId: widget.postId);
             },
             child: SingleChildScrollView(
               child: Column(
@@ -51,10 +87,9 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
                   const SizedBox(
                     height: 8,
                   ),
-                  const Text('Comment list here (WIP)'),
-                  // CommentsList(
-                  //   postId: widget.postId,
-                  // ),
+                  CommentsList(
+                    postId: widget.postId,
+                  ),
                 ],
               ),
             ),
@@ -78,7 +113,11 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
     );
   }
 
-  Widget _buildCommentButton(BuildContext context) {
+  Widget _buildCommentButton(
+    BuildContext context, {
+    required TextEditingController textEditingController,
+    required void Function(String)? onSubmitted,
+  }) {
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
@@ -89,15 +128,26 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
         ),
       ),
       padding: const EdgeInsets.all(25.0),
-      child: MyTextButton(
-        onTap: () {
-          Navigator.pushNamed(context, RouteConstant.commentPage.name);
-        },
-        icon: Icon(
-          LucideIcons.messageCircle,
-          color: colorScheme.tertiary,
+      child: TextField(
+        controller: textEditingController,
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(9999.0),
+            borderSide: BorderSide(color: colorScheme.secondary),
+          ),
+          suffixIcon: IconButton(
+            icon: Icon(
+              LucideIcons.messageCircle,
+              color: colorScheme.tertiary,
+            ),
+            onPressed: () {
+              if (onSubmitted != null) onSubmitted(textEditingController.text);
+            },
+          ),
+          hintText: 'Write a comment',
         ),
-        text: 'Write a comment',
+        onSubmitted: onSubmitted,
       ),
     );
   }

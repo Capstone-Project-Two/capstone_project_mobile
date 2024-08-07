@@ -1,5 +1,6 @@
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_appointment.dart';
+import 'package:capstone_project_mobile/core/model/dto/create_comment_dto.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_post.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_total_score.dart';
 import 'package:capstone_project_mobile/core/services/http_service.dart';
@@ -12,7 +13,6 @@ class PostService {
 
     var HttpResponse(:httpRes, :jsonData) = await httpService.httpPost(
       body: {
-        'note': body.note,
         'symptoms': body.symptoms,
         'patient': body.patient,
         'therapist': body.therapist,
@@ -22,7 +22,6 @@ class PostService {
         'duration': body.duration
       },
     );
-    
 
     if (ApiHelper.isOk(httpRes.statusCode)) {
       return httpRes;
@@ -112,16 +111,46 @@ class PostService {
     }
   }
 
+  static Future createComment(CreateCommentDto createCommentDto) async {
+    final httpService = HttpService(path: ApiRoute.patientComments.name);
+
+    var HttpResponse(:jsonData, :httpRes) = await httpService.httpPost(body: {
+      'content': createCommentDto.content,
+      'patient': createCommentDto.patient,
+      'post': createCommentDto.post,
+    });
+
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      return httpRes;
+    } else {
+      throw jsonData;
+    }
+  }
+
+  static Future removeComment(String commentId) async {
+    final httpService =
+        HttpService(path: "${ApiRoute.removeComment.name}/$commentId");
+
+    var HttpResponse(:jsonData, :httpRes) =
+        await httpService.httpPatch(body: {});
+
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      return httpRes;
+    } else {
+      throw jsonData;
+    }
+  }
+
   static Future mindCheckUp(answersMap) async {
     HttpService httpService = HttpService(path: ApiRoute.mindCheckUp.name);
 
     Map<String, dynamic> finalAnswersMap = {
-    'patient': '66b11f2be684dc5b4b649201', // Change patient object id
-    ...answersMap, // Spread the existing attributes
-  };
+      'patient': '66b11f2be684dc5b4b649201', // Change patient object id
+      ...answersMap, // Spread the existing attributes
+    };
 
-    var HttpResponse(:httpRes, :jsonData) = await httpService.httpPost(
-        body: finalAnswersMap);
+    var HttpResponse(:httpRes, :jsonData) =
+        await httpService.httpPost(body: finalAnswersMap);
 
     if (ApiHelper.isOk(httpRes.statusCode)) {
       return httpRes;

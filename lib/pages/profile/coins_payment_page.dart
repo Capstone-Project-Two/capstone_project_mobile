@@ -1,4 +1,5 @@
 import 'package:capstone_project_mobile/components/cards/coin_card.dart';
+import 'package:capstone_project_mobile/core/controller/auth_controller.dart';
 import 'package:capstone_project_mobile/core/controller/credit_package_controller.dart';
 import 'package:capstone_project_mobile/core/model/credit_package.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
@@ -10,10 +11,15 @@ class CoinsPaymentPage extends StatelessWidget {
   final CreditPackageController creditPackageController =
       Get.put(CreditPackageController());
 
+  final AuthController authController = Get.put(AuthController());
+
   CoinsPaymentPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final int credits = authController.isLoggedIn.value
+        ? authController.user.value!.credits
+        : 0;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: const MyAppBar(title: 'Coins and Payment'),
@@ -45,18 +51,18 @@ class CoinsPaymentPage extends StatelessWidget {
                     end: Alignment.bottomCenter,
                   ),
                 ),
-                child: const Column(
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'Your coins',
                       style: TextStyle(
                           fontSize: 28, color: Color.fromRGBO(0, 46, 110, 1)),
                     ),
-                    SizedBox(height: 14),
+                    const SizedBox(height: 14),
                     Text(
-                      '65',
-                      style: TextStyle(
+                      credits.toString(),
+                      style: const TextStyle(
                           fontSize: 26,
                           color: Color.fromRGBO(0, 46, 110, 1),
                           fontWeight: FontWeight.w500),

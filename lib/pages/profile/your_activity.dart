@@ -1,5 +1,6 @@
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/pages/booking/booking_list_page.dart';
+import 'package:capstone_project_mobile/pages/booking/session_history.dart';
 import 'package:capstone_project_mobile/pages/profile/coins_payment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
@@ -73,7 +74,7 @@ class YourActivity extends StatelessWidget {
             context,
             'Session History',
             LucideIcons.bookCopy,
-            (BuildContext context) => CoinsPaymentPage(),
+            (BuildContext context) => SessionHistory(),
           ),
           Container(
             padding: const EdgeInsets.all(15),
@@ -171,8 +172,7 @@ class YourActivity extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.15,
               child: Padding(
                 padding: const EdgeInsets.only(left: 5),
-                child: 
-                Icon(
+                child: Icon(
                   icon,
                   size: 24,
                   color: colorScheme.primary,
