@@ -3,13 +3,19 @@ import 'package:capstone_project_mobile/layouts/layout_page.dart';
 import 'package:capstone_project_mobile/pages/login/login_email_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-class BecomeTherapistPage3 extends StatelessWidget {
+class BecomeTherapistPage3 extends StatefulWidget {
+  const BecomeTherapistPage3({super.key});
+
+  @override
+  State<BecomeTherapistPage3> createState() => _BecomeTherapistPage3State();
+}
+
+class _BecomeTherapistPage3State extends State<BecomeTherapistPage3> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
-
-  BecomeTherapistPage3({super.key});
-
+  final ImagePicker _picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -222,7 +228,7 @@ class BecomeTherapistPage3 extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {
-            //take photo place
+            _picker.pickImage(source: ImageSource.camera);
           }
         },
         style: ElevatedButton.styleFrom(

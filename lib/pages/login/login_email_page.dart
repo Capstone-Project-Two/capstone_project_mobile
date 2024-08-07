@@ -59,7 +59,7 @@ class LoginEmailState extends State<LoginEmail> {
   void _navigateToTherapistSignUp() {
     Navigator.push(
       context,
-      CupertinoPageRoute(builder: (context) => BecomeTherapistPage1()),
+      CupertinoPageRoute(builder: (context) => const BecomeTherapistPage1()),
     );
   }
 

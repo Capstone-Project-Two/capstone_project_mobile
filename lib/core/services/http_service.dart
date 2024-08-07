@@ -116,4 +116,33 @@ class HttpService {
       return await httpPost(body: body);
     }
   }
+
+  Future httpMultiPartRequestTherapist({
+    required dynamic body,
+    required List<String> files,
+  }) async {
+    if (files.isNotEmpty) {
+      var request = http.MultipartRequest(HttpMethod.postMethod, url);
+      for (int i = 0; i < files.length; i++) {
+        dynamic uploadedFiles = await http.MultipartFile.fromPath(
+          'therapistApplicationPhotos',
+          files[i],
+        ).catchError((val) {
+          return val;
+        });
+        request.files.add(uploadedFiles);
+      }
+      body.forEach((key, value) {
+        String stringValue = value.toString();
+        request.fields[key] = stringValue;
+      });
+
+      StreamedResponse response = await request.send();
+      var jsonData = jsonDecode(await response.stream.bytesToString());
+
+      return MultipartResponse(response: response, jsonData: jsonData);
+    } else {
+      return await httpPost(body: body);
+    }
+  }
 }
