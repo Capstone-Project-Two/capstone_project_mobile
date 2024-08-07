@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_appointment.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_post.dart';
+import 'package:capstone_project_mobile/core/model/dto/create_therapist_singup.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_total_score.dart';
 import 'package:capstone_project_mobile/core/services/http_service.dart';
 import 'package:capstone_project_mobile/utils/api_helper.dart';
@@ -22,7 +25,6 @@ class PostService {
         'duration': body.duration
       },
     );
-    
 
     if (ApiHelper.isOk(httpRes.statusCode)) {
       return httpRes;
@@ -107,6 +109,61 @@ class PostService {
     );
     if (ApiHelper.isOk(httpRes.statusCode)) {
       return httpRes;
+    } else {
+      throw jsonData;
+    }
+  }
+
+  static Future createTherapistSignup(TherapistSignUp body) async {
+    HttpService httpService =
+        HttpService(path: '${ApiRoute.therapists.name}/registration');
+
+    List<String> files = [];
+    if (body.therapistApplicationPhotos != null) {
+      for (File photo in body.therapistApplicationPhotos!) {
+        files.add(photo.path);
+      }
+    }
+
+    if (files.isNotEmpty) {
+      return await uploadTherapistSignupPhotos(httpService, body, files);
+    }
+
+    var HttpResponse(:httpRes, :jsonData) =
+        await httpService.httpMultiPartRequestTherapist(
+      body: {
+        'first_name': body.firstName,
+        'last_name': body.lastName,
+        'email': body.email,
+        'status': body.status,
+      },
+      files: [],
+    );
+
+    if (ApiHelper.isOk(httpRes.statusCode)) {
+      return httpRes;
+    } else {
+      throw jsonData;
+    }
+  }
+
+  static Future<StreamedResponse> uploadTherapistSignupPhotos(
+      HttpService httpService, TherapistSignUp body, List<String> files) async {
+    var MultipartResponse(:jsonData, :response) =
+        await httpService.httpMultiPartRequestTherapist(
+      body: {
+        'first_name': body.firstName,
+        'last_name': body.lastName,
+        'email': body.email,
+        'status': body.status,
+      },
+      files: files,
+    );
+
+    // print(jsonData);
+
+    if (ApiHelper.isOk(response.statusCode)) {
+      return response;
     } else {
       throw jsonData;
     }

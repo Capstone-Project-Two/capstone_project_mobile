@@ -4,11 +4,28 @@ import 'package:capstone_project_mobile/pages/login/login_email_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class BecomeTherapistPage1 extends StatelessWidget {
+class BecomeTherapistPage1 extends StatefulWidget {
+  const BecomeTherapistPage1({super.key});
+
+  @override
+  State<BecomeTherapistPage1> createState() => _BecomeTherapistPage1State();
+}
+
+class _BecomeTherapistPage1State extends State<BecomeTherapistPage1> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _formKey = GlobalKey<FormState>();
 
-  BecomeTherapistPage1({super.key});
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _firstNameController.dispose();
+    _lastNameController.dispose();
+    _emailController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +45,7 @@ class BecomeTherapistPage1 extends StatelessWidget {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
 
     return SizedBox(
-      height: 50, // Set the desired height for the BottomAppBar
+      height: 50,
       child: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         color: colorScheme.background,
@@ -44,15 +61,15 @@ class BecomeTherapistPage1 extends StatelessWidget {
                   fontSize: 16,
                 ),
               ),
-              const SizedBox(
-                width: 10,
-              ),
+              const SizedBox(width: 10),
               InkWell(
                 onTap: () {
                   Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => const LoginEmail()));
+                    context,
+                    CupertinoPageRoute(
+                      builder: (context) => const LoginEmail(),
+                    ),
+                  );
                 },
                 child: const Text(
                   "Sign In",
@@ -71,13 +88,13 @@ class BecomeTherapistPage1 extends StatelessWidget {
 
   Widget _buildBody(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20.0),
       child: Form(
         key: _formKey,
         child: Column(
-          crossAxisAlignment:
-              CrossAxisAlignment.start, // Align children to the start
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "Input Personal Information",
@@ -87,6 +104,7 @@ class BecomeTherapistPage1 extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             _buildTextField(
+              controller: _firstNameController,
               labelText: 'First Name',
               keyboardType: TextInputType.name,
               validator: (value) {
@@ -98,6 +116,7 @@ class BecomeTherapistPage1 extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             _buildTextField(
+              controller: _lastNameController,
               labelText: 'Last Name',
               keyboardType: TextInputType.name,
               validator: (value) {
@@ -109,6 +128,7 @@ class BecomeTherapistPage1 extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             _buildTextField(
+              controller: _emailController,
               labelText: 'Email',
               keyboardType: TextInputType.emailAddress,
               validator: (value) {
@@ -130,29 +150,32 @@ class BecomeTherapistPage1 extends StatelessWidget {
   }
 
   Widget _buildTextField({
+    required TextEditingController controller,
     required TextInputType keyboardType,
     required String labelText,
     String? Function(String?)? validator,
   }) {
     return TextFormField(
-        keyboardType: keyboardType,
-        decoration: InputDecoration(
-          labelText: labelText, // Label text
-          labelStyle: const TextStyle(
-            color: Colors.grey, // Label color
-            fontSize: 18,
-          ),
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-              color: Colors.grey,
-              width: 2.0,
-            ),
+      controller: controller,
+      keyboardType: keyboardType,
+      decoration: InputDecoration(
+        labelText: labelText,
+        labelStyle: const TextStyle(
+          color: Colors.grey,
+          fontSize: 18,
+        ),
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: const BorderSide(
+            color: Colors.grey,
+            width: 2.0,
           ),
         ),
-        validator: validator);
+      ),
+      validator: validator,
+    );
   }
 
   Widget _buildNextButton(BuildContext context) {
@@ -164,9 +187,19 @@ class BecomeTherapistPage1 extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           if (_formKey.currentState!.validate()) {
+            String firstName = _firstNameController.text;
+            String lastName = _lastNameController.text;
+            String email = _emailController.text;
+
             Navigator.push(
               context,
-              CupertinoPageRoute(builder: (context) => BecomeTherapistPage2()),
+              CupertinoPageRoute(
+                builder: (context) => BecomeTherapistPage2(
+                  firstName: firstName,
+                  lastName: lastName,
+                  email: email,
+                ),
+              ),
             );
           }
         },

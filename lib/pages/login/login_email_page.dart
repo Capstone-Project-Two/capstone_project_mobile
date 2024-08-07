@@ -85,7 +85,8 @@ class LoginEmailState extends State<LoginEmail> {
         onTherapistSignUp: () {
           Navigator.push(
             context,
-            CupertinoPageRoute(builder: (context) => BecomeTherapistPage1()),
+            CupertinoPageRoute(
+                builder: (context) => const BecomeTherapistPage1()),
           );
         },
         onRegister: _navigateToRegister,

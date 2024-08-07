@@ -19,7 +19,7 @@ class LoginBottomAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 280,
+      height: 350,
       child: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         color: Colors.white,

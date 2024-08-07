@@ -127,6 +127,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 class PostButton extends StatelessWidget {
   final List<XFile> postImages;
   final TextEditingController bodyController;
+
   const PostButton({
     super.key,
     required this.postImages,
@@ -136,8 +137,10 @@ class PostButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PostController postController = Get.put(PostController());
+
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     TextTheme textTheme = Theme.of(context).textTheme;
+
     return ElevatedButton(
       style: ButtonStyle(
         backgroundColor: MaterialStateProperty.all(colorScheme.primary),
@@ -177,7 +180,6 @@ class PostButton extends StatelessWidget {
           //     ),
           //   ),
           // );
-
           Navigator.of(context).pop();
         }).catchError((err) {
           ErrorResponse errorResponse = ErrorResponse.fromJson(err);
