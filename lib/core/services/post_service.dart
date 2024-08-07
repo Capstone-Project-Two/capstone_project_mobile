@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:capstone_project_mobile/constants/api_route_constant.dart';
@@ -140,12 +139,13 @@ class PostService {
       },
       files: [],
     );
-       if (ApiHelper.isOk(httpRes.statusCode)) {
+    if (ApiHelper.isOk(httpRes.statusCode)) {
       return httpRes;
     } else {
       throw jsonData;
     }
   }
+
   static Future createComment(CreateCommentDto createCommentDto) async {
     final httpService = HttpService(path: ApiRoute.patientComments.name);
 
@@ -175,14 +175,13 @@ class PostService {
       files: files,
     );
 
-    // print(jsonData);
-
     if (ApiHelper.isOk(response.statusCode)) {
       return response;
-        } else {
+    } else {
       throw jsonData;
     }
   }
+
   static Future removeComment(String commentId) async {
     final httpService =
         HttpService(path: "${ApiRoute.removeComment.name}/$commentId");
