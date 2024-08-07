@@ -1,3 +1,4 @@
+import 'package:capstone_project_mobile/core/model/mind_checkup.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/pages/home/find_activity_page/find_activity_page.dart';
 import 'package:capstone_project_mobile/layouts/layout_page.dart';
@@ -5,9 +6,15 @@ import 'package:flutter/material.dart';
 
 class MindCheckupResultPage extends StatelessWidget {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final List<String?> selectedAnswers;
+  // final List<String> selectedAnswers;
+  final Map<String, String> selectedAnswers;
+  final CreateMindCheckup createMindCheckup;
 
-  MindCheckupResultPage({super.key, required this.selectedAnswers});
+  MindCheckupResultPage({
+    super.key,
+    required this.selectedAnswers,
+    required this.createMindCheckup,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +211,7 @@ class MindCheckupResultPage extends StatelessWidget {
       ),
       child: Container(
         width: double.infinity,
-        height: 150,
+        height: 59,
         decoration: const BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -228,39 +235,6 @@ class MindCheckupResultPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.only(
-                          left: 20,
-                          right: 20,
-                        ),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Result  :',
-                              style: TextStyle(
-                                color: Colors.black,
-                                overflow: TextOverflow.visible,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            Spacer(),
-                            Text(
-                              '57%',
-                              style: TextStyle(
-                                color: Colors.green,
-                                overflow: TextOverflow.visible,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Divider(
-                        height: 2.0,
-                        color: Colors.grey,
-                      ),
                       Padding(
                         padding: const EdgeInsets.only(
                           left: 20,
@@ -279,7 +253,7 @@ class MindCheckupResultPage extends StatelessWidget {
                             ),
                             const Spacer(),
                             Text(
-                              'Yes',
+                              createMindCheckup.result,
                               style: TextStyle(
                                 color: colorScheme.primary,
                                 overflow: TextOverflow.visible,
@@ -301,3 +275,45 @@ class MindCheckupResultPage extends StatelessWidget {
     );
   }
 }
+
+
+
+// import 'package:flutter/material.dart';
+
+// class MindCheckupResultPage extends StatelessWidget {
+//   final Map<String, String> selectedAnswers;
+
+//   const MindCheckupResultPage({Key? key, required this.selectedAnswers}) : super(key: key);
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text('Mind Checkup Results'),
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: Column(
+//           crossAxisAlignment: CrossAxisAlignment.start,
+//           children: [
+//             Text(
+//               'Thank you for completing the mind checkup. Here are your results:',
+//               style: Theme.of(context).textTheme.headline6,
+//             ),
+//             const SizedBox(height: 20),
+//             Expanded(
+//               child: ListView(
+//                 children: selectedAnswers.entries.map((entry) {
+//                   return ListTile(
+//                     title: Text(entry.key),
+//                     subtitle: Text(entry.value),
+//                   );
+//                 }).toList(),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
