@@ -11,8 +11,9 @@ enum ApiRoute {
   creditPackages("credits"),
   stripe("stripe"),
   stressMonitor("stress-monitor"),
+  registerPatient("auth/patient/register"),
+  login("auth/patient/login"),
   mindCheckUp("mind-checkup");
-  
 
   final String name;
 

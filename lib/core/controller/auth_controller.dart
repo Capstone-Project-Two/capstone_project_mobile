@@ -9,14 +9,15 @@ class AuthController extends GetxController {
   var isLoading = false.obs;
   var user = Rxn<LoggedInUser>();
 
-  void register(String email, String password) async {
+  Future register(String email, String password) async {
     isLoading(true);
 
     try {
-      // final response = await LoginService.register(email, password);
+      final response = await LoginService.register(email, password);
       // isLoggedIn(true);
+      return response;
     } catch (e) {
-      Get.snackbar('Error', 'Failed to register');
+      rethrow;
     } finally {
       isLoading(false);
     }
@@ -46,7 +47,6 @@ class AuthController extends GetxController {
           credits: patientCredits);
 
       isLoggedIn.value = true;
-
     } catch (e) {
       Get.snackbar('Error', 'Failed to login');
     } finally {

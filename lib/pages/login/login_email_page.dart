@@ -1,13 +1,11 @@
-// ignore_for_file: avoid_print
-
+import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/core/controller/auth_controller.dart';
+import 'package:capstone_project_mobile/core/model/error_response.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
 import 'package:capstone_project_mobile/layouts/layout_page.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/email_field.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/forget_password.dart';
-import 'package:capstone_project_mobile/pages/login/widgets/google_login.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/password_field.dart';
-import 'package:capstone_project_mobile/pages/login/widgets/phone_login.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/sign_in_button.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/sign_up_button.dart';
 import 'package:capstone_project_mobile/pages/login/widgets/thearapist_sign_up_button.dart';
@@ -32,10 +30,6 @@ class LoginEmailState extends State<LoginEmail> {
   final AuthController _authController = Get.put(AuthController());
 
   void _signIn() {
-    // Print email and password to the console
-    print("Email: ${_emailController.text.trim()}");
-    print("Password: ${_passwordController.text.trim()}");
-
     _authController.login(
       _emailController.text.trim(),
       _passwordController.text.trim(),
@@ -111,11 +105,25 @@ class RegisterEmailState extends State<RegisterEmail> {
   final TextEditingController _passwordController = TextEditingController();
   final AuthController _authController = Get.find<AuthController>();
 
-  void _register() {
-    _authController.register(
+  void _register() async {
+    await _authController
+        .register(
       _emailController.text.trim(),
       _passwordController.text.trim(),
-    );
+    )
+        .then((value) {
+      Get.snackbar('Register successful', 'Please login to your account');
+      Get.to(() => const LoginEmail());
+    }).catchError((err) {
+      ErrorResponse errorResponse = ErrorResponse.fromJson(err);
+      showDialog(
+        context: context,
+        builder: (context) => ErrorDialog(
+          text: errorResponse.validationMessages.toString(),
+        ),
+      );
+    });
+    // print(RegisterResponse.fromJson(res));
   }
 
   @override
@@ -201,17 +209,17 @@ class LoginBody extends StatelessWidget {
           const SizedBox(height: 20),
           SignInButton(onSignIn: onSignIn),
           const SizedBox(height: 140),
-          const Text(
-            "Sign in with",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-            ),
-          ),
+          // const Text(
+          //   "Sign in with",
+          //   style: TextStyle(
+          //     color: Colors.black,
+          //     fontSize: 20,
+          //   ),
+          // ),
           const SizedBox(height: 10),
-          PhoneSignInButton(onLoginPhone: onLoginPhone),
+          // PhoneSignInButton(onLoginPhone: onLoginPhone),
           const SizedBox(height: 10),
-          const GoogleSignInButton(),
+          // const GoogleSignInButton(),
           const SizedBox(height: 20),
           SignUpText(onPressed: onRegister),
           TherapistSignUp(onTherapistSignUp: onTherapistSignUp),
