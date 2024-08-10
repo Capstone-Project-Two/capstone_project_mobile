@@ -3,6 +3,7 @@ import 'package:capstone_project_mobile/core/controller/auth_controller.dart';
 import 'package:capstone_project_mobile/core/controller/patient_comment_controller.dart';
 import 'package:capstone_project_mobile/core/controller/post_controller.dart';
 import 'package:capstone_project_mobile/core/model/patient_comment_model.dart';
+import 'package:capstone_project_mobile/pages/login/login_email_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -87,6 +88,9 @@ class _CommentProfileHeaderState extends State<CommentProfileHeader> {
             leading: const Icon(Icons.delete),
             title: const Text('Delete'),
             onTap: () async {
+              if (user.value == null) {
+                return Get.to(() => const LoginEmail());
+              }
               if (user.value!.id == widget.comment.patient.id) {
                 Navigator.pop(context);
                 final isSuccess = await _deleteComment();
