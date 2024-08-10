@@ -38,6 +38,7 @@ class ProfilePage extends StatelessWidget {
   Widget _buildProfileCard(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final AuthController authController = Get.put(AuthController());
+    final user = authController.user;
 
     final String username = authController.isLoggedIn.value
         ? authController.user.value?.username ?? 'User'
@@ -93,8 +94,10 @@ class ProfilePage extends StatelessWidget {
                         ],
                       ),
                       child: ClipOval(
-                        child: Image.asset(
-                          'lib/assets/images/profile.png',
+                        child: Image.network(
+                          user.value == null
+                              ? 'https://raw.githubusercontent.com/Capstone-Project-Two/assets/main/profiles-pics/profile_one.png'
+                              : user.value!.profileImg,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -277,13 +280,14 @@ class ProfilePage extends StatelessWidget {
   Widget _buildEdited(BuildContext context) {
     ColorScheme colorScheme = Theme.of(context).colorScheme;
     final AuthController authController = Get.put(AuthController());
+    final user = authController.user;
 
     final String username = authController.isLoggedIn.value
         ? authController.user.value?.username ?? 'User'
         : 'Guest';
 
     final String email = authController.isLoggedIn.value
-        ? authController.user.value!.email
+        ? authController.user.value!.credential.email
         : 'N/A';
 
     final String password =
@@ -532,50 +536,51 @@ class ProfilePage extends StatelessWidget {
           ),
 // logout
           const SizedBox(height: 30),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                authController.logout();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LayoutPage()),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: colorScheme.surface,
-                padding: EdgeInsets.zero, // Remove default padding
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                      0), // Customize the border radius if needed
+          if (user.value != null)
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  authController.logout();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => const LayoutPage()),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: colorScheme.surface,
+                  padding: EdgeInsets.zero, // Remove default padding
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                        0), // Customize the border radius if needed
+                  ),
+                  elevation: 0,
                 ),
-                elevation: 0,
-              ),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.85,
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment
-                      .center, // Center the contents horizontally
-                  children: [
-                    Icon(
-                      LucideIcons.logOut, // Use your desired icon here
-                      size: 24,
-                      color: colorScheme.primary,
-                    ),
-                    const SizedBox(width: 10), // Space between icon and text
-                    const Text(
-                      'Log out',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.85,
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment
+                        .center, // Center the contents horizontally
+                    children: [
+                      Icon(
+                        LucideIcons.logOut, // Use your desired icon here
+                        size: 24,
+                        color: colorScheme.primary,
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 10), // Space between icon and text
+                      const Text(
+                        'Log out',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          )
+            )
         ],
       ),
     );

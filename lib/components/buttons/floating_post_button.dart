@@ -22,7 +22,7 @@ class FloatingPostButton extends StatelessWidget {
         alignment: Alignment.center,
       ),
       onPressed: () {
-        Get.to(const CreatePostScreen());
+        Get.to(() => const CreatePostScreen());
       },
       icon: Icon(
         LucideIcons.plus,

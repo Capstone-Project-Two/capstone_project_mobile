@@ -1,10 +1,12 @@
 import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
 import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
+import 'package:capstone_project_mobile/core/controller/auth_controller.dart';
 import 'package:capstone_project_mobile/core/controller/post_controller.dart';
 import 'package:capstone_project_mobile/core/model/error_response.dart';
 import 'package:capstone_project_mobile/core/model/post.dart';
 import 'package:capstone_project_mobile/pages/forum/post_detail_screen.dart';
+import 'package:capstone_project_mobile/pages/login/login_email_page.dart';
 import 'package:capstone_project_mobile/utils/image_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,8 +23,6 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
-  final String imgPath =
-      'https://raw.githubusercontent.com/Capstone-Project-Two/assets/main/profiles-pics/profile_one.png';
   final PostController postController = Get.put(PostController());
   @override
   Widget build(BuildContext context) {
@@ -33,13 +33,6 @@ class _PostCardState extends State<PostCard> {
       onTap: () {
         if (!widget.isCurrentPost) {
           Get.to(() => PostDetailScreen(postId: widget.post.id));
-          // Get.off(Post)
-          // Navigator.push(
-          //   context,
-          //   CupertinoPageRoute(
-          //     builder: (context) => PostDetailScreen(postId: widget.post.id),
-          //   ),
-          // ).then((value) => Navigator.maybePop(context));
         }
       },
       child: Container(
@@ -210,6 +203,9 @@ class LikeButton extends StatelessWidget {
   final PostController postController = Get.put(PostController());
   @override
   Widget build(BuildContext context) {
+    final AuthController authController = Get.put(AuthController());
+    final user = authController.user;
+
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     return MyTextButton(
       text: '${likeCount.toString()} Likes',
@@ -218,18 +214,22 @@ class LikeButton extends StatelessWidget {
         color: colorScheme.tertiary,
       ),
       onTap: () async {
-        await postController.handleLikePost(postId).then((value) async {
-          await postController.handleGetAllPosts();
-          await postController.handleGetOnePost(postId);
-        }).catchError((err) {
-          ErrorResponse errorResponse = ErrorResponse.fromJson(err);
-          showDialog(
-            context: context,
-            builder: (context) => ErrorDialog(
-              text: errorResponse.statusCode.toString(),
-            ),
-          );
-        });
+        if (user.value == null) {
+          return Get.to(() => const LoginEmail());
+        } else {
+          await postController.handleLikePost(postId).then((value) async {
+            await postController.handleGetAllPosts();
+            await postController.handleGetOnePost(postId);
+          }).catchError((err) {
+            ErrorResponse errorResponse = ErrorResponse.fromJson(err);
+            showDialog(
+              context: context,
+              builder: (context) => ErrorDialog(
+                text: errorResponse.statusCode.toString(),
+              ),
+            );
+          });
+        }
       },
     );
   }

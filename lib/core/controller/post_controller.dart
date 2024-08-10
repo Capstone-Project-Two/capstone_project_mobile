@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:capstone_project_mobile/core/controller/auth_controller.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_post.dart';
 import 'package:capstone_project_mobile/core/model/post.dart';
 import 'package:capstone_project_mobile/core/services/get_service.dart';
@@ -9,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class PostController extends GetxController {
+  final AuthController authController = Get.put(AuthController());
   final _allPosts = Future<List<Post>>.value([]).obs;
 
   void setAllPosts(var newPosts) {
@@ -54,9 +56,10 @@ class PostController extends GetxController {
     required String body,
     List<XFile>? postImages,
   }) async {
+    final user = authController.user.value!;
     var res = await PostService.createPost(CreatePost(
       body: body,
-      patient: "63686861790123456789abcd",
+      patient: user.id,
       postPhotos: getAllPaths(postImages: postImages ?? []),
     )).then(
       (value) async {
@@ -77,9 +80,11 @@ class PostController extends GetxController {
   }
 
   Future handleLikePost(String postId) async {
+    final user = authController.user;
+
     await PostService.likePost(
       id: postId,
-      patientId: '72706f6e670123456789abcd',
+      patientId: user.value!.id,
     ).catchError((err) => throw err);
   }
 }

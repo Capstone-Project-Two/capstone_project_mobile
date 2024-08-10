@@ -1,11 +1,13 @@
 import 'package:capstone_project_mobile/components/cards/post_card.dart';
 import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/components/lists/comments_list.dart';
+import 'package:capstone_project_mobile/core/controller/auth_controller.dart';
 import 'package:capstone_project_mobile/core/controller/patient_comment_controller.dart';
 import 'package:capstone_project_mobile/core/controller/post_controller.dart';
 import 'package:capstone_project_mobile/core/model/dto/create_comment_dto.dart';
 import 'package:capstone_project_mobile/core/model/error_response.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
+import 'package:capstone_project_mobile/pages/login/login_email_page.dart';
 import 'package:capstone_project_mobile/shared/error_screen.dart';
 import 'package:capstone_project_mobile/shared/loading_screen.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,8 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
   Widget build(BuildContext context) {
     postController.handleGetOnePost(widget.postId);
     patientCommentController.handleGetAllParentComments(postId: widget.postId);
+    final AuthController authController = Get.put(AuthController());
+    final user = authController.user;
 
     return Scaffold(
       appBar: const MyAppBar(
@@ -41,26 +45,30 @@ class _PostDetailScreenState extends State<PostDetailScreen> {
       bottomNavigationBar: _buildCommentButton(context,
           textEditingController: textEditingController,
           onSubmitted: (text) async {
-        await patientCommentController
-            .handleCreateComment(
-          createCommentDto: CreateCommentDto(
-            content: text,
-            patient: '63686861790123456789abcd',
-            post: widget.postId,
-          ),
-        )
-            .then((value) async {
-          await postController.handleGetOnePost(widget.postId);
-          textEditingController.clear();
-        }).catchError((err) {
-          ErrorResponse errorResponse = ErrorResponse.fromJson(err);
-          showDialog(
-            context: context,
-            builder: (context) => ErrorDialog(
-              text: errorResponse.validationMessages.toString(),
+        if (user.value == null) {
+          return Get.to(() => const LoginEmail());
+        } else {
+          await patientCommentController
+              .handleCreateComment(
+            createCommentDto: CreateCommentDto(
+              content: text,
+              patient: user.value!.id,
+              post: widget.postId,
             ),
-          );
-        });
+          )
+              .then((value) async {
+            await postController.handleGetOnePost(widget.postId);
+            textEditingController.clear();
+          }).catchError((err) {
+            ErrorResponse errorResponse = ErrorResponse.fromJson(err);
+            showDialog(
+              context: context,
+              builder: (context) => ErrorDialog(
+                text: errorResponse.validationMessages.toString(),
+              ),
+            );
+          });
+        }
       }),
     );
   }
