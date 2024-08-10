@@ -4,9 +4,11 @@ import 'package:capstone_project_mobile/components/buttons/my_text_button.dart';
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
 import 'package:capstone_project_mobile/components/dialogs/error_dialog.dart';
 import 'package:capstone_project_mobile/components/inputs/my_text_field.dart';
+import 'package:capstone_project_mobile/core/controller/auth_controller.dart';
 import 'package:capstone_project_mobile/core/controller/post_controller.dart';
 import 'package:capstone_project_mobile/core/model/error_response.dart';
 import 'package:capstone_project_mobile/layouts/my_app_bar.dart';
+import 'package:capstone_project_mobile/pages/login/login_email_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,6 +22,7 @@ class CreatePostScreen extends StatefulWidget {
 }
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
+  AuthController authController = Get.put(AuthController());
   dynamic errors;
   TextEditingController bodyController = TextEditingController();
   List<XFile> postImages = [];
@@ -27,10 +30,12 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String imgPath =
-        'https://raw.githubusercontent.com/Capstone-Project-Two/assets/main/profiles-pics/profile_nine.png';
     TextTheme textTheme = Theme.of(context).textTheme;
     ColorScheme colorScheme = Theme.of(context).colorScheme;
+
+    if (authController.user.value == null) {
+      return const LoginEmail();
+    }
 
     return Scaffold(
       appBar: const MyAppBar(
@@ -44,7 +49,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             Row(
               children: [
                 // Profile pic
-                ProfilePictureCard(imgPath: imgPath),
+                ProfilePictureCard(
+                  imgPath: authController.user.value!.profileImg,
+                ),
 
                 const SizedBox(
                   width: 12,
@@ -52,7 +59,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
 
                 // Username
                 Text(
-                  'Username',
+                  authController.user.value!.username,
                   style: textTheme.displayMedium,
                 ),
               ],

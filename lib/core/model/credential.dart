@@ -12,7 +12,7 @@ class Credential extends BaseModel {
     required super.updatedAt,
   });
 
-  factory Credential.fromJson(Map<String, String> json) {
+  factory Credential.fromJson(Map<String, dynamic> json) {
     return switch (json) {
       {
         'email': String email,
