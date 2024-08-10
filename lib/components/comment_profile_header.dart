@@ -1,4 +1,5 @@
 import 'package:capstone_project_mobile/components/cards/profile_picture_card.dart';
+import 'package:capstone_project_mobile/core/controller/auth_controller.dart';
 import 'package:capstone_project_mobile/core/controller/patient_comment_controller.dart';
 import 'package:capstone_project_mobile/core/controller/post_controller.dart';
 import 'package:capstone_project_mobile/core/model/patient_comment_model.dart';
@@ -64,6 +65,8 @@ class _CommentProfileHeaderState extends State<CommentProfileHeader> {
   }
 
   void _showDropdownMenu(BuildContext context) {
+    final AuthController authController = Get.put(AuthController());
+    final user = authController.user;
     final RenderBox renderBox =
         _iconButtonKey.currentContext!.findRenderObject() as RenderBox;
     final Offset offset = renderBox.localToGlobal(Offset.zero);
@@ -79,28 +82,30 @@ class _CommentProfileHeaderState extends State<CommentProfileHeader> {
             renderBox.size.height, // Bottom
       ),
       items: [
-        // PopupMenuItem(
-        //   child: ListTile(
-        //     leading: Icon(Icons.edit),
-        //     title: Text('Edit'),
-        //     onTap: () {
-        //       Navigator.pop(context); // Close the menu
-        //       print('Edit tapped');
-        //     },
-        //   ),
-        // ),
         PopupMenuItem(
           child: ListTile(
             leading: const Icon(Icons.delete),
             title: const Text('Delete'),
             onTap: () async {
-              Navigator.pop(context);
-              final isSuccess = await _deleteComment();
-              if (isSuccess) {
+              if (user.value!.id == widget.comment.patient.id) {
+                Navigator.pop(context);
+                final isSuccess = await _deleteComment();
+                if (isSuccess) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                        content: Text('Comment deleted'),
+                        duration: Duration(seconds: 1),
+                      ));
+                    }
+                  });
+                }
+              } else {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   if (mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Comment deleted'),
+                      content:
+                          Text('You cannot delete other people\'s comment!'),
                       duration: Duration(seconds: 1),
                     ));
                   }
